@@ -44,6 +44,10 @@
                                                     <h6 class="font-display font-bold text-white text-sm leading-snug">
                                                         <a asp-controller="Products" asp-action="Details" asp-route-id="@item.ProductId" class="text-white hover:text-primary transition-colors decoration-none">@item.Name</a>
                                                     </h6>
+                                                    @if (!string.IsNullOrEmpty(item.Size))
+                                                    {
+                                                        <span class="text-secondary text-[10px] font-semibold uppercase tracking-wider block mt-1">Size: @item.Size</span>
+                                                    }
                                                 </div>
                                             </div>
                                         </td>
@@ -55,6 +59,7 @@
                                         <td class="px-6 py-4 align-middle">
                                             <form asp-action="UpdateQuantity" method="post" class="flex items-center space-x-1.5 m-0">
                                                 <input type="hidden" name="productId" value="@item.ProductId" />
+                                                <input type="hidden" name="size" value="@item.Size" />
                                                 <input type="number" name="quantity" value="@item.Quantity" min="1" class="bg-background border border-white/10 text-white rounded text-center py-1 px-2 text-xs focus:outline-none focus:border-primary w-16" />
                                                 <button type="submit" class="border border-white/15 text-white p-1 hover:bg-white/10 transition-colors flex items-center justify-center bg-transparent" title="Update Quantity">
                                                     <span class="material-symbols-outlined text-sm">sync</span>
@@ -69,6 +74,7 @@
                                         <td class="px-6 py-4 align-middle text-right">
                                             <form asp-action="Remove" method="post" class="m-0 inline-block">
                                                 <input type="hidden" name="productId" value="@item.ProductId" />
+                                                <input type="hidden" name="size" value="@item.Size" />
                                                 <button type="submit" class="text-red-500 hover:text-red-400 p-2 hover:bg-red-500/10 rounded-full transition-all flex items-center justify-center bg-transparent border-0" title="Remove Item">
                                                     <span class="material-symbols-outlined text-lg">delete</span>
                                                 </button>

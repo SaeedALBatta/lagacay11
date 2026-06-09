@@ -91,7 +91,6 @@ namespace lagacay11.Areas.Admin.Controllers
                     Name = model.Name,
                     Description = model.Description,
                     Price = model.Price,
-                    StockQuantity = model.StockQuantity,
                     TeamName = model.TeamName ?? string.Empty,
                     ClubName = model.ClubName ?? string.Empty,
                     Year = model.Year,
@@ -99,6 +98,39 @@ namespace lagacay11.Areas.Admin.Controllers
                     IsAvailable = model.IsAvailable,
                     CreatedAt = DateTime.UtcNow
                 };
+
+                // Sync sizes
+                var sizeStocks = new Dictionary<string, int?>
+                {
+                    { "S", model.SizeStockS },
+                    { "M", model.SizeStockM },
+                    { "L", model.SizeStockL },
+                    { "XL", model.SizeStockXL },
+                    { "XXL", model.SizeStockXXL }
+                };
+
+                bool hasAnySizeStock = sizeStocks.Values.Any(v => v.HasValue);
+                if (hasAnySizeStock)
+                {
+                    int totalStock = 0;
+                    foreach (var pair in sizeStocks)
+                    {
+                        if (pair.Value.HasValue)
+                        {
+                            product.ProductSizes.Add(new ProductSize
+                            {
+                                Size = pair.Key,
+                                StockQuantity = pair.Value.Value
+                            });
+                            totalStock += pair.Value.Value;
+                        }
+                    }
+                    product.StockQuantity = totalStock;
+                }
+                else
+                {
+                    product.StockQuantity = model.StockQuantity;
+                }
 
                 await _productRepository.AddAsync(product); // Add to get ID
 
@@ -184,6 +216,11 @@ namespace lagacay11.Areas.Admin.Controllers
                 Description = product.Description,
                 Price = product.Price,
                 StockQuantity = product.StockQuantity,
+                SizeStockS = product.ProductSizes.FirstOrDefault(ps => ps.Size == "S")?.StockQuantity,
+                SizeStockM = product.ProductSizes.FirstOrDefault(ps => ps.Size == "M")?.StockQuantity,
+                SizeStockL = product.ProductSizes.FirstOrDefault(ps => ps.Size == "L")?.StockQuantity,
+                SizeStockXL = product.ProductSizes.FirstOrDefault(ps => ps.Size == "XL")?.StockQuantity,
+                SizeStockXXL = product.ProductSizes.FirstOrDefault(ps => ps.Size == "XXL")?.StockQuantity,
                 TeamName = product.TeamName,
                 ClubName = product.ClubName,
                 Year = product.Year,
@@ -243,12 +280,60 @@ namespace lagacay11.Areas.Admin.Controllers
                 product.Name = model.Name;
                 product.Description = model.Description;
                 product.Price = model.Price;
-                product.StockQuantity = model.StockQuantity;
                 product.TeamName = model.TeamName ?? string.Empty;
                 product.ClubName = model.ClubName ?? string.Empty;
                 product.Year = model.Year;
                 product.WorldCupEdition = model.WorldCupEdition ?? string.Empty;
                 product.IsAvailable = model.IsAvailable;
+
+                // Sync sizes
+                var sizeStocks = new Dictionary<string, int?>
+                {
+                    { "S", model.SizeStockS },
+                    { "M", model.SizeStockM },
+                    { "L", model.SizeStockL },
+                    { "XL", model.SizeStockXL },
+                    { "XXL", model.SizeStockXXL }
+                };
+
+                bool hasAnySizeStock = sizeStocks.Values.Any(v => v.HasValue);
+                if (hasAnySizeStock)
+                {
+                    int totalStock = 0;
+                    var sizesToRemove = product.ProductSizes.Where(ps => !sizeStocks.ContainsKey(ps.Size) || !sizeStocks[ps.Size].HasValue).ToList();
+                    foreach (var toRemove in sizesToRemove)
+                    {
+                        product.ProductSizes.Remove(toRemove);
+                    }
+
+                    foreach (var pair in sizeStocks)
+                    {
+                        if (pair.Value.HasValue)
+                        {
+                            var existingSize = product.ProductSizes.FirstOrDefault(ps => ps.Size.Equals(pair.Key, StringComparison.OrdinalIgnoreCase));
+                            if (existingSize != null)
+                            {
+                                existingSize.StockQuantity = pair.Value.Value;
+                            }
+                            else
+                            {
+                                product.ProductSizes.Add(new ProductSize
+                                {
+                                    ProductId = product.Id,
+                                    Size = pair.Key,
+                                    StockQuantity = pair.Value.Value
+                                });
+                            }
+                            totalStock += pair.Value.Value;
+                        }
+                    }
+                    product.StockQuantity = totalStock;
+                }
+                else
+                {
+                    product.ProductSizes.Clear();
+                    product.StockQuantity = model.StockQuantity;
+                }
 
                 // Sync categories
                 product.ProductCategories.Clear();
@@ -414,6 +499,12 @@ namespace lagacay11.Areas.Admin.Controllers
                     Id = pc.Category.Id,
                     Name = pc.Category.Name,
                     Slug = pc.Category.Slug
+                }).ToList(),
+                ProductSizes = p.ProductSizes.Select(ps => new ProductSizeViewModel
+                {
+                    Id = ps.Id,
+                    Size = ps.Size,
+                    StockQuantity = ps.StockQuantity
                 }).ToList(),
                 OrderCount = p.OrderItems?.Count ?? 0
             };

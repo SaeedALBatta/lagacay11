@@ -106,8 +106,30 @@
             @if (Model.Product.IsAvailable && Model.Product.StockQuantity > 0)
             {
                 <div class="flex flex-col sm:flex-row gap-4 mt-6">
-                    <form asp-controller="Cart" asp-action="Add" method="post" class="flex flex-grow items-center gap-3 m-0">
+                    <form asp-controller="Cart" asp-action="Add" method="post" class="flex flex-col sm:flex-row flex-grow items-stretch sm:items-center gap-3 m-0">
                         <input type="hidden" name="productId" value="@Model.Product.Id" />
+                        
+                        @if (Model.Product.ProductSizes != null && Model.Product.ProductSizes.Any())
+                        {
+                            <div class="flex items-center border border-white/10 bg-background rounded-none">
+                                <span class="px-3 text-xs text-on-surface-variant uppercase tracking-widest font-label-bold">Size</span>
+                                <select name="size" class="bg-transparent border-0 text-white py-3 pr-8 text-sm focus:outline-none cursor-pointer uppercase font-semibold" required>
+                                    <option value="" class="bg-surface-container text-on-surface-variant">Select Size</option>
+                                    @foreach (var sizeOpt in Model.Product.ProductSizes)
+                                    {
+                                        if (sizeOpt.StockQuantity > 0)
+                                        {
+                                            <option value="@sizeOpt.Size" class="bg-surface-container text-white">@sizeOpt.Size (@sizeOpt.StockQuantity left)</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@sizeOpt.Size" class="bg-surface-container text-on-surface-variant/40" disabled>@sizeOpt.Size (Out of Stock)</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        }
+
                         <div class="flex items-center border border-white/10 bg-background rounded-none">
                             <span class="px-3 text-xs text-on-surface-variant uppercase tracking-widest font-label-bold">Qty</span>
                             <input type="number" name="quantity" value="1" min="1" max="@Model.Product.StockQuantity" class="w-16 bg-transparent border-0 text-center py-3 text-white text-sm focus:outline-none" />

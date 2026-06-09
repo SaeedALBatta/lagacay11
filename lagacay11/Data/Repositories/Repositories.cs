@@ -31,6 +31,7 @@ namespace lagacay11.Data.Repositories
                 .Include(p => p.Reviews)
                 .ThenInclude(r => r.User)
                 .Include(p => p.OrderItems)
+                .Include(p => p.ProductSizes)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
@@ -41,6 +42,7 @@ namespace lagacay11.Data.Repositories
                 .Include(p => p.ProductImages)
                 .Include(p => p.ProductCategories)
                 .ThenInclude(pc => pc.Category)
+                .Include(p => p.ProductSizes)
                 .Where(p => p.IsAvailable);
 
             // Filter: Search Keyword
@@ -115,6 +117,7 @@ namespace lagacay11.Data.Repositories
                 .Include(p => p.ProductImages)
                 .Include(p => p.ProductCategories)
                 .ThenInclude(pc => pc.Category)
+                .Include(p => p.ProductSizes)
                 .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(search))

@@ -194,6 +194,12 @@ namespace lagacay11.Controllers
                     Id = pc.Category.Id,
                     Name = pc.Category.Name,
                     Slug = pc.Category.Slug
+                }).ToList(),
+                ProductSizes = p.ProductSizes.Select(ps => new ProductSizeViewModel
+                {
+                    Id = ps.Id,
+                    Size = ps.Size,
+                    StockQuantity = ps.StockQuantity
                 }).ToList()
             };
         }

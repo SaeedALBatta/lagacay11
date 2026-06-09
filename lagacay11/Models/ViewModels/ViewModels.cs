@@ -15,6 +15,13 @@ namespace lagacay11.Models.ViewModels
     }
 
     // Product ViewModels
+    public class ProductSizeViewModel
+    {
+        public int Id { get; set; }
+        public string Size { get; set; } = string.Empty;
+        public int StockQuantity { get; set; }
+    }
+
     public class ProductViewModel
     {
         public int Id { get; set; }
@@ -30,6 +37,7 @@ namespace lagacay11.Models.ViewModels
         public string MainImagePath { get; set; } = string.Empty;
         public List<string> ImagePaths { get; set; } = new();
         public List<CategoryViewModel> Categories { get; set; } = new();
+        public List<ProductSizeViewModel> ProductSizes { get; set; } = new();
         public int OrderCount { get; set; }
     }
 
@@ -100,6 +108,7 @@ namespace lagacay11.Models.ViewModels
         public decimal Price { get; set; }
         public int Quantity { get; set; }
         public string ImagePath { get; set; } = string.Empty;
+        public string? Size { get; set; }
         public decimal Subtotal => Price * Quantity;
     }
 
@@ -152,6 +161,7 @@ namespace lagacay11.Models.ViewModels
         public string ProductName { get; set; } = string.Empty;
         public int ProductYear { get; set; }
         public string WorldCupEdition { get; set; } = string.Empty;
+        public string? Size { get; set; }
         public int Quantity { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal Subtotal { get; set; }
@@ -236,6 +246,26 @@ namespace lagacay11.Models.ViewModels
         [Range(0, int.MaxValue)]
         public int StockQuantity { get; set; }
 
+        [Display(Name = "Size S Stock")]
+        [Range(0, int.MaxValue)]
+        public int? SizeStockS { get; set; }
+
+        [Display(Name = "Size M Stock")]
+        [Range(0, int.MaxValue)]
+        public int? SizeStockM { get; set; }
+
+        [Display(Name = "Size L Stock")]
+        [Range(0, int.MaxValue)]
+        public int? SizeStockL { get; set; }
+
+        [Display(Name = "Size XL Stock")]
+        [Range(0, int.MaxValue)]
+        public int? SizeStockXL { get; set; }
+
+        [Display(Name = "Size XXL Stock")]
+        [Range(0, int.MaxValue)]
+        public int? SizeStockXXL { get; set; }
+
         [StringLength(100)]
         public string TeamName { get; set; } = string.Empty;
 
@@ -276,6 +306,26 @@ namespace lagacay11.Models.ViewModels
         [Required(ErrorMessage = "Stock quantity is required.")]
         [Range(0, int.MaxValue)]
         public int StockQuantity { get; set; }
+
+        [Display(Name = "Size S Stock")]
+        [Range(0, int.MaxValue)]
+        public int? SizeStockS { get; set; }
+
+        [Display(Name = "Size M Stock")]
+        [Range(0, int.MaxValue)]
+        public int? SizeStockM { get; set; }
+
+        [Display(Name = "Size L Stock")]
+        [Range(0, int.MaxValue)]
+        public int? SizeStockL { get; set; }
+
+        [Display(Name = "Size XL Stock")]
+        [Range(0, int.MaxValue)]
+        public int? SizeStockXL { get; set; }
+
+        [Display(Name = "Size XXL Stock")]
+        [Range(0, int.MaxValue)]
+        public int? SizeStockXXL { get; set; }
 
         [StringLength(100)]
         public string TeamName { get; set; } = string.Empty;

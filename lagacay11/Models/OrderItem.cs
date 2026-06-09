@@ -15,6 +15,9 @@ namespace lagacay11.Models
         public int ProductId { get; set; }
         public virtual Product Product { get; set; } = null!;
 
+        [StringLength(50)]
+        public string? Size { get; set; }
+
         [Required]
         [Range(1, int.MaxValue)]
         public int Quantity { get; set; }

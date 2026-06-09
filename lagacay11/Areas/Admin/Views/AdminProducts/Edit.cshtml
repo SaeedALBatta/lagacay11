@@ -64,11 +64,40 @@
 
                         <!-- Stock Quantity -->
                         <div class="space-y-2">
-                            <label asp-for="StockQuantity" class="font-label-bold text-on-surface-variant text-xs uppercase tracking-wider block"></label>
-                            <input asp-for="StockQuantity" type="number" class="w-full bg-background border border-white/10 text-white rounded p-3.5 text-sm focus:outline-none focus:border-primary placeholder-on-surface-variant/40" />
+                            <label asp-for="StockQuantity" class="font-label-bold text-on-surface-variant text-xs uppercase tracking-wider block">Total Stock Quantity (General)</label>
+                            <input asp-for="StockQuantity" type="number" class="w-full bg-background border border-white/10 text-white rounded p-3.5 text-sm focus:outline-none focus:border-primary placeholder-on-surface-variant/40" id="mainStockInput" />
                             <span asp-validation-for="StockQuantity" class="text-red-400 text-xs block"></span>
+                            <div class="text-on-surface-variant/50 text-[10px] uppercase tracking-wider leading-relaxed">
+                                Note: If you enter size stocks below, this total stock will be calculated automatically.
+                            </div>
                         </div>
                     </div>
+
+                    <!-- Sized Stocks Section -->
+                    <div class="glass-card p-6 border border-white/10 bg-black/20 rounded-lg space-y-4">
+                        <h6 class="font-display text-stats-xl text-white uppercase tracking-wider">Size-Specific Stock (Leave blank for single-size items like match balls)</h6>
+                        <div class="grid grid-cols-5 gap-3">
+                            <div class="space-y-1">
+                                <label asp-for="SizeStockS" class="font-label-bold text-on-surface-variant text-[10px] uppercase block">Size S</label>
+                                <input asp-for="SizeStockS" type="number" min="0" class="w-full bg-background border border-white/10 text-white rounded p-2 text-xs text-center focus:outline-none focus:border-primary size-stock-input" placeholder="0" />
+                            </div>
+                            <div class="space-y-1">
+                                <label asp-for="SizeStockM" class="font-label-bold text-on-surface-variant text-[10px] uppercase block">Size M</label>
+                                <input asp-for="SizeStockM" type="number" min="0" class="w-full bg-background border border-white/10 text-white rounded p-2 text-xs text-center focus:outline-none focus:border-primary size-stock-input" placeholder="0" />
+                            </div>
+                            <div class="space-y-1">
+                                <label asp-for="SizeStockL" class="font-label-bold text-on-surface-variant text-[10px] uppercase block">Size L</label>
+                                <input asp-for="SizeStockL" type="number" min="0" class="w-full bg-background border border-white/10 text-white rounded p-2 text-xs text-center focus:outline-none focus:border-primary size-stock-input" placeholder="0" />
+                            </div>
+                            <div class="space-y-1">
+                                <label asp-for="SizeStockXL" class="font-label-bold text-on-surface-variant text-[10px] uppercase block">Size XL</label>
+                                <input asp-for="SizeStockXL" type="number" min="0" class="w-full bg-background border border-white/10 text-white rounded p-2 text-xs text-center focus:outline-none focus:border-primary size-stock-input" placeholder="0" />
+                            </div>
+                            <div class="space-y-1">
+                                <label asp-for="SizeStockXXL" class="font-label-bold text-on-surface-variant text-[10px] uppercase block">Size XXL</label>
+                                <input asp-for="SizeStockXXL" type="number" min="0" class="w-full bg-background border border-white/10 text-white rounded p-2 text-xs text-center focus:outline-none focus:border-primary size-stock-input" placeholder="0" />
+                            </div>
+                        </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- Team Name -->
@@ -176,4 +205,37 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const inputs = document.querySelectorAll(".size-stock-input");
+            const mainStockInput = document.getElementById("mainStockInput");
+
+            function updateMainStock() {
+                let anyValue = false;
+                let total = 0;
+                inputs.forEach(input => {
+                    if (input.value !== "") {
+                        anyValue = true;
+                        total += parseInt(input.value) || 0;
+                    }
+                });
+
+                if (anyValue) {
+                    mainStockInput.value = total;
+                    mainStockInput.setAttribute("readonly", "readonly");
+                    mainStockInput.classList.add("opacity-50", "cursor-not-allowed");
+                } else {
+                    mainStockInput.removeAttribute("readonly");
+                    mainStockInput.classList.remove("opacity-50", "cursor-not-allowed");
+                }
+            }
+
+            inputs.forEach(input => {
+                input.addEventListener("input", updateMainStock);
+            });
+
+            // Run on load
+            updateMainStock();
+        });
+    </script>
 }

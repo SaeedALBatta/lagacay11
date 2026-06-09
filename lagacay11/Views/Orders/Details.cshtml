@@ -35,7 +35,13 @@
                                 <td class="px-6 py-4 align-middle">
                                     <div>
                                         <h6 class="font-display font-bold text-white text-sm mb-0.5">@item.ProductName</h6>
-                                        <span class="text-on-surface-variant/70 text-xs">Year: @item.ProductYear</span>
+                                        <span class="text-on-surface-variant/70 text-xs block">
+                                            Year: @item.ProductYear
+                                            @if (!string.IsNullOrEmpty(item.Size))
+                                            {
+                                                <span> | Size: @item.Size</span>
+                                            }
+                                        </span>
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 align-middle text-center font-semibold text-white text-sm">@item.Quantity</td>

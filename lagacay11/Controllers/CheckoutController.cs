@@ -116,17 +116,34 @@ namespace lagacay11.Controllers
             // 1. Check stock levels
             foreach (var item in cart)
             {
-                var product = await _productRepository.GetByIdAsync(item.ProductId);
+                var product = await _productRepository.GetByIdWithDetailsAsync(item.ProductId);
                 if (product == null || !product.IsAvailable)
                 {
                     TempData["ErrorMessage"] = $"Product '{item.Name}' is no longer available.";
                     return RedirectToAction("Index", "Cart");
                 }
 
-                if (product.StockQuantity < item.Quantity)
+                if (product.ProductSizes != null && product.ProductSizes.Any())
                 {
-                    TempData["ErrorMessage"] = $"Insufficient stock for '{product.Name}'. Only {product.StockQuantity} items remaining.";
-                    return RedirectToAction("Index", "Cart");
+                    var sizeRecord = product.ProductSizes.FirstOrDefault(ps => ps.Size.Equals(item.Size, StringComparison.OrdinalIgnoreCase));
+                    if (sizeRecord == null)
+                    {
+                        TempData["ErrorMessage"] = $"The size '{item.Size}' is no longer available for '{product.Name}'.";
+                        return RedirectToAction("Index", "Cart");
+                    }
+                    if (sizeRecord.StockQuantity < item.Quantity)
+                    {
+                        TempData["ErrorMessage"] = $"Insufficient stock for '{product.Name}' (Size {item.Size}). Only {sizeRecord.StockQuantity} items remaining.";
+                        return RedirectToAction("Index", "Cart");
+                    }
+                }
+                else
+                {
+                    if (product.StockQuantity < item.Quantity)
+                    {
+                        TempData["ErrorMessage"] = $"Insufficient stock for '{product.Name}'. Only {product.StockQuantity} items remaining.";
+                        return RedirectToAction("Index", "Cart");
+                    }
                 }
             }
 
@@ -251,20 +268,44 @@ namespace lagacay11.Controllers
 
                 foreach (var item in cart)
                 {
-                    var product = await _productRepository.GetByIdAsync(item.ProductId);
-                    if (product == null || !product.IsAvailable || product.StockQuantity < item.Quantity)
+                    var product = await _productRepository.GetByIdWithDetailsAsync(item.ProductId);
+                    if (product == null || !product.IsAvailable)
                     {
-                        TempData["ErrorMessage"] = $"Transaction failed: Item '{item.Name}' ran out of stock during payment processing.";
+                        TempData["ErrorMessage"] = $"Transaction failed: Item '{item.Name}' is no longer available.";
                         return RedirectToAction("Index", "Cart");
                     }
 
-                    // Decrement stock
-                    product.StockQuantity -= item.Quantity;
+                    if (product.ProductSizes != null && product.ProductSizes.Any())
+                    {
+                        var sizeRecord = product.ProductSizes.FirstOrDefault(ps => ps.Size.Equals(item.Size, StringComparison.OrdinalIgnoreCase));
+                        if (sizeRecord == null || sizeRecord.StockQuantity < item.Quantity)
+                        {
+                            TempData["ErrorMessage"] = $"Transaction failed: Item '{item.Name}' (Size {item.Size}) ran out of stock during payment processing.";
+                            return RedirectToAction("Index", "Cart");
+                        }
+
+                        // Decrement specific size stock
+                        sizeRecord.StockQuantity -= item.Quantity;
+                        // Keep overall stock synchronized
+                        product.StockQuantity = product.ProductSizes.Sum(ps => ps.StockQuantity);
+                    }
+                    else
+                    {
+                        if (product.StockQuantity < item.Quantity)
+                        {
+                            TempData["ErrorMessage"] = $"Transaction failed: Item '{item.Name}' ran out of stock during payment processing.";
+                            return RedirectToAction("Index", "Cart");
+                        }
+                        // Decrement general stock
+                        product.StockQuantity -= item.Quantity;
+                    }
+
                     await _productRepository.UpdateAsync(product);
 
                     orderItems.Add(new OrderItem
                     {
                         ProductId = item.ProductId,
+                        Size = item.Size,
                         Quantity = item.Quantity,
                         UnitPrice = item.Price,
                         Subtotal = item.Subtotal

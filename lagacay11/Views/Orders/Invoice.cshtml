@@ -63,7 +63,14 @@
                         <tr class="border-b border-gray-100 last:border-0 hover:bg-gray-50 transition-colors">
                             <td class="px-6 py-4 text-xs">
                                 <strong class="text-gray-900 font-bold">@item.ProductName</strong>
-                                <span class="text-gray-500 block mt-1">Year: @item.ProductYear | Tournament: @(string.IsNullOrEmpty(item.WorldCupEdition) ? "N/A" : item.WorldCupEdition)</span>
+                                <span class="text-gray-500 block mt-1">
+                                    Year: @item.ProductYear
+                                    @if (!string.IsNullOrEmpty(item.Size))
+                                    {
+                                        <span> | Size: @item.Size</span>
+                                    }
+                                    | Tournament: @(string.IsNullOrEmpty(item.WorldCupEdition) ? "N/A" : item.WorldCupEdition)
+                                </span>
                             </td>
                             <td class="px-6 py-4 text-xs text-center font-semibold text-gray-800">@item.Quantity</td>
                             <td class="px-6 py-4 text-xs text-right text-gray-600">$@item.UnitPrice.ToString("F2")</td>

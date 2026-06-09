@@ -21,10 +21,17 @@ namespace lagacay11.Data
         public DbSet<Testimonial> Testimonials { get; set; } = null!;
         public DbSet<Wishlist> Wishlists { get; set; } = null!;
         public DbSet<Coupon> Coupons { get; set; } = null!;
+        public DbSet<ProductSize> ProductSizes { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<ProductSize>()
+                .HasOne(ps => ps.Product)
+                .WithMany(p => p.ProductSizes)
+                .HasForeignKey(ps => ps.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             // Configure Composite Key for ProductCategory Join Table
             builder.Entity<ProductCategory>()

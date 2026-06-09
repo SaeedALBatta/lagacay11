@@ -56,10 +56,9 @@ namespace lagacay11.Controllers
 
             return View(viewModel);
         }
-
         // POST: /Cart/Add
         [HttpPost]
-        public async Task<IActionResult> Add(int productId, int quantity = 1)
+        public async Task<IActionResult> Add(int productId, int quantity = 1, string? size = null)
         {
             var product = await _productRepository.GetByIdWithDetailsAsync(productId);
 
@@ -70,14 +69,38 @@ namespace lagacay11.Controllers
             }
 
             var cart = GetCart();
-            var cartItem = cart.FirstOrDefault(i => i.ProductId == productId);
+            var cartItem = cart.FirstOrDefault(i => i.ProductId == productId && i.Size == size);
 
-            int requestedQuantity = (cartItem?.Quantity ?? 0) + quantity;
-
-            if (requestedQuantity > product.StockQuantity)
+            if (product.ProductSizes != null && product.ProductSizes.Any())
             {
-                TempData["ErrorMessage"] = $"Cannot add {quantity} more item(s). Only {product.StockQuantity} in stock.";
-                return RedirectToAction(nameof(Index));
+                if (string.IsNullOrWhiteSpace(size))
+                {
+                    TempData["ErrorMessage"] = "Please select a size before adding the jersey to the cart.";
+                    return RedirectToAction("Details", "Products", new { id = productId });
+                }
+
+                var sizeRecord = product.ProductSizes.FirstOrDefault(ps => ps.Size.Equals(size, StringComparison.OrdinalIgnoreCase));
+                if (sizeRecord == null)
+                {
+                    TempData["ErrorMessage"] = $"The selected size '{size}' is not available for this jersey.";
+                    return RedirectToAction("Details", "Products", new { id = productId });
+                }
+
+                int requestedQuantity = (cartItem?.Quantity ?? 0) + quantity;
+                if (requestedQuantity > sizeRecord.StockQuantity)
+                {
+                    TempData["ErrorMessage"] = $"Cannot add {quantity} more item(s) of size {size}. Only {sizeRecord.StockQuantity} left in stock.";
+                    return RedirectToAction("Details", "Products", new { id = productId });
+                }
+            }
+            else
+            {
+                int requestedQuantity = (cartItem?.Quantity ?? 0) + quantity;
+                if (requestedQuantity > product.StockQuantity)
+                {
+                    TempData["ErrorMessage"] = $"Cannot add {quantity} more item(s). Only {product.StockQuantity} in stock.";
+                    return RedirectToAction("Details", "Products", new { id = productId });
+                }
             }
 
             if (cartItem == null)
@@ -92,7 +115,8 @@ namespace lagacay11.Controllers
                     Name = product.Name,
                     Price = product.Price,
                     Quantity = quantity,
-                    ImagePath = mainImage
+                    ImagePath = mainImage,
+                    Size = size
                 });
             }
             else
@@ -101,23 +125,23 @@ namespace lagacay11.Controllers
             }
 
             SaveCart(cart);
-            TempData["SuccessMessage"] = $"Added {product.Name} to your cart.";
+            TempData["SuccessMessage"] = $"Added {product.Name} {(string.IsNullOrEmpty(size) ? "" : $"(Size {size}) ")}to your cart.";
             
             return RedirectToAction(nameof(Index));
         }
 
         // POST: /Cart/UpdateQuantity
         [HttpPost]
-        public async Task<IActionResult> UpdateQuantity(int productId, int quantity)
+        public async Task<IActionResult> UpdateQuantity(int productId, string? size, int quantity)
         {
-            var product = await _productRepository.GetByIdAsync(productId);
+            var product = await _productRepository.GetByIdWithDetailsAsync(productId);
             if (product == null)
             {
                 return NotFound();
             }
 
             var cart = GetCart();
-            var cartItem = cart.FirstOrDefault(i => i.ProductId == productId);
+            var cartItem = cart.FirstOrDefault(i => i.ProductId == productId && i.Size == size);
 
             if (cartItem != null)
             {
@@ -126,14 +150,24 @@ namespace lagacay11.Controllers
                     cart.Remove(cartItem);
                     TempData["SuccessMessage"] = $"Removed {product.Name} from your cart.";
                 }
-                else if (quantity > product.StockQuantity)
-                {
-                    TempData["ErrorMessage"] = $"Cannot set quantity to {quantity}. Only {product.StockQuantity} items available in stock.";
-                }
                 else
                 {
-                    cartItem.Quantity = quantity;
-                    TempData["SuccessMessage"] = $"Updated quantity for {product.Name}.";
+                    int maxStock = product.StockQuantity;
+                    if (product.ProductSizes != null && product.ProductSizes.Any())
+                    {
+                        var sizeRecord = product.ProductSizes.FirstOrDefault(ps => ps.Size.Equals(size, StringComparison.OrdinalIgnoreCase));
+                        maxStock = sizeRecord?.StockQuantity ?? 0;
+                    }
+
+                    if (quantity > maxStock)
+                    {
+                        TempData["ErrorMessage"] = $"Cannot set quantity to {quantity}. Only {maxStock} items available in stock.";
+                    }
+                    else
+                    {
+                        cartItem.Quantity = quantity;
+                        TempData["SuccessMessage"] = $"Updated quantity for {product.Name}.";
+                    }
                 }
                 SaveCart(cart);
             }
@@ -143,16 +177,16 @@ namespace lagacay11.Controllers
 
         // POST: /Cart/Remove
         [HttpPost]
-        public IActionResult Remove(int productId)
+        public IActionResult Remove(int productId, string? size)
         {
             var cart = GetCart();
-            var cartItem = cart.FirstOrDefault(i => i.ProductId == productId);
+            var cartItem = cart.FirstOrDefault(i => i.ProductId == productId && i.Size == size);
 
             if (cartItem != null)
             {
                 cart.Remove(cartItem);
                 SaveCart(cart);
-                TempData["SuccessMessage"] = $"Removed {cartItem.Name} from your cart.";
+                TempData["SuccessMessage"] = $"Removed {cartItem.Name} {(string.IsNullOrEmpty(size) ? "" : $"(Size {size}) ")}from your cart.";
             }
 
             return RedirectToAction(nameof(Index));

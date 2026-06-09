@@ -62,7 +62,13 @@
                                 <img src="@item.ImagePath" alt="@item.Name" class="rounded border border-white/10 object-contain w-12 h-12 p-1 bg-surface-container mr-4" />
                                 <div>
                                     <h6 class="font-display font-bold text-white text-sm truncate max-w-[180px] mb-0.5">@item.Name</h6>
-                                    <span class="text-on-surface-variant/70 text-xs">Qty: @item.Quantity</span>
+                                    <span class="text-on-surface-variant/70 text-xs block">
+                                        Qty: @item.Quantity
+                                        @if (!string.IsNullOrEmpty(item.Size))
+                                        {
+                                            <span> | Size: @item.Size</span>
+                                        }
+                                    </span>
                                 </div>
                             </div>
                             <span class="font-display text-primary text-sm font-semibold">$@item.Subtotal.ToString("F2")</span>

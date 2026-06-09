@@ -224,6 +224,19 @@ namespace lagacay11.Data
                         IsMain = true,
                         SortOrder = 1
                     });
+
+                    // Add standard size variants for jerseys
+                    var sizes = new[] { "S", "M", "L", "XL", "XXL" };
+                    int stockPerSize = data.Prod.StockQuantity / sizes.Length;
+                    foreach (var sz in sizes)
+                    {
+                        context.ProductSizes.Add(new ProductSize
+                        {
+                            ProductId = data.Prod.Id,
+                            Size = sz,
+                            StockQuantity = stockPerSize
+                        });
+                    }
                 }
                 await context.SaveChangesAsync();
             }

@@ -66,7 +66,13 @@
                                 <tr class="border-b border-white/5 hover:bg-white/2 transition-colors">
                                     <td class="px-4 py-4 align-middle">
                                         <h6 class="font-display font-bold text-white text-sm">@item.ProductName</h6>
-                                        <span class="text-on-surface-variant text-xs">Year: @item.ProductYear</span>
+                                        <span class="text-on-surface-variant text-xs block">
+                                            Year: @item.ProductYear
+                                            @if (!string.IsNullOrEmpty(item.Size))
+                                            {
+                                                <span> | Size: @item.Size</span>
+                                            }
+                                        </span>
                                     </td>
                                     <td class="px-4 py-4 align-middle text-center text-white font-semibold text-sm">@item.Quantity</td>
                                     <td class="px-4 py-4 align-middle text-right text-on-surface-variant text-sm">$@item.UnitPrice.ToString("F2")</td>

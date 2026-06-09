@@ -60,7 +60,13 @@
                     @foreach (var item in Model.OrderItems)
                     {
                         <tr class="border-b border-white/5 last:border-0">
-                            <td class="px-6 py-3 text-xs text-white align-middle font-display font-bold">@item.ProductName</td>
+                            <td class="px-6 py-3 text-xs text-white align-middle">
+                                <span class="font-display font-bold block">@item.ProductName</span>
+                                @if (!string.IsNullOrEmpty(item.Size))
+                                {
+                                    <span class="text-secondary text-[10px] uppercase tracking-wider block mt-0.5">Size: @item.Size</span>
+                                }
+                            </td>
                             <td class="px-6 py-3 text-xs text-on-surface-variant text-center align-middle">@item.Quantity</td>
                             <td class="px-6 py-3 text-xs text-primary text-right align-middle font-display font-bold">$@item.UnitPrice.ToString("F2")</td>
                         </tr>

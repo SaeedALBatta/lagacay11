@@ -54,5 +54,6 @@ namespace lagacay11.Models
         public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
         public virtual ICollection<Wishlist> Wishlists { get; set; } = new List<Wishlist>();
         public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+        public virtual ICollection<ProductSize> ProductSizes { get; set; } = new List<ProductSize>();
     }
 }
