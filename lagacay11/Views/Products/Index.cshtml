@@ -1,0 +1,188 @@
+@model lagacay11.Models.ViewModels.ProductListViewModel
+@{
+    ViewData["Title"] = "Vintage Jerseys Catalog";
+    var categories = Model.Categories;
+    var wcEditions = Model.WorldCupEditions;
+    var years = Model.Years;
+
+    // Query parameters
+    var selSearch = Model.SelectedSearch;
+    var selCategory = Model.SelectedCategory;
+    var selYear = Model.SelectedYear;
+    var selEdition = Model.SelectedEdition;
+    var selSort = Model.SelectedSort;
+}
+
+<div class="max-w-container-max mx-auto px-gutter py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <!-- Sidebar Filters -->
+        <aside class="lg:col-span-3 lg:sticky lg:top-24 z-10">
+            <div class="glass-card p-6 border border-white/10">
+                <h5 class="font-display text-headline-md uppercase tracking-wider text-white mb-6">Filter Jerseys</h5>
+
+                <form asp-action="Index" method="get" id="filterForm" class="space-y-6">
+                    <!-- Search Keyword -->
+                    <div>
+                        <label class="text-[10px] font-label-bold text-on-surface-variant uppercase tracking-widest block mb-2">Search</label>
+                        <input type="text" name="search" value="@selSearch" class="w-full bg-background border border-white/10 text-white rounded p-2.5 text-xs focus:outline-none focus:border-primary placeholder-on-surface-variant/40" placeholder="Team, club, year..." />
+                    </div>
+
+                    <!-- Category filter -->
+                    <div>
+                        <label class="text-[10px] font-label-bold text-on-surface-variant uppercase tracking-widest block mb-2">Category</label>
+                        <select name="category" class="w-full bg-background border border-white/10 text-white rounded p-2.5 text-xs focus:outline-none focus:border-primary">
+                            <option value="">All Categories</option>
+                            @foreach (var cat in categories)
+                            {
+                                <!option value="@cat.Slug" @(selCategory == cat.Slug ? "selected" : "")>@cat.Name</!option>
+                            }
+                        </select>
+                    </div>
+
+                    <!-- World Cup Tournament Edition -->
+                    <div>
+                        <label class="text-[10px] font-label-bold text-on-surface-variant uppercase tracking-widest block mb-2">World Cup Edition</label>
+                        <select name="edition" class="w-full bg-background border border-white/10 text-white rounded p-2.5 text-xs focus:outline-none focus:border-primary">
+                            <option value="">All Editions</option>
+                            @foreach (var ed in wcEditions)
+                            {
+                                <!option value="@ed" @(selEdition == ed ? "selected" : "")>🏆 @ed</!option>
+                            }
+                        </select>
+                    </div>
+
+                    <!-- Year -->
+                    <div>
+                        <label class="text-[10px] font-label-bold text-on-surface-variant uppercase tracking-widest block mb-2">Year</label>
+                        <select name="year" class="w-full bg-background border border-white/10 text-white rounded p-2.5 text-xs focus:outline-none focus:border-primary">
+                            <option value="">All Years</option>
+                            @foreach (var y in years)
+                            {
+                                <!option value="@y" @(selYear == y ? "selected" : "")>@y</!option>
+                            }
+                        </select>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="flex flex-col gap-2 pt-2">
+                        <button type="submit" class="w-full bg-primary text-black font-label-bold py-3 uppercase tracking-widest text-[10px] font-bold hover:opacity-90 transition-opacity rounded-none">Apply Filters</button>
+                        <a asp-action="Index" class="w-full border border-white/20 text-white font-label-bold py-3 uppercase tracking-widest text-[10px] font-bold hover:bg-white/10 transition-colors rounded-none text-center decoration-none">Clear All</a>
+                    </div>
+                </form>
+            </div>
+        </aside>
+
+        <!-- Product Grid -->
+        <main class="lg:col-span-9 space-y-6">
+            <!-- Catalog Header -->
+            <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 glass-card p-4 border border-white/10">
+                <span class="text-on-surface-variant font-semibold text-sm">Showing @Model.Products.Count jersey(s)</span>
+                
+                <div class="flex items-center gap-3">
+                    <label class="text-[10px] font-label-bold text-on-surface-variant uppercase tracking-wider whitespace-nowrap">Sort By:</label>
+                    <select name="sort" class="border border-white/10 bg-surface-container text-white text-xs rounded px-3 py-1.5 focus:outline-none focus:border-primary w-44" onchange="document.getElementById('sortInput').value = this.value; document.getElementById('filterForm').submit();">
+                        <!option value="newest" @(selSort == "newest" || string.IsNullOrEmpty(selSort) ? "selected" : "")>Newest</!option>
+                        <!option value="price_asc" @(selSort == "price_asc" ? "selected" : "")>Price: Low to High</!option>
+                        <!option value="price_desc" @(selSort == "price_desc" ? "selected" : "")>Price: High to Low</!option>
+                        <!option value="year_desc" @(selSort == "year_desc" ? "selected" : "")>Year: Retro First</!option>
+                        <!option value="year_asc" @(selSort == "year_asc" ? "selected" : "")>Year: Oldest First</!option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Hidden inputs inside filterForm for keeping sort state -->
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    const form = document.getElementById("filterForm");
+                    const input = document.createElement("input");
+                    input.type = "hidden";
+                    input.name = "sort";
+                    input.id = "sortInput";
+                    input.value = "@selSort";
+                    form.appendChild(input);
+                });
+            </script>
+
+            @if (Model.Products == null || !Model.Products.Any())
+            {
+                <div class="text-center py-20 glass-card border border-white/10">
+                    <div class="text-5xl mb-4">👕</div>
+                    <h4 class="font-display text-headline-md text-white mb-2">No jerseys found</h4>
+                    <p class="text-on-surface-variant text-sm mb-6">Try adjusting your filters or search keywords.</p>
+                    <a asp-action="Index" class="inline-block border border-primary text-primary hover:bg-primary hover:text-background font-label-bold px-6 py-2.5 transition-all text-xs uppercase tracking-wider decoration-none">Reset All Filters</a>
+                </div>
+            }
+            else
+            {
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    @foreach (var product in Model.Products)
+                    {
+                        var mainImage = product.MainImagePath;
+
+                        <div class="glass-card flex flex-col group relative jersey-card">
+                            <!-- Wishlist Shortcut Button -->
+                            <form asp-controller="Wishlist" asp-action="Add" method="post" class="absolute top-4 right-4 z-20 m-0">
+                                <input type="hidden" name="productId" value="@product.Id" />
+                                <button type="submit" class="w-9 h-9 rounded-full border border-white/25 flex items-center justify-center hover:bg-white/10 transition-colors bg-background/60 text-red-500" title="Save to Wishlist">
+                                    <span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">favorite</span>
+                                </button>
+                            </form>
+
+                            <!-- Jersey Image -->
+                            <div class="relative overflow-hidden spotlight-bg flex items-center justify-center p-6 h-72">
+                                <a asp-action="Details" asp-route-id="@product.Id" class="w-full h-full flex items-center justify-center decoration-none">
+                                    <img src="@mainImage" alt="@product.Name" class="max-h-full max-w-full object-contain group-hover:scale-110 transition-transform duration-700" />
+                                </a>
+                                @if (product.StockQuantity <= 0)
+                                {
+                                    <div class="absolute inset-0 bg-background/70 flex items-center justify-center z-10">
+                                        <span class="text-white font-label-bold text-xs uppercase tracking-widest px-4 py-2 bg-red-500">Out of Stock</span>
+                                    </div>
+                                }
+                            </div>
+
+                            <!-- Card Content -->
+                            <div class="p-6 border-t border-white/10 bg-black/40 flex flex-col justify-between flex-grow">
+                                <div>
+                                    <div class="mb-3">
+                                        @if (!string.IsNullOrEmpty(product.WorldCupEdition))
+                                        {
+                                            <span class="legendary-badge text-black font-label-bold px-4 py-1 text-[10px] inline-block">🏆 @product.WorldCupEdition</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="bg-secondary text-on-secondary font-label-bold px-4 py-1 text-[10px] uppercase tracking-wider inline-block">⚽ Club Kit</span>
+                                        }
+                                    </div>
+
+                                    <h3 class="font-headline-md text-stats-xl text-white mb-1 truncate">
+                                        <a asp-action="Details" asp-route-id="@product.Id" class="text-white hover:text-primary transition-colors decoration-none">@product.Name</a>
+                                    </h3>
+                                    <p class="font-body-md text-on-surface-variant mb-4 text-xs">Year: @product.Year</p>
+                                </div>
+
+                                <!-- Price / Add to Cart Row -->
+                                <div class="flex justify-between items-center border-t border-white/10 pt-4 mt-auto">
+                                    <span class="font-stats-xl text-primary text-lg">$@product.Price.ToString("F2")</span>
+
+                                    @if (product.StockQuantity > 0)
+                                    {
+                                        <form asp-controller="Cart" asp-action="Add" method="post" class="m-0">
+                                            <input type="hidden" name="productId" value="@product.Id" />
+                                            <input type="hidden" name="quantity" value="1" />
+                                            <button type="submit" class="material-symbols-outlined w-9 h-9 rounded-full border border-white/20 flex items-center justify-center hover:bg-primary hover:text-black transition-all bg-transparent text-white" data-icon="add">add</button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <span class="bg-red-500/20 text-red-400 font-label-bold px-3 py-1.5 text-[10px] uppercase tracking-wider">Sold</span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </main>
+    </div>
+</div>

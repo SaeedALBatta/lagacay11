@@ -1,0 +1,285 @@
+@model lagacay11.Models.ViewModels.AdminDashboardViewModel
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="mb-8 flex justify-between items-end">
+    <div>
+        <h2 class="font-headline-md text-headline-md text-on-surface">Overview</h2>
+        <p class="text-on-surface-variant mt-1 font-body-md text-sm">Track your platform's performance and recent activities.</p>
+    </div>
+    <div class="flex gap-2">
+        <select class="bg-surface-container border border-outline-variant rounded px-3 py-1.5 text-sm text-on-surface focus:ring-primary focus:border-primary appearance-none outline-none">
+            <option>Last 7 Days</option>
+            <option>Last 30 Days</option>
+            <option>This Year</option>
+        </select>
+        <button class="bg-surface-container border border-outline-variant rounded px-3 py-1.5 text-sm hover:bg-surface-container-high transition-colors text-on-surface flex items-center gap-1">
+            <span class="material-symbols-outlined text-[18px]">download</span> Export
+        </button>
+    </div>
+</div>
+
+<!-- Stats Bento Grid -->
+<div class="grid grid-cols-12 gap-6 mb-8">
+    <!-- Hero Stat -->
+    <div class="col-span-12 md:col-span-4 glass-panel glass-panel-glow rounded-xl p-6 relative overflow-hidden group">
+        <div class="absolute -right-10 -top-10 w-40 h-40 bg-primary/10 rounded-full blur-3xl group-hover:bg-primary/20 transition-all duration-500"></div>
+        <p class="font-label-bold text-label-bold text-on-surface-variant mb-2 flex items-center gap-2">
+            <span class="material-symbols-outlined text-sm text-primary">account_balance_wallet</span> Total Sales Revenue
+        </p>
+        <h3 class="font-stats-xl text-[40px] leading-tight text-primary font-bold mb-4">$@Model.TotalRevenue.ToString("N2")</h3>
+        <div class="flex items-center gap-2 text-sm">
+            <span class="text-secondary-fixed flex items-center bg-secondary-fixed/10 px-1.5 py-0.5 rounded">
+                <span class="material-symbols-outlined text-[14px]">trending_up</span> 12.5%
+            </span>
+            <span class="text-on-surface-variant/70">vs last period</span>
+        </div>
+    </div>
+    <!-- Minor Stats -->
+    <div class="col-span-12 md:col-span-8 grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div class="glass-panel rounded-xl p-5 flex flex-col justify-between">
+            <p class="font-label-bold text-[12px] text-on-surface-variant mb-1 flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-[16px] opacity-70">shopping_cart</span> Orders
+            </p>
+            <h4 class="font-stats-xl text-stats-xl text-on-surface mb-2">@Model.TotalOrders.ToString("N0")</h4>
+            <div class="text-xs text-secondary-fixed flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">arrow_upward</span> 4.2%</div>
+        </div>
+        <div class="glass-panel rounded-xl p-5 flex flex-col justify-between">
+            <p class="font-label-bold text-[12px] text-on-surface-variant mb-1 flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-[16px] opacity-70">category</span> Products
+            </p>
+            <h4 class="font-stats-xl text-stats-xl text-on-surface mb-2">@Model.TotalProducts</h4>
+            <div class="text-xs text-secondary-fixed flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">arrow_upward</span> 1.8%</div>
+        </div>
+        <div class="glass-panel rounded-xl p-5 flex flex-col justify-between">
+            <p class="font-label-bold text-[12px] text-on-surface-variant mb-1 flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-[16px] opacity-70">style</span> Categories
+            </p>
+            <h4 class="font-stats-xl text-stats-xl text-on-surface mb-2">@Model.TotalCategories</h4>
+            <div class="text-xs text-on-surface-variant/50 flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">horizontal_rule</span> 0%</div>
+        </div>
+        <div class="glass-panel rounded-xl p-5 flex flex-col justify-between">
+            <p class="font-label-bold text-[12px] text-on-surface-variant mb-1 flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-[16px] opacity-70">groups</span> Users
+            </p>
+            <h4 class="font-stats-xl text-stats-xl text-on-surface mb-2">@Model.TotalUsers.ToString("N0")</h4>
+            <div class="text-xs text-error flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">arrow_downward</span> 0.5%</div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Grid -->
+<div class="grid grid-cols-12 gap-6 mb-8">
+    <!-- Line Chart -->
+    <div class="col-span-12 lg:col-span-8 glass-panel rounded-xl p-6">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="font-label-bold text-label-bold text-on-surface uppercase tracking-wider">Sales Performance</h3>
+            <button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined">more_vert</span></button>
+        </div>
+        <div class="relative h-[300px] w-full">
+            <canvas id="salesTrendChart"></canvas>
+        </div>
+    </div>
+    <!-- Doughnut Chart -->
+    <div class="col-span-12 lg:col-span-4 glass-panel rounded-xl p-6">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="font-label-bold text-label-bold text-on-surface uppercase tracking-wider">Order Status</h3>
+            <button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined">more_vert</span></button>
+        </div>
+        <div class="relative h-[240px] w-full flex justify-center mt-4">
+            <canvas id="orderStatusChart"></canvas>
+        </div>
+        <div class="mt-6 grid grid-cols-2 gap-4">
+            <div class="flex items-center gap-2 text-sm text-on-surface-variant"><span class="w-2 h-2 rounded-full bg-secondary-fixed"></span> Completed (@Model.CompletedOrdersCount)</div>
+            <div class="flex items-center gap-2 text-sm text-on-surface-variant"><span class="w-2 h-2 rounded-full bg-primary"></span> Pending (@Model.PendingOrdersCount)</div>
+            <div class="flex items-center gap-2 text-sm text-on-surface-variant"><span class="w-2 h-2 rounded-full bg-surface-bright"></span> Cancelled (@Model.CancelledOrdersCount)</div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Orders Table -->
+<div class="col-span-12 glass-panel rounded-xl overflow-hidden mb-8">
+    <div class="p-6 border-b border-outline-variant/30 flex justify-between items-center">
+        <h3 class="font-label-bold text-label-bold text-on-surface uppercase tracking-wider">Recent Orders</h3>
+        <a asp-controller="AdminOrders" asp-action="Index" class="text-sm text-primary hover:underline uppercase decoration-none">View All</a>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="bg-surface-container-low/50 text-on-surface-variant text-xs uppercase tracking-wider font-label-bold">
+                    <th class="px-6 py-4 font-medium">Order ID</th>
+                    <th class="px-6 py-4 font-medium">Customer</th>
+                    <th class="px-6 py-4 font-medium">Date</th>
+                    <th class="px-6 py-4 font-medium">Total</th>
+                    <th class="px-6 py-4 font-medium">Status</th>
+                    <th class="px-6 py-4 font-medium text-right">Action</th>
+                </tr>
+            </thead>
+            <tbody class="text-sm text-on-surface divide-y divide-outline-variant/20">
+                @if (Model.RecentOrders == null || !Model.RecentOrders.Any())
+                {
+                    <tr>
+                        <td colspan="6" class="px-6 py-8 text-center text-on-surface-variant text-sm">No recent orders found.</td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var order in Model.RecentOrders)
+                    {
+                        <tr class="hover:bg-surface-container-low/30 transition-colors">
+                            <td class="px-6 py-4 font-mono text-xs">#L11-@order.Id</td>
+                            <td class="px-6 py-4 flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full bg-surface-bright flex items-center justify-center text-xs font-bold text-primary">
+                                    @(string.IsNullOrEmpty(order.CustomerName) ? "C" : order.CustomerName.Substring(0, Math.Min(2, order.CustomerName.Length)).ToUpper())
+                                </div>
+                                <span>@order.CustomerName</span>
+                            </td>
+                            <td class="px-6 py-4 text-on-surface-variant">@order.OrderDate.ToString("MMM dd, yyyy")</td>
+                            <td class="px-6 py-4 font-medium">$@order.TotalAmount.ToString("N2")</td>
+                            <td class="px-6 py-4">
+                                @if (order.Status == "Completed")
+                                {
+                                    <span class="px-2.5 py-1 rounded-full text-[10px] uppercase tracking-wider font-bold bg-secondary-fixed/10 text-secondary-fixed border border-secondary-fixed/20">Completed</span>
+                                }
+                                else if (order.Status == "Cancelled" || order.Status == "Cancelled")
+                                {
+                                    <span class="px-2.5 py-1 rounded-full text-[10px] uppercase tracking-wider font-bold bg-error-container/10 text-error border border-error-container/20">Cancelled</span>
+                                }
+                                else
+                                {
+                                    <span class="px-2.5 py-1 rounded-full text-[10px] uppercase tracking-wider font-bold bg-primary/10 text-primary border border-primary/20">@order.Status</span>
+                                }
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <a asp-controller="AdminOrders" asp-action="Index" asp-route-search="#L11-@order.Id" class="text-on-surface-variant hover:text-primary transition-colors text-sm font-label-bold decoration-none">Manage</a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Chart.js Default Config for Theme
+        Chart.defaults.color = '#d0c5af';
+        Chart.defaults.font.family = 'Inter';
+        
+        // Sales Trend Line Chart
+        const salesCtx = document.getElementById('salesTrendChart').getContext('2d');
+        
+        // Create Gradient for Line Chart
+        let gradientFill = salesCtx.createLinearGradient(0, 0, 0, 300);
+        gradientFill.addColorStop(0, 'rgba(242, 202, 80, 0.4)'); // Primary color with opacity
+        gradientFill.addColorStop(1, 'rgba(242, 202, 80, 0.0)');
+
+        // Retrieve real data from C# model
+        const salesLabels = @Html.Raw(Json.Serialize(Model.SalesTrendLabels));
+        const salesData = @Html.Raw(Json.Serialize(Model.SalesTrendData));
+
+        new Chart(salesCtx, {
+            type: 'line',
+            data: {
+                labels: salesLabels.length > 0 ? salesLabels : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Revenue ($)',
+                    data: salesData.length > 0 ? salesData : [0, 0, 0, 0, 0, 0, 0],
+                    borderColor: '#f2ca50', // Primary
+                    backgroundColor: gradientFill,
+                    borderWidth: 2,
+                    pointBackgroundColor: '#111318',
+                    pointBorderColor: '#f2ca50',
+                    pointBorderWidth: 2,
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                    fill: true,
+                    tension: 0.4 // Smooth curves
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(30, 32, 36, 0.9)',
+                        titleColor: '#e2e2e8',
+                        bodyColor: '#d4af37',
+                        borderColor: '#4d4635',
+                        borderWidth: 1,
+                        padding: 12,
+                        displayColors: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: 'rgba(77, 70, 53, 0.2)', // outline-variant with opacity
+                            drawBorder: false,
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + value;
+                            }
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false,
+                            drawBorder: false,
+                        }
+                    }
+                }
+            }
+        });
+
+        // Order Status Doughnut Chart
+        const statusCtx = document.getElementById('orderStatusChart').getContext('2d');
+        const completedCount = @Model.CompletedOrdersCount;
+        const pendingCount = @Model.PendingOrdersCount;
+        const cancelledCount = @Model.CancelledOrdersCount;
+
+        new Chart(statusCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Completed', 'Pending', 'Cancelled'],
+                datasets: [{
+                    data: (completedCount + pendingCount + cancelledCount) > 0 
+                        ? [completedCount, pendingCount, cancelledCount] 
+                        : [1, 0, 0], // fallback if no data
+                    backgroundColor: [
+                        '#6bfe9c', // secondary-fixed
+                        '#f2ca50', // primary
+                        '#37393e'  // surface-bright
+                    ],
+                    borderColor: '#111318', // surface matches background to create gap
+                    borderWidth: 3,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '75%',
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(30, 32, 36, 0.9)',
+                        bodyColor: '#e2e2e8',
+                        borderColor: '#4d4635',
+                        borderWidth: 1,
+                        padding: 10
+                    }
+                }
+            }
+        });
+    </script>
+}

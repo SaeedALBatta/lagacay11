@@ -1,0 +1,41 @@
+@model lagacay11.Models.ViewModels.ProductViewModel
+@{
+    ViewData["Title"] = $"Delete {Model.Name}";
+}
+
+<div class="space-y-6 max-w-xl mx-auto">
+    <!-- Breadcrumbs -->
+    <nav class="mb-6">
+        <ol class="flex items-center space-x-2 text-[10px] uppercase tracking-widest font-label-bold text-on-surface-variant">
+            <li><a asp-action="Index" class="hover:text-primary transition-colors decoration-none">Manage Jerseys</a></li>
+            <li><span class="text-on-surface-variant/40">/</span></li>
+            <li class="text-white">Delete Jersey</li>
+        </ol>
+    </nav>
+
+    <div class="glass-card p-8 border border-red-500/20 rounded-lg text-center space-y-6">
+        <div class="text-5xl text-red-500">⚠️</div>
+        <h3 class="font-display text-headline-md uppercase text-white tracking-wider">Delete Jersey?</h3>
+        <p class="font-body-md text-on-surface-variant text-sm leading-relaxed">
+            Are you sure you want to delete <strong>@Model.Name</strong>? This action cannot be undone.
+        </p>
+
+        @if (Model.OrderCount > 0)
+        {
+            <div class="bg-amber-500/10 border border-amber-500/20 text-white rounded p-4 text-xs leading-relaxed text-left space-y-2 mb-4">
+                <strong>Notice:</strong> This jersey is currently included in <strong>@Model.OrderCount</strong> order(s).
+                Deleting it will perform a <em>soft-delete</em> (setting availability to inactive) to preserve sales metrics.
+            </div>
+        }
+
+        <form asp-action="Delete" method="post" class="space-y-6 m-0">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="Id" />
+            
+            <div class="flex justify-center gap-4 pt-4">
+                <a asp-action="Index" class="border border-white/20 text-white hover:bg-white/10 text-xs px-6 py-3 font-label-bold tracking-widest uppercase decoration-none transition-colors rounded-none">Cancel</a>
+                <button type="submit" class="bg-red-500 text-white font-label-bold px-6 py-3.5 uppercase tracking-widest text-xs font-bold hover:opacity-90 transition-opacity rounded-none">Confirm Delete</button>
+            </div>
+        </form>
+    </div>
+</div>

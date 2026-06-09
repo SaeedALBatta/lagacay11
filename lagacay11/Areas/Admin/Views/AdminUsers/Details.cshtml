@@ -1,0 +1,239 @@
+@model lagacay11.Models.ViewModels.AdminUserDetailsViewModel
+@{
+    ViewData["Title"] = "User Details";
+}
+
+<!-- Breadcrumbs -->
+<div class="flex items-center gap-2 mb-8 text-on-surface-variant font-label-bold text-label-bold">
+    <a class="hover:text-primary transition-colors decoration-none" asp-action="Index">Users</a>
+    <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+    <span class="text-primary">Details</span>
+</div>
+
+<!-- Header Profile Section -->
+<div class="glass-panel rounded-2xl p-8 mb-gutter relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+    <!-- Spotlight Background Effect -->
+    <div class="absolute -right-32 -top-32 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="flex flex-col md:flex-row items-center md:items-start gap-6 z-10 w-full md:w-auto">
+        <!-- Avatar -->
+        <div class="w-24 h-24 rounded-full border-2 border-primary/30 overflow-hidden relative group">
+            <img alt="Profile portrait of @Model.FullName" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBby8Po7ExGpoxZOpP6SeBJRBFa-nmgc3HsH-cj8crrvE260lgeMoA2u6Y7mw7Wmi31E6_jN5T_JrWbuNt8kZ5yaXdtAp2uB4Q9XOfjTmXX9hSdz9sK3VgV5cvdeXArJorfMIfHIHYq4K-QruDBOKUk9opRDe9yZ-AvI2-23jfggG9zC4WAKyg5uRzyiDzb0-Ui1aG6pKUkn63fJ_6IDSRGMlqzeHD-U75pMw4cObtifbL3vt2Lks801N8oEmAL0zkYAQdFA8jHd-E"/>
+        </div>
+        <div class="text-center md:text-left">
+            <div class="flex flex-col md:flex-row items-center gap-4 mb-2">
+                <h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-0">@Model.FullName</h2>
+                <span class="px-3 py-1 bg-secondary-container/20 text-secondary border border-secondary/30 rounded-full font-label-bold text-[12px] uppercase tracking-widest flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[14px]">check_circle</span> Active
+                </span>
+            </div>
+            <p class="font-body-lg text-body-lg text-on-surface-variant mb-1">@Model.Email</p>
+            <div class="flex flex-wrap justify-center md:justify-start gap-4 font-label-bold text-label-bold text-outline">
+                <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">badge</span> @Model.Role</span>
+                <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">calendar_today</span> Joined @Model.CreatedAt.ToString("MMM yyyy")</span>
+            </div>
+        </div>
+    </div>
+    <!-- Actions -->
+    <div class="flex flex-wrap gap-4 z-10 w-full md:w-auto justify-center md:justify-end">
+        <button type="button" class="px-6 py-3 glass-panel text-on-surface font-label-bold text-label-bold rounded-xl hover:bg-surface-variant/50 transition-all flex items-center gap-2">
+            <span class="material-symbols-outlined">restart_alt</span> Reset Password
+        </button>
+        <button type="button" class="px-6 py-3 border border-error/50 text-error font-label-bold text-label-bold rounded-xl hover:bg-error/10 transition-all flex items-center gap-2">
+            <span class="material-symbols-outlined">block</span> Suspend
+        </button>
+        <button type="button" class="px-6 py-3 bg-primary-container text-on-primary-container font-label-bold text-label-bold rounded-xl hover:shadow-[0_0_15px_rgba(212,175,55,0.3)] transition-all flex items-center gap-2">
+            <span class="material-symbols-outlined">edit</span> Edit Profile
+        </button>
+    </div>
+</div>
+
+<!-- Two Column Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+    <!-- Left Column (4 columns wide on lg) -->
+    <div class="lg:col-span-4 space-y-gutter">
+        <!-- Basic Info Card -->
+        <div class="glass-panel rounded-2xl p-6">
+            <div class="flex items-center gap-2 mb-6 border-b border-white/10 pb-4">
+                <span class="material-symbols-outlined text-primary">person</span>
+                <h3 class="font-headline-md text-[24px] leading-8 text-on-surface mb-0">Basic Information</h3>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <p class="font-label-bold text-label-bold text-on-surface-variant mb-1">Username</p>
+                    <p class="font-body-md text-body-md text-on-surface mb-0">@Model.Username</p>
+                </div>
+                <div>
+                    <p class="font-label-bold text-label-bold text-on-surface-variant mb-1">Phone Number</p>
+                    <p class="font-body-md text-body-md text-on-surface mb-0">@(string.IsNullOrEmpty(Model.PhoneNumber) ? "—" : Model.PhoneNumber)</p>
+                </div>
+                <div>
+                    <p class="font-label-bold text-label-bold text-on-surface-variant mb-1">Last Login</p>
+                    <p class="font-body-md text-body-md text-on-surface mb-0">Today, 14:32 UTC</p>
+                </div>
+            </div>
+        </div>
+        <!-- Shipping Info Card -->
+        <div class="glass-panel rounded-2xl p-6">
+            <div class="flex items-center gap-2 mb-6 border-b border-white/10 pb-4">
+                <span class="material-symbols-outlined text-primary">local_shipping</span>
+                <h3 class="font-headline-md text-[24px] leading-8 text-on-surface mb-0">Shipping Address</h3>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <p class="font-label-bold text-label-bold text-on-surface-variant mb-1">Street Address</p>
+                    <p class="font-body-md text-body-md text-on-surface mb-0">@Model.ShippingStreet</p>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <p class="font-label-bold text-label-bold text-on-surface-variant mb-1">City</p>
+                        <p class="font-body-md text-body-md text-on-surface mb-0">@Model.ShippingCity</p>
+                    </div>
+                    <div>
+                        <p class="font-label-bold text-label-bold text-on-surface-variant mb-1">Postal Code</p>
+                        <p class="font-body-md text-body-md text-on-surface mb-0">@Model.ShippingPostalCode</p>
+                    </div>
+                </div>
+                <div>
+                    <p class="font-label-bold text-label-bold text-on-surface-variant mb-1">Country</p>
+                    <p class="font-body-md text-body-md text-on-surface mb-0">@Model.ShippingCountry</p>
+                </div>
+            </div>
+        </div>
+        <!-- Account Activity Card -->
+        <div class="glass-panel rounded-2xl p-6">
+            <div class="flex items-center gap-2 mb-6 border-b border-white/10 pb-4">
+                <span class="material-symbols-outlined text-primary">shield_person</span>
+                <h3 class="font-headline-md text-[24px] leading-8 text-on-surface mb-0">Security &amp; Activity</h3>
+            </div>
+            <div class="space-y-4">
+                <div class="flex justify-between items-center">
+                    <span class="font-body-md text-body-md text-on-surface-variant">KYC Status</span>
+                    <span class="px-2 py-1 bg-secondary/10 text-secondary border border-secondary/20 rounded font-label-bold text-[12px] uppercase">Verified</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="font-body-md text-body-md text-on-surface-variant">2FA Enabled</span>
+                    <span class="material-symbols-outlined text-secondary">check_circle</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="font-body-md text-body-md text-on-surface-variant">Total Logins</span>
+                    <span class="font-stats-xl text-[20px] text-on-surface font-bold">142</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Right Column (8 columns wide on lg) -->
+    <div class="lg:col-span-8 space-y-gutter">
+        <!-- KPI Stats -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="glass-panel rounded-2xl p-4 flex flex-col justify-between">
+                <p class="font-label-bold text-label-bold text-on-surface-variant mb-2">Total Orders</p>
+                <p class="font-display-lg text-[40px] leading-tight text-primary mb-0">@Model.TotalOrders</p>
+            </div>
+            <div class="glass-panel rounded-2xl p-4 flex flex-col justify-between">
+                <p class="font-label-bold text-label-bold text-on-surface-variant mb-2">Total Spent</p>
+                <p class="font-display-lg text-[40px] leading-tight text-on-surface mb-0">$@Model.TotalSpent.ToString("N0")</p>
+            </div>
+            <div class="glass-panel rounded-2xl p-4 flex flex-col justify-between">
+                <p class="font-label-bold text-label-bold text-on-surface-variant mb-2">Avg. Order Value</p>
+                <p class="font-display-lg text-[40px] leading-tight text-on-surface mb-0">$@Model.AvgOrderValue.ToString("N0")</p>
+            </div>
+            <div class="glass-panel rounded-2xl p-4 flex flex-col justify-between">
+                <p class="font-label-bold text-label-bold text-on-surface-variant mb-2">Last Order</p>
+                <p class="font-headline-md text-[24px] leading-tight text-on-surface mt-auto mb-0">@(Model.LastOrderDate.HasValue ? Model.LastOrderDate.Value.ToString("dd MMM yy") : "—")</p>
+            </div>
+        </div>
+        
+        <!-- Recent Orders Table -->
+        <div class="glass-panel rounded-2xl overflow-hidden">
+            <div class="p-6 border-b border-white/10 flex justify-between items-center bg-surface-container/30">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">receipt_long</span>
+                    <h3 class="font-headline-md text-[24px] leading-8 text-on-surface mb-0">Recent Orders</h3>
+                </div>
+                <a asp-controller="AdminOrders" asp-action="Index" class="font-label-bold text-label-bold text-primary hover:text-primary-fixed transition-colors decoration-none">View All</a>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="border-b border-white/5 bg-surface-container-lowest/50">
+                            <th class="p-4 font-label-bold text-label-bold text-on-surface-variant">Order ID</th>
+                            <th class="p-4 font-label-bold text-label-bold text-on-surface-variant">Date</th>
+                            <th class="p-4 font-label-bold text-label-bold text-on-surface-variant">Total</th>
+                            <th class="p-4 font-label-bold text-label-bold text-on-surface-variant">Status</th>
+                            <th class="p-4 font-label-bold text-label-bold text-on-surface-variant text-right">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.RecentOrders == null || !Model.RecentOrders.Any())
+                        {
+                            <tr>
+                                <td colspan="5" class="p-4 text-center text-on-surface-variant text-sm">No recent orders found.</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            foreach (var order in Model.RecentOrders)
+                            {
+                                <tr class="border-b border-white/5 hover:bg-surface-variant/20 transition-colors">
+                                    <td class="p-4 font-body-md text-body-md text-on-surface font-mono">#L11-@order.Id</td>
+                                    <td class="p-4 font-body-md text-body-md text-on-surface-variant">@order.OrderDate.ToString("dd MMM yyyy")</td>
+                                    <td class="p-4 font-stats-xl text-[18px] text-on-surface font-bold">$@order.TotalAmount.ToString("N2")</td>
+                                    <td class="p-4">
+                                        @if (order.Status == "Completed")
+                                        {
+                                            <span class="px-2.5 py-1 rounded-full text-[10px] uppercase tracking-wider font-bold bg-secondary-fixed/10 text-secondary-fixed border border-secondary-fixed/20">Completed</span>
+                                        }
+                                        else if (order.Status == "Cancelled")
+                                        {
+                                            <span class="px-2.5 py-1 rounded-full text-[10px] uppercase tracking-wider font-bold bg-error-container/10 text-error border border-error-container/20">Cancelled</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="px-2.5 py-1 rounded-full text-[10px] uppercase tracking-wider font-bold bg-primary/10 text-primary border border-primary/20">@order.Status</span>
+                                        }
+                                    </td>
+                                    <td class="p-4 text-right">
+                                        <a asp-controller="AdminOrders" asp-action="Details" asp-route-id="@order.Id" class="text-on-surface-variant hover:text-primary transition-colors p-2 rounded-full hover:bg-white/5 decoration-none inline-block">
+                                            <span class="material-symbols-outlined">visibility</span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Internal Admin Notes -->
+        <div class="glass-panel rounded-2xl p-6">
+            <div class="flex justify-between items-center mb-6 border-b border-white/10 pb-4">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">speaker_notes</span>
+                    <h3 class="font-headline-md text-[24px] leading-8 text-on-surface mb-0">Admin Notes</h3>
+                </div>
+                <button type="button" class="px-4 py-2 bg-surface-container border border-white/10 text-on-surface font-label-bold text-label-bold rounded-xl hover:bg-surface-variant transition-all flex items-center gap-2 text-sm">
+                    <span class="material-symbols-outlined text-[18px]">add</span> Add Note
+                </button>
+            </div>
+            <div class="space-y-6 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-white/10 before:to-transparent">
+                <!-- Note Item -->
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+                    <!-- Icon -->
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full border border-white/10 bg-surface-container shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 shadow-md relative z-10">
+                        <span class="material-symbols-outlined text-[18px] text-primary">person</span>
+                    </div>
+                    <!-- Content -->
+                    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-xl border border-white/5 bg-surface-container/50 glass-panel">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="font-label-bold text-label-bold text-primary">Support Agent 04</span>
+                            <time class="font-label-bold text-[12px] text-on-surface-variant">Oct 14, 10:23 AM</time>
+                        </div>
+                        <p class="font-body-md text-body-md text-on-surface text-sm mb-0">User requested change of shipping address for pending order. Confirmed and updated.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

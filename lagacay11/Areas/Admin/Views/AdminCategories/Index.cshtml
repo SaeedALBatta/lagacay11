@@ -1,0 +1,89 @@
+@model lagacay11.Models.ViewModels.AdminCategoryListViewModel
+@{
+    ViewData["Title"] = "Manage Categories";
+    var search = Model.SelectedSearch;
+}
+
+<div class="space-y-8">
+    <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-4">
+        <h3 class="font-display text-headline-md uppercase text-white tracking-wider border-l-4 border-primary pl-4">Category List</h3>
+        
+        <!-- Filters Form -->
+        <form asp-action="Index" method="get" class="flex flex-wrap items-center gap-3 m-0">
+            <input type="text" name="search" value="@search" class="bg-background border border-white/10 text-white rounded px-3 py-2 text-xs focus:outline-none focus:border-primary placeholder-on-surface-variant/40 w-60" placeholder="Search by name, description..." />
+            <button type="submit" class="bg-primary text-black font-label-bold px-4 py-2 uppercase tracking-widest text-[10px] font-bold hover:opacity-90 transition-opacity rounded-none">Search</button>
+            @if (!string.IsNullOrEmpty(search))
+            {
+                <a asp-action="Index" class="border border-white/20 text-white hover:bg-white/10 text-[10px] px-4 py-2 font-label-bold tracking-widest uppercase decoration-none transition-colors rounded-none">Clear</a>
+            }
+            <a asp-action="Create" class="border border-primary text-primary hover:bg-primary hover:text-black text-[10px] px-4 py-2 font-label-bold tracking-widest uppercase decoration-none transition-all rounded-none">+ Add Category</a>
+        </form>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert-dismissible glass-card border-secondary/30 text-white px-6 py-4 flex justify-between items-center mb-4 transition-all duration-500" role="alert">
+            <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-secondary">check_circle</span>
+                <span class="font-sans text-sm">@TempData["SuccessMessage"]</span>
+            </div>
+            <button type="button" class="text-on-surface-variant hover:text-white transition-colors flex items-center justify-center bg-transparent border-0" onclick="this.parentElement.remove();" aria-label="Close">
+                <span class="material-symbols-outlined text-lg">close</span>
+            </button>
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert-dismissible glass-card border-red-500/30 text-white px-6 py-4 flex justify-between items-center mb-4 transition-all duration-500" role="alert">
+            <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-red-500">error</span>
+                <span class="font-sans text-sm">@TempData["ErrorMessage"]</span>
+            </div>
+            <button type="button" class="text-on-surface-variant hover:text-white transition-colors flex items-center justify-center bg-transparent border-0" onclick="this.parentElement.remove();" aria-label="Close">
+                <span class="material-symbols-outlined text-lg">close</span>
+            </button>
+        </div>
+    }
+
+    <div class="glass-card border border-white/10 rounded-lg overflow-hidden mb-8">
+        <div class="overflow-x-auto">
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-surface-container-high border-b border-white/10">
+                        <th class="px-6 py-4 text-left text-xs uppercase tracking-widest text-primary font-display font-semibold">Name</th>
+                        <th class="px-6 py-4 text-left text-xs uppercase tracking-widest text-primary font-display font-semibold">Slug</th>
+                        <th class="px-6 py-4 text-left text-xs uppercase tracking-widest text-primary font-display font-semibold">Description</th>
+                        <th class="px-6 py-4 text-right text-xs uppercase tracking-widest text-primary font-display font-semibold">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Categories == null || !Model.Categories.Any())
+                    {
+                        <tr>
+                            <td colspan="4" class="px-6 py-8 text-center text-on-surface-variant text-sm">No categories found matching filters.</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        foreach (var cat in Model.Categories)
+                        {
+                            <tr class="border-b border-white/5 hover:bg-white/2 transition-colors">
+                                <td class="px-6 py-4 align-middle font-bold text-white text-sm">@cat.Name</td>
+                                <td class="px-6 py-4 align-middle">
+                                    <code class="bg-background text-white px-2.5 py-1 rounded text-xs border border-white/10 font-mono">@cat.Slug</code>
+                                </td>
+                                <td class="px-6 py-4 align-middle text-on-surface-variant text-xs max-w-md truncate">@cat.Description</td>
+                                <td class="px-6 py-4 align-middle text-right">
+                                    <div class="flex justify-end gap-2">
+                                        <a asp-action="Edit" asp-route-id="@cat.Id" class="border border-white/20 text-white hover:bg-white/10 text-xs px-3 py-1.5 font-label-bold tracking-widest uppercase decoration-none transition-colors">Edit</a>
+                                        <a asp-action="Delete" asp-route-id="@cat.Id" class="border border-red-500/20 text-red-400 hover:bg-red-500/10 text-xs px-3 py-1.5 font-label-bold tracking-widest uppercase decoration-none transition-colors">Delete</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

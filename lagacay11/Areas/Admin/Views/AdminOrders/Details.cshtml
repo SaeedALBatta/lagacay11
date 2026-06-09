@@ -1,0 +1,158 @@
+@model lagacay11.Models.ViewModels.OrderDetailViewModel
+@{
+    ViewData["Title"] = $"Manage Order #{Model.Id}";
+}
+
+<div class="space-y-6">
+    <!-- Breadcrumb -->
+    <nav class="flex mb-4" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-2">
+            <li class="inline-flex items-center">
+                <a asp-action="Index" class="text-on-surface-variant hover:text-white text-xs font-label-bold uppercase tracking-wider transition-colors decoration-none">Manage Orders</a>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <span class="material-symbols-outlined text-on-surface-variant/40 text-sm mx-1">chevron_right</span>
+                    <span class="text-primary text-xs font-label-bold uppercase tracking-wider">Order Details</span>
+                </div>
+            </li>
+        </ol>
+    </nav>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert-dismissible glass-card border-secondary/30 text-white px-6 py-4 flex justify-between items-center mb-4 transition-all duration-500" role="alert">
+            <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-secondary">check_circle</span>
+                <span class="font-sans text-sm">@TempData["SuccessMessage"]</span>
+            </div>
+            <button type="button" class="text-on-surface-variant hover:text-white transition-colors flex items-center justify-center bg-transparent border-0" onclick="this.parentElement.remove();" aria-label="Close">
+                <span class="material-symbols-outlined text-lg">close</span>
+            </button>
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert-dismissible glass-card border-error/30 text-white px-6 py-4 flex justify-between items-center mb-4 transition-all duration-500" role="alert">
+            <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-error">error</span>
+                <span class="font-sans text-sm">@TempData["ErrorMessage"]</span>
+            </div>
+            <button type="button" class="text-on-surface-variant hover:text-white transition-colors flex items-center justify-center bg-transparent border-0" onclick="this.parentElement.remove();" aria-label="Close">
+                <span class="material-symbols-outlined text-lg">close</span>
+            </button>
+        </div>
+    }
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Order info & items -->
+        <div class="lg:col-span-2 space-y-6">
+            <div class="glass-card p-6 border border-white/10 rounded-lg">
+                <h5 class="font-display text-stats-xl font-bold text-white uppercase tracking-wider mb-6 pb-2 border-b border-white/10">Order Items</h5>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full border-collapse">
+                        <thead>
+                            <tr class="bg-surface-container-high border-b border-white/10">
+                                <th class="px-4 py-3 text-left text-xs uppercase tracking-widest text-primary font-display font-semibold">Product</th>
+                                <th class="px-4 py-3 text-center text-xs uppercase tracking-widest text-primary font-display font-semibold">Quantity</th>
+                                <th class="px-4 py-3 text-right text-xs uppercase tracking-widest text-primary font-display font-semibold">Unit Price</th>
+                                <th class="px-4 py-3 text-right text-xs uppercase tracking-widest text-primary font-display font-semibold">Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.OrderItems)
+                            {
+                                <tr class="border-b border-white/5 hover:bg-white/2 transition-colors">
+                                    <td class="px-4 py-4 align-middle">
+                                        <h6 class="font-display font-bold text-white text-sm">@item.ProductName</h6>
+                                        <span class="text-on-surface-variant text-xs">Year: @item.ProductYear</span>
+                                    </td>
+                                    <td class="px-4 py-4 align-middle text-center text-white font-semibold text-sm">@item.Quantity</td>
+                                    <td class="px-4 py-4 align-middle text-right text-on-surface-variant text-sm">$@item.UnitPrice.ToString("F2")</td>
+                                    <td class="px-4 py-4 align-middle text-right text-primary font-display font-bold text-base">$@item.Subtotal.ToString("F2")</td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" class="text-right font-display font-bold text-white uppercase tracking-wider pt-6">Order Total:</td>
+                                <td class="text-right font-display font-bold text-primary text-xl px-4 pt-6">$@Model.TotalAmount.ToString("F2")</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Customer and Delivery Details -->
+            <div class="glass-card p-6 border border-white/10 rounded-lg">
+                <h5 class="font-display text-stats-xl font-bold text-white uppercase tracking-wider mb-6 pb-2 border-b border-white/10">Shipping & Customer Information</h5>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <span class="text-on-surface-variant/70 text-[10px] font-label-bold uppercase tracking-wider block">Customer Name</span>
+                        <strong class="text-white text-sm block mt-1 font-semibold">@Model.CustomerName</strong>
+                    </div>
+                    <div>
+                        <span class="text-on-surface-variant/70 text-[10px] font-label-bold uppercase tracking-wider block">Email Address</span>
+                        <strong class="text-white text-sm block mt-1 font-semibold">@Model.CustomerEmail</strong>
+                    </div>
+                    <div>
+                        <span class="text-on-surface-variant/70 text-[10px] font-label-bold uppercase tracking-wider block">Phone Number</span>
+                        <strong class="text-white text-sm block mt-1 font-semibold">@Model.CustomerPhone</strong>
+                    </div>
+                    <div>
+                        <span class="text-on-surface-variant/70 text-[10px] font-label-bold uppercase tracking-wider block">Delivery Address</span>
+                        <strong class="text-white text-sm block mt-1 font-semibold">@Model.ShippingAddress</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status update panel -->
+        <div class="lg:col-span-1 space-y-6">
+            <div class="glass-card p-6 border border-white/10 rounded-lg">
+                <h5 class="font-display text-stats-xl font-bold text-white uppercase tracking-wider mb-6 pb-2 border-b border-white/10">Order Status</h5>
+                
+                <div class="space-y-4 mb-6">
+                    <div>
+                        <span class="text-on-surface-variant/70 text-[10px] font-label-bold uppercase tracking-wider block mb-2">Current Status:</span>
+                        @if (Model.Status == "Completed")
+                        {
+                            <span class="inline-block bg-secondary text-on-secondary font-label-bold px-3 py-1 text-[10px] uppercase tracking-wider">Completed</span>
+                        }
+                        else if (Model.Status == "Cancelled")
+                        {
+                            <span class="inline-block bg-error/20 text-error font-label-bold px-3 py-1 text-[10px] uppercase tracking-wider border border-error/30">Cancelled</span>
+                        }
+                        else
+                        {
+                            <span class="inline-block bg-primary/20 text-primary font-label-bold px-3 py-1 text-[10px] uppercase tracking-wider border border-primary/30">Processing</span>
+                        }
+                    </div>
+
+                    <div>
+                        <span class="text-on-surface-variant/70 text-[10px] font-label-bold uppercase tracking-wider block mb-2">Payment Reference:</span>
+                        <code class="bg-black text-white px-2.5 py-1.5 rounded text-xs font-bold border border-white/10 font-mono">@Model.PaymentReference</code>
+                    </div>
+                </div>
+
+                <!-- Update Status Form -->
+                <form asp-action="UpdateStatus" method="post" class="border-t border-white/10 pt-6 m-0">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="orderId" value="@Model.Id" />
+                    
+                    <div class="mb-4">
+                        <label class="block text-on-surface-variant text-[10px] font-label-bold uppercase tracking-wider mb-2">Change Status</label>
+                        <select name="status" class="w-full border border-white/10 bg-surface-container text-white text-xs rounded px-3 py-2.5 focus:outline-none focus:border-primary">
+                            <!option value="Processing" @(Model.Status == "Processing" ? "selected" : "")>Processing</!option>
+                            <!option value="Completed" @(Model.Status == "Completed" ? "selected" : "")>Completed</!option>
+                            <!option value="Cancelled" @(Model.Status == "Cancelled" ? "selected" : "")>Cancelled</!option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="w-full bg-primary text-black font-label-bold py-3 uppercase tracking-widest text-[10px] font-bold hover:opacity-90 transition-opacity rounded-none">Update Order</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

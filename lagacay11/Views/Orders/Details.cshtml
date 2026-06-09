@@ -1,0 +1,95 @@
+@model lagacay11.Models.ViewModels.OrderDetailViewModel
+@{
+    ViewData["Title"] = $"Order #{Model.Id}";
+}
+
+<div class="max-w-container-max mx-auto px-gutter py-12">
+    <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-8">
+        <div>
+            <a asp-action="Index" class="border border-white/20 text-white hover:bg-white/10 text-xs px-4 py-2 font-label-bold tracking-widest uppercase decoration-none transition-colors mb-2 inline-block">← Back to Orders</a>
+            <h2 class="font-display text-headline-md uppercase text-white tracking-wider">Order Details #@Model.Id</h2>
+        </div>
+        <a asp-action="Invoice" asp-route-id="@Model.Id" target="_blank" class="border border-primary text-primary hover:bg-primary hover:text-black text-xs px-6 py-3 font-label-bold tracking-widest uppercase decoration-none transition-all flex items-center gap-2">
+            <span class="material-symbols-outlined text-sm">print</span>
+            <span>Print Invoice</span>
+        </a>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <!-- Items details -->
+        <div class="lg:col-span-8">
+            <div class="glass-card border border-white/10 rounded-lg overflow-hidden">
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-surface-container-high border-b border-white/10">
+                            <th class="px-6 py-4 text-left text-xs uppercase tracking-widest text-primary font-display font-semibold">Product</th>
+                            <th class="px-6 py-4 text-center text-xs uppercase tracking-widest text-primary font-display font-semibold">Quantity</th>
+                            <th class="px-6 py-4 text-right text-xs uppercase tracking-widest text-primary font-display font-semibold">Unit Price</th>
+                            <th class="px-6 py-4 text-right text-xs uppercase tracking-widest text-primary font-display font-semibold">Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.OrderItems)
+                        {
+                            <tr class="border-b border-white/5 last:border-0 hover:bg-white/2 transition-colors">
+                                <td class="px-6 py-4 align-middle">
+                                    <div>
+                                        <h6 class="font-display font-bold text-white text-sm mb-0.5">@item.ProductName</h6>
+                                        <span class="text-on-surface-variant/70 text-xs">Year: @item.ProductYear</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 align-middle text-center font-semibold text-white text-sm">@item.Quantity</td>
+                                <td class="px-6 py-4 align-middle text-right text-on-surface-variant text-sm">$@item.UnitPrice.ToString("F2")</td>
+                                <td class="px-6 py-4 align-middle text-right text-primary font-display font-bold text-sm">$@item.Subtotal.ToString("F2")</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" class="px-6 py-4 text-right font-display text-sm font-bold text-white uppercase tracking-widest pt-6 border-t border-white/10 bg-black/20">Grand Total:</td>
+                            <td class="px-6 py-4 text-right font-display text-2xl font-bold text-primary pt-6 border-t border-white/10 bg-black/20">$@Model.TotalAmount.ToString("F2")</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+        <!-- Meta info side-card -->
+        <div class="lg:col-span-4">
+            <div class="glass-card p-6 border border-white/10 rounded-lg space-y-6">
+                <h5 class="font-display text-headline-md uppercase text-white tracking-wider">Order Status</h5>
+                
+                <div>
+                    <span class="text-[10px] text-on-surface-variant uppercase tracking-widest block mb-1">Status:</span>
+                    @if (Model.Status == "Completed")
+                    {
+                        <span class="inline-block bg-secondary text-on-secondary font-label-bold px-3 py-1 text-[10px] uppercase tracking-wider">Completed</span>
+                    }
+                    else if (Model.Status == "Cancelled")
+                    {
+                        <span class="inline-block bg-red-500 text-white font-label-bold px-3 py-1 text-[10px] uppercase tracking-wider">Cancelled</span>
+                    }
+                    else
+                    {
+                        <span class="inline-block bg-primary text-black font-label-bold px-3 py-1 text-[10px] uppercase tracking-wider">Processing</span>
+                    }
+                </div>
+
+                <div>
+                    <span class="text-[10px] text-on-surface-variant uppercase tracking-widest block mb-1">Order Date:</span>
+                    <strong class="text-white text-sm font-semibold">@Model.OrderDate.ToString("f")</strong>
+                </div>
+
+                <div>
+                    <span class="text-[10px] text-on-surface-variant uppercase tracking-widest block mb-1">Payment Reference:</span>
+                    <code class="bg-background text-white px-2.5 py-1 rounded text-xs border border-white/10 font-mono">@Model.PaymentReference</code>
+                </div>
+
+                <div class="border-t border-white/10 pt-4">
+                    <span class="text-[10px] text-on-surface-variant uppercase tracking-widest block mb-1">Delivery Address:</span>
+                    <p class="text-white text-xs leading-relaxed">@Model.ShippingAddress</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

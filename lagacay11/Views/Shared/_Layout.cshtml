@@ -1,0 +1,321 @@
+@using Microsoft.AspNetCore.Identity
+@using lagacay11.Data
+@using lagacay11.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@{
+    var cartList = Context.Session.Get<List<CartItem>>("SessionCart");
+    var cartCount = cartList?.Sum(i => i.Quantity) ?? 0;
+}
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>@ViewData["Title"]</title>
+    
+    <!-- Tailwind CSS Play CDN -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&amp;family=Inter:wght@400;700&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/navbar.css" asp-append-version="true" />
+    
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#ffe088",
+                        "on-surface-variant": "#d0c5af",
+                        "background": "#0A0C10",
+                        "surface-variant": "#333539",
+                        "on-secondary-fixed-variant": "#005228",
+                        "surface-tint": "#e9c349",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "primary-container": "#d4af37",
+                        "surface-bright": "#37393e",
+                        "on-error": "#690005",
+                        "on-surface": "#e2e2e8",
+                        "inverse-on-surface": "#2f3035",
+                        "on-secondary": "#003919",
+                        "secondary-fixed": "#6bfe9c",
+                        "primary-fixed-dim": "#e9c349",
+                        "on-tertiary": "#2f3131",
+                        "outline-variant": "#4d4635",
+                        "surface-container-low": "#1a1c20",
+                        "on-secondary-container": "#00431f",
+                        "on-background": "#e2e2e8",
+                        "error-container": "#93000a",
+                        "on-primary": "#3c2f00",
+                        "on-primary-fixed-variant": "#574500",
+                        "secondary": "#4ae183",
+                        "tertiary-fixed": "#e2e2e2",
+                        "surface-container-high": "#282a2e",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "surface-container-highest": "#333539",
+                        "surface": "#111318",
+                        "on-primary-fixed": "#241a00",
+                        "tertiary-container": "#b2b3b3",
+                        "surface-container": "#1e2024",
+                        "inverse-surface": "#e2e2e8",
+                        "tertiary": "#cecece",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-lowest": "#0c0e12",
+                        "on-secondary-fixed": "#00210c",
+                        "secondary-container": "#06bb63",
+                        "inverse-primary": "#735c00",
+                        "primary": "#d4af37",
+                        "on-tertiary-container": "#434546",
+                        "secondary-fixed-dim": "#4ae183",
+                        "outline": "#99907c",
+                        "error": "#ffb4ab",
+                        "on-primary-container": "#554300",
+                        "surface-dim": "#111318"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "margin-mobile": "16px",
+                        "unit": "8px",
+                        "margin-desktop": "48px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Oswald"],
+                        "label-bold": ["Inter"],
+                        "display-lg": ["Oswald"],
+                        "headline-lg-mobile": ["Oswald"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "stats-xl": ["Oswald"],
+                        "headline-md": ["Oswald"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["48px", {"lineHeight": "56px", "fontWeight": "600"}],
+                        "label-bold": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "display-lg": ["72px", {"lineHeight": "80px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-lg-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "stats-xl": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "500"}]
+                    }
+                },
+            },
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #0A0C10;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l2.5 7.5L40 10l-7.5 2.5L30 20l-2.5-7.5L20 10l7.5-2.5L30 0zm0 40l2.5 7.5L40 50l-7.5 2.5L30 60l-2.5-7.5L20 50l7.5-2.5L30 40zM10 20l1.25 3.75L15 25l-3.75 1.25L10 30l-1.25-3.75L5 25l3.75-1.25L10 20zm40 0l1.25 3.75L55 25l-3.75 1.25L50 30l-1.25-3.75L45 25l3.75-1.25L50 20z' fill='%23ffffff' fill-opacity='0.02' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+        .glass-card {
+            background: rgba(20, 23, 28, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .gold-glow:hover {
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+        }
+        .legendary-badge {
+            background: linear-gradient(135deg, #d4af37 0%, #f2ca50 100%);
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+        }
+        .spotlight-bg {
+            background: radial-gradient(circle at center, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
+        }
+        
+        /* Custom SweetAlert2 theme styles to match dark gold theme */
+        .swal-custom-popup {
+            background-color: #111318 !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 0px !important; /* Premium sharp edges */
+        }
+        .swal-custom-title {
+            color: #ffffff !important;
+            font-family: 'Oswald', sans-serif !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.05em !important;
+        }
+        .swal-custom-html {
+            color: #d0c5af !important; /* on-surface-variant */
+            font-family: 'Inter', sans-serif !important;
+        }
+        .swal-custom-confirm-btn {
+            background-color: #d4af37 !important; /* Gold */
+            color: #000000 !important;
+            font-family: 'Inter', sans-serif !important;
+            font-weight: 700 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.1em !important;
+            border-radius: 0px !important;
+            padding: 12px 30px !important;
+            border: none !important;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2) !important;
+            transition: all 0.3s ease !important;
+        }
+        .swal-custom-confirm-btn:hover {
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.5) !important;
+            transform: translateY(-2px) !important;
+        }
+        .swal-custom-cancel-btn {
+            background-color: transparent !important;
+            color: #ffffff !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            font-family: 'Inter', sans-serif !important;
+            font-weight: 700 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.1em !important;
+            border-radius: 0px !important;
+            padding: 12px 30px !important;
+            transition: all 0.3s ease !important;
+        }
+        .swal-custom-cancel-btn:hover {
+            background-color: rgba(255, 255, 255, 0.05) !important;
+            border-color: #ffffff !important;
+        }
+    </style>
+</head>
+<body class="text-on-surface antialiased overflow-x-hidden">
+    <!-- ========== MAIN HEADER / NAVBAR ========== -->
+    <partial name="_Navbar" />
+    
+    <!-- Alerts section using SweetAlert2 -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                Swal.fire({
+                    customClass: {
+                        popup: 'swal-custom-popup',
+                        title: 'swal-custom-title',
+                        htmlContainer: 'swal-custom-html',
+                        confirmButton: 'swal-custom-confirm-btn',
+                        cancelButton: 'swal-custom-cancel-btn'
+                    },
+                    buttonsStyling: false,
+                    background: '#111318',
+                    color: '#e2e2e8',
+                    icon: 'success',
+                    iconColor: '#4ae183',
+                    title: 'Success!',
+                    text: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(TempData["SuccessMessage"]?.ToString() ?? ""))',
+                    confirmButtonText: 'OK'
+                });
+            });
+        </script>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                Swal.fire({
+                    customClass: {
+                        popup: 'swal-custom-popup',
+                        title: 'swal-custom-title',
+                        htmlContainer: 'swal-custom-html',
+                        confirmButton: 'swal-custom-confirm-btn',
+                        cancelButton: 'swal-custom-cancel-btn'
+                    },
+                    buttonsStyling: false,
+                    background: '#111318',
+                    color: '#e2e2e8',
+                    icon: 'error',
+                    iconColor: '#ef4444',
+                    title: 'Error',
+                    text: '@Html.Raw(System.Text.Encodings.Web.JavaScriptEncoder.Default.Encode(TempData["ErrorMessage"]?.ToString() ?? ""))',
+                    confirmButtonText: 'OK'
+                });
+            });
+        </script>
+    }
+    
+    <!-- Main Render Body -->
+    <main role="main">
+        @RenderBody()
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-surface-container-lowest border-t border-white/10 py-16 mt-16">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter px-gutter w-full max-w-container-max mx-auto">
+            <div class="md:col-span-4 space-y-6">
+                <div class="font-headline-md text-headline-md text-primary font-bold tracking-wider">LEGACY ELEVEN</div>
+                <p class="font-body-md text-on-surface-variant max-w-xs">
+                    Immortalizing the beautiful game through premium heritage collectibles and authentic sporting history since 1930.
+                </p>
+                <div class="flex gap-4">
+                    <a class="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 hover:text-primary transition-all border border-white/5 hover:border-primary/30 text-on-surface-variant decoration-none" href="#"><span class="material-symbols-outlined text-sm">public</span></a>
+                    <a class="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 hover:text-primary transition-all border border-white/5 hover:border-primary/30 text-on-surface-variant decoration-none" href="#"><span class="material-symbols-outlined text-sm">alternate_email</span></a>
+                    <a class="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 hover:text-primary transition-all border border-white/5 hover:border-primary/30 text-on-surface-variant decoration-none" href="#"><span class="material-symbols-outlined text-sm">movie</span></a>
+                </div>
+            </div>
+            <div class="md:col-span-2 space-y-4">
+                <h4 class="font-label-bold text-label-bold text-white uppercase mb-6 tracking-widest">Collections</h4>
+                <ul class="space-y-3 p-0 list-none">
+                    <li><a class="text-on-surface-variant hover:text-primary transition-colors font-body-md decoration-none" asp-area="" asp-controller="Home" asp-action="MuseumMoments">The Museum</a></li>
+                    <li><a class="text-on-surface-variant hover:text-primary transition-colors font-body-md decoration-none" asp-controller="Products" asp-action="Index" asp-route-category="retro-collection">Rare Drops</a></li>
+                    <li><a class="text-on-surface-variant hover:text-primary transition-colors font-body-md decoration-none" asp-controller="Products" asp-action="Index">New Arrivals</a></li>
+                    <li><a class="text-on-surface-variant hover:text-primary transition-colors font-body-md decoration-none" href="#">Legendary Sets</a></li>
+                </ul>
+            </div>
+            <div class="md:col-span-2 space-y-4">
+                <h4 class="font-label-bold text-label-bold text-white uppercase mb-6 tracking-widest">Company</h4>
+                <ul class="space-y-3 p-0 list-none">
+                    <li><a class="text-on-surface-variant hover:text-primary transition-colors font-body-md decoration-none" asp-area="" asp-controller="Home" asp-action="About">About Us</a></li>
+                    <li><a class="text-on-surface-variant hover:text-primary transition-colors font-body-md decoration-none" href="#">Authentication</a></li>
+                    <li><a class="text-on-surface-variant hover:text-primary transition-colors font-body-md decoration-none" href="#">Global Heritage</a></li>
+                    <li><a class="text-on-surface-variant hover:text-primary transition-colors font-body-md decoration-none" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="md:col-span-4 space-y-8">
+                <div>
+                    <h4 class="font-label-bold text-label-bold text-white uppercase mb-6 tracking-widest">Customer Support</h4>
+                    <ul class="space-y-3 p-0 list-none mb-8">
+                        <li><a class="text-on-surface-variant hover:text-primary transition-colors font-body-md decoration-none" href="#">Shipping &amp; Returns</a></li>
+                        <li><a class="text-on-surface-variant hover:text-primary transition-colors font-body-md decoration-none" href="#">Terms of Service</a></li>
+                        <li><a class="text-on-surface-variant hover:text-primary transition-colors font-body-md decoration-none" asp-controller="Home" asp-action="Privacy">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="pt-8 border-t border-white/5">
+                    <p class="font-label-bold text-[11px] text-on-surface-variant uppercase tracking-widest leading-loose">
+                        © 2026 LEGACY ELEVEN. ALL RIGHTS RESERVED.<br>IMMORTALIZING THE BEAUTIFUL GAME.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Scripts -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/navbar.js" asp-append-version="true"></script>
+    
+    <script>
+        // Spotlight interaction
+        document.addEventListener('mousemove', (e) => {
+            const spotlights = document.querySelectorAll('.spotlight-bg');
+            spotlights.forEach(spot => {
+                const rect = spot.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                spot.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(212, 175, 55, 0.15) 0%, transparent 70%)`;
+            });
+        });
+    </script>
+    
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

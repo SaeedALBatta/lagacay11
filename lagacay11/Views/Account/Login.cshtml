@@ -1,0 +1,402 @@
+@model lagacay11.Models.LoginViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Legacy Eleven</title>
+    <!-- Tailwind CSS Play CDN -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/navbar.css" asp-append-version="true" />
+    
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#ffe088",
+                        "on-surface-variant": "#d0c5af",
+                        "background": "#0A0C10",
+                        "surface-variant": "#333539",
+                        "on-secondary-fixed-variant": "#005228",
+                        "surface-tint": "#e9c349",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "primary-container": "#d4af37",
+                        "surface-bright": "#37393e",
+                        "on-error": "#690005",
+                        "on-surface": "#e2e2e8",
+                        "inverse-on-surface": "#2f3035",
+                        "on-secondary": "#003919",
+                        "secondary-fixed": "#6bfe9c",
+                        "primary-fixed-dim": "#e9c349",
+                        "on-tertiary": "#2f3131",
+                        "outline-variant": "#4d4635",
+                        "surface-container-low": "#1a1c20",
+                        "on-secondary-container": "#00431f",
+                        "on-background": "#e2e2e8",
+                        "error-container": "#93000a",
+                        "on-primary": "#3c2f00",
+                        "on-primary-fixed-variant": "#574500",
+                        "secondary": "#4ae183",
+                        "tertiary-fixed": "#e2e2e2",
+                        "surface-container-high": "#282a2e",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "surface-container-highest": "#333539",
+                        "surface": "#111318",
+                        "on-primary-fixed": "#241a00",
+                        "tertiary-container": "#b2b3b3",
+                        "surface-container": "#1e2024",
+                        "inverse-surface": "#e2e2e8",
+                        "tertiary": "#cecece",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-lowest": "#0c0e12",
+                        "on-secondary-fixed": "#00210c",
+                        "secondary-container": "#06bb63",
+                        "inverse-primary": "#735c00",
+                        "primary": "#d4af37",
+                        "on-tertiary-container": "#434546",
+                        "secondary-fixed-dim": "#4ae183",
+                        "outline": "#99907c",
+                        "error": "#ffb4ab",
+                        "on-primary-container": "#554300",
+                        "surface-dim": "#111318"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "margin-mobile": "16px",
+                        "unit": "8px",
+                        "margin-desktop": "48px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Oswald"],
+                        "label-bold": ["Inter"],
+                        "display-lg": ["Oswald"],
+                        "headline-lg-mobile": ["Oswald"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "stats-xl": ["Oswald"],
+                        "headline-md": ["Oswald"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["48px", {"lineHeight": "56px", "fontWeight": "600"}],
+                        "label-bold": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "display-lg": ["72px", {"lineHeight": "80px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-lg-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "stats-xl": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "500"}]
+                    }
+                },
+            },
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0A0C10;
+        }
+        .font-headline {
+            font-family: 'Oswald', sans-serif;
+        }
+        .glass-card {
+            background: rgba(15, 17, 23, 0.75);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .spotlight-bg {
+            background: radial-gradient(circle at center, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
+            transition: background 0.1s ease-out;
+        }
+        
+        /* Underline navigation animation */
+        .nav-link-underline {
+            position: relative;
+        }
+        .nav-link-underline::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #d4af37;
+            transform-origin: bottom right;
+            transition: transform 0.3s ease-out;
+        }
+        .nav-link-underline:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        /* Float animation for heritage cards */
+        @@keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(1deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+        .float-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        .float-delay-1 {
+            animation: float 7s ease-in-out infinite;
+            animation-delay: 1s;
+        }
+
+        /* Gold button glowing states */
+        .gold-btn {
+            background: linear-gradient(135deg, #d4af37 0%, #f2ca50 100%);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+            transition: all 0.4s ease;
+        }
+        .gold-btn:hover {
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .gold-border-focus:focus {
+            border-color: #d4af37 !important;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.3) !important;
+        }
+
+        /* SweetAlert2 Styling overrides */
+        .swal-custom-popup {
+            background-color: #111318 !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 0px !important;
+        }
+        .swal-custom-title {
+            color: #ffffff !important;
+            font-family: 'Oswald', sans-serif !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.05em !important;
+        }
+        .swal-custom-html {
+            color: #d0c5af !important;
+            font-family: 'Inter', sans-serif !important;
+        }
+        .swal-custom-confirm-btn {
+            background-color: #d4af37 !important;
+            color: #000000 !important;
+            font-family: 'Inter', sans-serif !important;
+            font-weight: 700 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.1em !important;
+            border-radius: 0px !important;
+            padding: 12px 30px !important;
+            border: none !important;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-100 flex flex-col justify-between overflow-x-hidden relative bg-[#0A0C10]">
+
+    <!-- Glowing Background Spotlights -->
+    <div class="absolute top-0 left-0 w-full h-full pointer-events-none z-0 spotlight-bg" id="global-spotlight"></div>
+
+    <!-- MAIN NAVBAR (Shared from Home) -->
+    <partial name="_Navbar" />
+
+    <!-- SPLIT SCREEN LAYOUT -->
+    <main class="flex-grow w-full max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center z-10 relative">
+        
+        <!-- Left Side: Interactive Forms -->
+        <div class="lg:col-span-5 w-full">
+            <div class="glass-card p-8 md:p-10 rounded-lg shadow-2xl relative overflow-hidden">
+                <!-- Inner glow decoration -->
+                <div class="absolute -top-12 -left-12 w-36 h-36 bg-[#d4af37]/5 rounded-full blur-2xl"></div>
+
+                <!-- Tabs header -->
+                <div class="flex border-b border-white/10 mb-8 relative z-10">
+                    <a href="#" class="flex-1 pb-4 text-center font-headline text-lg uppercase tracking-wider border-b-2 border-[#d4af37] text-white font-medium transition-all decoration-none">
+                        Log In
+                    </a>
+                    <a asp-action="Register" asp-route-returnUrl="@ViewData["ReturnUrl"]" class="flex-1 pb-4 text-center font-headline text-lg uppercase tracking-wider border-b-2 border-transparent text-slate-400 font-medium hover:text-white transition-all decoration-none">
+                        Register
+                    </a>
+                </div>
+
+                <!-- Form Login -->
+                <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post" class="space-y-6 relative z-10">
+                    <div asp-validation-summary="ModelOnly" class="bg-red-500/10 border border-red-500/20 text-red-400 p-4 text-xs font-semibold rounded mb-6"></div>
+
+                    <div class="space-y-2">
+                        <label asp-for="Email" class="block text-xs font-semibold uppercase tracking-wider text-slate-400">Email Address</label>
+                        <div class="relative">
+                            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-lg">mail</span>
+                            <input asp-for="Email" type="email" required placeholder="collector@legacyeleven.com" class="w-full bg-black/40 border border-white/10 rounded-none pl-10 pr-4 py-3 text-sm text-white focus:outline-none gold-border-focus transition-all" />
+                        </div>
+                        <span asp-validation-for="Email" class="text-red-400 text-xs block"></span>
+                    </div>
+
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center">
+                            <label asp-for="Password" class="block text-xs font-semibold uppercase tracking-wider text-slate-400">Password</label>
+                            <a href="#" class="text-[10px] text-[#d4af37] hover:underline uppercase tracking-wider">Forgot Password?</a>
+                        </div>
+                        <div class="relative">
+                            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-lg">lock</span>
+                            <input asp-for="Password" type="password" required placeholder="••••••••" class="w-full bg-black/40 border border-white/10 rounded-none pl-10 pr-4 py-3 text-sm text-white focus:outline-none gold-border-focus transition-all" />
+                        </div>
+                        <span asp-validation-for="Password" class="text-red-400 text-xs block"></span>
+                    </div>
+
+                    <div class="flex items-center">
+                        <input asp-for="RememberMe" class="rounded border-white/10 bg-black/40 text-[#d4af37] focus:ring-0 w-4 h-4 cursor-pointer" />
+                        <label asp-for="RememberMe" class="ml-2 text-xs text-slate-400 select-none cursor-pointer hover:text-white transition-colors">Remember my session on this device</label>
+                    </div>
+
+                    <button type="submit" class="w-full gold-btn text-black font-bold py-4 uppercase tracking-widest text-xs flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined text-sm">login</span>
+                        <span>Access Vault</span>
+                    </button>
+                </form>
+
+                <!-- Divider -->
+                <div class="relative my-8 text-center">
+                    <hr class="border-white/10">
+                    <span class="absolute top-1/2 start-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#14171c] px-4 text-on-surface-variant/60 text-[9px] font-label-bold text-uppercase tracking-wider">Or continue with</span>
+                </div>
+
+                <!-- Social Logins -->
+                <div class="grid grid-cols-2 gap-4">
+                    <button class="w-full border border-white/15 text-white hover:bg-white/10 text-xs py-3 font-label-bold tracking-widest uppercase decoration-none transition-colors flex items-center justify-center gap-2 bg-transparent rounded-none" type="button">
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" width="16" height="16">
+                            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#e2e2e8"></path>
+                            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#e2e2e8"></path>
+                            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#e2e2e8"></path>
+                            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.66l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 12-4.53z" fill="#e2e2e8"></path>
+                        </svg>
+                        Google
+                    </button>
+                    <button class="w-full border border-white/15 text-white hover:bg-white/10 text-xs py-3 font-label-bold tracking-widest uppercase decoration-none transition-colors flex items-center justify-center gap-2 bg-transparent rounded-none" type="button">
+                        <svg class="w-4 h-4" fill="#e2e2e8" viewBox="0 0 24 24" width="16" height="16">
+                            <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C4.83 17.5 4.3 12.33 6.9 10.15c1.3-.97 2.72-1.03 3.6-.53 1.11.63 1.83.61 3 .02 1.08-.54 2.5-.66 3.63.45.6.43 1.25 1.15 1.58 2.1-.2.1-.4.22-.58.37-2.05 1.7-1.53 5.14.7 6.43-.53 1.28-1.15 2.38-1.78 3.31zM14.04 6.64c-.2 2.65-2.5 4.74-5.04 4.54.2-2.5 2.4-4.57 4.74-4.54.1.01.2.01.3.01z"></path>
+                        </svg>
+                        Apple
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side: Alive Visuals (Heritage Slideshow & Moving Interactive Cards) -->
+        <div class="lg:col-span-7 flex flex-col items-center justify-center space-y-8 relative">
+            
+            <!-- Sliding Banner (Stadium Backdrop) -->
+            <div class="w-full aspect-[16/9] border border-white/10 rounded-lg overflow-hidden relative shadow-2xl group">
+                <img id="slideshow-image" class="w-full h-full object-cover filter brightness-[0.4] group-hover:scale-105 transition-transform duration-1000" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAifyqtRn2MTKXyf7BX8FNVYKg45Ew23BUHLF2n0NNER6USx4J3U5poxQzD6XAhXVlLfjuBniI1turlp2vYCBw3Lh3GEkvynMj0Y6dp8bZeMCoFzUm3h4YcSSAg67sx9BbuwHDAq326R6XwlDQhNHeFZB2PcUU5Ei8NuOaP_WPO6PX7OqibvRfkcs5R_Vp2kFu0QJVoPYkBezp_yt-93k_AVknfaLQGEX2mS1OMCfc8ErUbpbq24wDhT65uz1D24hO05yeYvTu69fg" alt="Football stadium backdrop" />
+                <div class="absolute inset-0 bg-gradient-to-t from-[#0A0C10] via-transparent to-transparent"></div>
+                
+                <div class="absolute bottom-6 left-6 right-6 text-left space-y-2">
+                    <span class="text-xs uppercase tracking-widest text-[#d4af37] font-semibold">Legacy Moments</span>
+                    <h3 id="slideshow-title" class="font-headline text-2xl md:text-3xl text-white uppercase font-bold leading-none">Immortalizing The Beautiful Game</h3>
+                    <p id="slideshow-desc" class="text-xs text-slate-300 max-w-md">Discover authentic retro collectibles worn in historical world cup tournaments.</p>
+                </div>
+            </div>
+
+            <!-- Floating Authentic Cards -->
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-6 w-full pt-4">
+                <!-- Card 1 -->
+                <div class="glass-card p-4 flex flex-col items-center text-center float-animation group cursor-pointer hover:border-[#d4af37]/30 transition-all">
+                    <div class="aspect-square w-20 overflow-hidden relative mb-3 bg-black/40 p-2 border border-white/5 rounded-full flex items-center justify-center">
+                        <img class="max-h-full max-w-full object-contain filter grayscale group-hover:grayscale-0 transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCesjMZlTwu8Y4Com3P8LAU-3QiASmJC6OX09Kya1kzORJuenLo9kY3G6NaReqK_G3r6dj7xlBKEeuk5Ijy4g3E-HCX_nmqxtg4bSW7idKgUAzRoht8gOg22yzTesiHg6-AOD_pTr_-TfCdJpM5btGhDyN3nAzaUiaElPgu6lotjwPyCxJEDh0CqpCUJr02ZO_63FWx0Ftib2nfQwzPnOMEiVPG-UutmWVmbYeewJEYxdN1m5W3q5fPzZ12mLGYEe9NzTXzHoYf9BI" alt="1970 Brazil" />
+                    </div>
+                    <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-widest group-hover:text-[#d4af37] transition-colors">1970 Brazil</span>
+                </div>
+                <!-- Card 2 -->
+                <div class="glass-card p-4 flex flex-col items-center text-center float-delay-1 group cursor-pointer hover:border-[#d4af37]/30 transition-all">
+                    <div class="aspect-square w-20 overflow-hidden relative mb-3 bg-black/40 p-2 border border-white/5 rounded-full flex items-center justify-center">
+                        <img class="max-h-full max-w-full object-contain filter grayscale group-hover:grayscale-0 transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmq1CRD0ziUrj6U4W5swbpyKZYfGuirmFgGVz2RIiL3TjaxlYs9C_I9pUPFR1nS6-gb-ZJkGWtI0RSyZbYYJpncgmfVvDP9FZKurEydcww9Vi0-rM8cKh_hJq-nZ9oVghXkSkkdfX4UEBzx_6A3BCZve6SnO0FYhJeotUXnot5IvhxJlCNTGL_3MImsdrHtg7uVyBDPIdaFe0NDZ8Du-nmtJII1IVa7wJ1yA5yETAc4fC6fVOERH8aGpaoHzDfRfBSA74BUyTtCIk" alt="Maradona 1986" />
+                    </div>
+                    <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-widest group-hover:text-[#d4af37] transition-colors">1986 Argentina</span>
+                </div>
+                <!-- Card 3 -->
+                <div class="glass-card p-4 flex flex-col items-center text-center float-animation group cursor-pointer hover:border-[#d4af37]/30 transition-all hidden md:flex">
+                    <div class="aspect-square w-20 overflow-hidden relative mb-3 bg-black/40 p-2 border border-white/5 rounded-full flex items-center justify-center">
+                        <img class="max-h-full max-w-full object-contain filter grayscale group-hover:grayscale-0 transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzIQKlm1mYSIF2r1is9iwYTE77lBCcxGq4qXAqqMgJ7qYzOzLu5fGS7f-Ulv71ybf1WcrMqv89IjM8NKcYvFZQqm0HYGCVMyP8AktLeEOnf-v7_tMe1LyiK0aSykkecz5qF5ZZcbB-Gj8Iv53OAmSRaeAkEkv37fJsFscQqH2tXnC4zBcnfUICgEMm6YsNTbkBaJWYO32FerhApR2iECXl6RtQwb0_Qyc-oH2RSdTA5VOhxT8hXnpwBgBtjRpi9aOL3IEHj4aXNHM" alt="Pele 1958" />
+                    </div>
+                    <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-widest group-hover:text-[#d4af37] transition-colors">1958 Sweden</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-6 text-center text-[10px] text-slate-500 uppercase tracking-widest border-t border-white/5 bg-[#0c0e12] z-10 relative">
+        © 2026 LEGACY ELEVEN. ALL RIGHTS RESERVED.
+    </footer>
+
+    <!-- Interactive JS Tab Switcher & Spotlight -->
+    <script>
+        // Mousemove spotlight effect
+        document.addEventListener('mousemove', (e) => {
+            const spotlight = document.getElementById('global-spotlight');
+            if (spotlight) {
+                const x = e.clientX;
+                const y = e.clientY;
+                spotlight.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(212, 175, 55, 0.15) 0%, transparent 65%)`;
+            }
+        });
+
+        // Slideshow loop logic
+        const slideshowData = [
+            {
+                img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAifyqtRn2MTKXyf7BX8FNVYKg45Ew23BUHLF2n0NNER6USx4J3U5poxQzD6XAhXVlLfjuBniI1turlp2vYCBw3Lh3GEkvynMj0Y6dp8bZeMCoFzUm3h4YcSSAg67sx9BbuwHDAq326R6XwlDQhNHeFZB2PcUU5Ei8NuOaP_WPO6PX7OqibvRfkcs5R_Vp2kFu0QJVoPYkBezp_yt-93k_AVknfaLQGEX2mS1OMCfc8ErUbpbq24wDhT65uz1D24hO05yeYvTu69fg",
+                title: "Immortalizing The Beautiful Game",
+                desc: "Discover authentic retro collectibles worn in historical world cup tournaments."
+            },
+            {
+                img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAmq1CRD0ziUrj6U4W5swbpyKZYfGuirmFgGVz2RIiL3TjaxlYs9C_I9pUPFR1nS6-gb-ZJkGWtI0RSyZbYYJpncgmfVvDP9FZKurEydcww9Vi0-rM8cKh_hJq-nZ9oVghXkSkkdfX4UEBzx_6A3BCZve6SnO0FYhJeotUXnot5IvhxJlCNTGL_3MImsdrHtg7uVyBDPIdaFe0NDZ8Du-nmtJII1IVa7wJ1yA5yETAc4fC6fVOERH8aGpaoHzDfRfBSA74BUyTtCIk",
+                title: "The Hand of God - Mexico 1986",
+                desc: "Explore the Argentine collections inspired by Diego Maradona's historic goals."
+            },
+            {
+                img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBzIQKlm1mYSIF2r1is9iwYTE77lBCcxGq4qXAqqMgJ7qYzOzLu5fGS7f-Ulv71ybf1WcrMqv89IjM8NKcYvFZQqm0HYGCVMyP8AktLeEOnf-v7_tMe1LyiK0aSykkecz5qF5ZZcbB-Gj8Iv53OAmSRaeAkEkv37fJsFscQqH2tXnC4zBcnfUICgEMm6YsNTbkBaJWYO32FerhApR2iECXl6RtQwb0_Qyc-oH2RSdTA5VOhxT8hXnpwBgBtjRpi9aOL3IEHj4aXNHM",
+                title: "The King's Debut - Sweden 1958",
+                desc: "Commemorating Pelé's legendary introduction to the global football stage."
+            }
+        ];
+
+        let currentSlide = 0;
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % slideshowData.length;
+            const slide = slideshowData[currentSlide];
+            
+            const imgEl = document.getElementById('slideshow-image');
+            const titleEl = document.getElementById('slideshow-title');
+            const descEl = document.getElementById('slideshow-desc');
+
+            if (imgEl && titleEl && descEl) {
+                imgEl.src = slide.img;
+                titleEl.textContent = slide.title;
+                descEl.textContent = slide.desc;
+            }
+        }, 5000);
+    </script>
+    
+    <!-- Scripts -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/navbar.js" asp-append-version="true"></script>
+    <partial name="_ValidationScriptsPartial" />
+</body>
+</html>

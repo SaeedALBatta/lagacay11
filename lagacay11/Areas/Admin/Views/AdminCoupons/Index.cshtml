@@ -1,0 +1,200 @@
+@model lagacay11.Models.ViewModels.AdminCouponListViewModel
+@{
+    ViewData["Title"] = "Discount Management";
+}
+
+<!-- Page Header -->
+<div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
+    <div>
+        <h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface uppercase tracking-tight">Discount Management</h2>
+        <p class="font-body-lg text-body-lg text-on-surface-variant mt-2 max-w-2xl">Create and monitor promotional codes and active discounts across the platform.</p>
+    </div>
+    <a asp-action="Create" class="bg-primary text-[#0A0C10] font-label-bold text-label-bold py-3 px-6 rounded flex items-center gap-2 hover:bg-primary/90 hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all duration-300 w-full sm:w-auto justify-center decoration-none">
+        <span class="material-symbols-outlined">add_circle</span>
+        Create New Coupon
+    </a>
+</div>
+
+<!-- Stats Row -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+    <!-- Stat Card 1 -->
+    <div class="glass-panel p-6 rounded-lg relative overflow-hidden group">
+        <div class="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+        <div class="flex items-center justify-between mb-4 relative z-10">
+            <h3 class="font-body-md text-body-md text-on-surface-variant uppercase tracking-wider text-xs mb-0">Active Coupons</h3>
+            <span class="material-symbols-outlined text-primary/70">local_offer</span>
+        </div>
+        <div class="font-stats-xl text-stats-xl text-on-surface text-4xl relative z-10">@Model.ActiveCouponsCount</div>
+        <div class="mt-2 text-xs text-secondary flex items-center gap-1 relative z-10">
+            <span class="material-symbols-outlined text-[16px]">trending_up</span>
+            <span>Running promotions</span>
+        </div>
+    </div>
+    <!-- Stat Card 2 -->
+    <div class="glass-panel p-6 rounded-lg relative overflow-hidden group">
+        <div class="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+        <div class="flex items-center justify-between mb-4 relative z-10">
+            <h3 class="font-body-md text-body-md text-on-surface-variant uppercase tracking-wider text-xs mb-0">Est. Discounted Value</h3>
+            <span class="material-symbols-outlined text-primary/70">account_balance_wallet</span>
+        </div>
+        <div class="font-stats-xl text-stats-xl text-on-surface text-4xl relative z-10">$@Model.TotalDiscountedValue.ToString("N2")</div>
+        <div class="mt-2 text-xs text-on-surface-variant flex items-center gap-1 relative z-10">
+            <span>Across @Model.TotalUsesCount redemptions</span>
+        </div>
+    </div>
+    <!-- Stat Card 3 -->
+    <div class="glass-panel p-6 rounded-lg relative overflow-hidden group">
+        <div class="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+        <div class="flex items-center justify-between mb-4 relative z-10">
+            <h3 class="font-body-md text-body-md text-on-surface-variant uppercase tracking-wider text-xs mb-0">Total Redeemed</h3>
+            <span class="material-symbols-outlined text-primary/70">receipt_long</span>
+        </div>
+        <div class="font-stats-xl text-stats-xl text-on-surface text-4xl relative z-10">@Model.TotalUsesCount</div>
+        <div class="mt-2 text-xs text-secondary flex items-center gap-1 relative z-10">
+            <span class="material-symbols-outlined text-[16px]">trending_up</span>
+            <span>Total times code used</span>
+        </div>
+    </div>
+</div>
+
+<!-- Data Table Section -->
+<div class="glass-panel rounded-lg overflow-hidden flex flex-col border-t-2 border-t-primary/50">
+    <!-- Table Header/Filters -->
+    <div class="p-4 border-b border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4 bg-surface-container-low/50">
+        <h3 class="font-headline-md text-headline-md text-xl uppercase tracking-tight text-on-surface mb-0">Existing Coupons</h3>
+        <form method="get" asp-action="Index" class="flex gap-2 w-full sm:w-auto m-0">
+            <div class="relative w-full sm:w-60">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+                <input type="text" name="search" value="@Model.SelectedSearch" class="w-full bg-surface-dim border border-white/10 rounded pl-9 pr-4 py-2 font-body-md text-sm text-on-surface focus:border-primary focus:ring-0 placeholder-on-surface-variant/50" placeholder="Search code..."/>
+            </div>
+            <div class="relative w-full sm:w-48">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">filter_list</span>
+                <select name="status" onchange="this.form.submit()" class="w-full bg-surface-dim border border-white/10 rounded pl-9 pr-8 py-2 font-body-md text-sm text-on-surface focus:border-primary focus:ring-0 appearance-none">
+                    <option value="All Statuses" selected="@(Model.SelectedStatus == "All Statuses" ? "selected" : null)">All Statuses</option>
+                    <option value="Active" selected="@(Model.SelectedStatus == "Active" ? "selected" : null)">Active</option>
+                    <option value="Expired" selected="@(Model.SelectedStatus == "Expired" ? "selected" : null)">Expired</option>
+                    <option value="Paused" selected="@(Model.SelectedStatus == "Paused" ? "selected" : null)">Paused</option>
+                </select>
+            </div>
+        </form>
+    </div>
+    
+    <!-- Table -->
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="bg-surface-dim/80 text-on-surface-variant font-label-bold text-xs uppercase tracking-wider border-b border-white/10">
+                    <th class="px-6 py-4 font-normal">Code</th>
+                    <th class="px-6 py-4 font-normal">Type</th>
+                    <th class="px-6 py-4 font-normal">Value</th>
+                    <th class="px-6 py-4 font-normal">Usage Limit</th>
+                    <th class="px-6 py-4 font-normal">Expiry Date</th>
+                    <th class="px-6 py-4 font-normal">Status</th>
+                    <th class="px-6 py-4 font-normal text-right">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="font-body-md text-sm text-on-surface divide-y divide-white/5">
+                @if (Model.Coupons == null || !Model.Coupons.Any())
+                {
+                    <tr>
+                        <td colspan="7" class="px-6 py-8 text-center text-on-surface-variant text-sm">No coupons found.</td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var coupon in Model.Coupons)
+                    {
+                        var isExpired = coupon.ExpirationDate.HasValue && coupon.ExpirationDate < DateTime.UtcNow;
+                        var isFullyUsed = coupon.UsageLimit.HasValue && coupon.UsageCount >= coupon.UsageLimit;
+                        
+                        <tr class="hover:bg-white/[0.02] transition-colors group">
+                            <td class="px-6 py-4">
+                                <div class="font-stats-xl text-primary tracking-widest text-lg">@coupon.Code</div>
+                            </td>
+                            <td class="px-6 py-4 text-on-surface-variant capitalize">@coupon.Type</td>
+                            <td class="px-6 py-4 font-semibold">
+                                @if (coupon.Type == "percentage")
+                                {
+                                    <span>@coupon.Value.ToString("0")%</span>
+                                }
+                                else
+                                {
+                                    <span>$@coupon.Value.ToString("N2")</span>
+                                }
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-2">
+                                    @{
+                                        int percent = 0;
+                                        if (coupon.UsageLimit.HasValue && coupon.UsageLimit.Value > 0)
+                                        {
+                                            percent = (int)((double)coupon.UsageCount / coupon.UsageLimit.Value * 100);
+                                            percent = Math.Min(100, Math.Max(0, percent));
+                                        }
+                                    }
+                                    <div class="w-24 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+                                        <div class="bg-primary h-full" style="width: @(percent)%;"></div>
+                                    </div>
+                                    <span class="text-xs text-on-surface-variant">@coupon.UsageCount/@(coupon.UsageLimit?.ToString() ?? "∞")</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-on-surface-variant">
+                                @(coupon.ExpirationDate?.ToString("MMM dd, yyyy") ?? "Never")
+                            </td>
+                            <td class="px-6 py-4">
+                                @if (!coupon.IsActive)
+                                {
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-tint/20 text-surface-tint border border-surface-tint/30 text-xs font-label-bold uppercase">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-surface-tint"></span>
+                                        Paused
+                                    </span>
+                                }
+                                else if (isExpired || isFullyUsed)
+                                {
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container-highest text-tertiary border border-white/10 text-xs font-label-bold uppercase">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                                        Expired
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-secondary-container/20 text-secondary border border-secondary/30 text-xs font-label-bold uppercase">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                                        Active
+                                    </span>
+                                }
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <a asp-action="Edit" asp-route-id="@coupon.Id" class="p-1.5 text-on-surface-variant hover:text-primary transition-colors rounded hover:bg-white/5" title="Edit">
+                                        <span class="material-symbols-outlined text-sm">edit</span>
+                                    </a>
+                                    <form asp-action="Delete" asp-route-id="@coupon.Id" method="post" class="inline m-0" onsubmit="return confirm('Are you sure you want to delete this coupon?');">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="p-1.5 text-on-surface-variant hover:text-error transition-colors rounded hover:bg-white/5 bg-transparent border-0 cursor-pointer inline-flex items-center" title="Delete">
+                                            <span class="material-symbols-outlined text-sm">delete</span>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- Pagination -->
+    <div class="p-4 border-t border-white/10 flex items-center justify-between bg-surface-container-low/50 text-xs text-on-surface-variant">
+        <span>Showing @(Model.Coupons?.Count ?? 0) entries</span>
+        <div class="flex gap-1">
+            <button class="w-8 h-8 flex items-center justify-center rounded border border-white/10 text-on-surface-variant hover:bg-white/5 hover:text-primary transition-colors disabled:opacity-50" disabled>
+                <span class="material-symbols-outlined text-sm">chevron_left</span>
+            </button>
+            <button class="w-8 h-8 flex items-center justify-center rounded border border-primary bg-primary/10 text-primary transition-colors font-label-bold text-xs">1</button>
+            <button class="w-8 h-8 flex items-center justify-center rounded border border-white/10 text-on-surface-variant hover:bg-white/5 hover:text-primary transition-colors disabled:opacity-50" disabled>
+                <span class="material-symbols-outlined text-sm">chevron_right</span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,267 @@
+@using Microsoft.AspNetCore.Identity
+@using lagacay11.Data
+@using lagacay11.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@{
+    var cartList = Context.Session.Get<List<CartItem>>("SessionCart");
+    var cartCount = cartList?.Sum(i => i.Quantity) ?? 0;
+}
+
+<!-- ========== MAIN HEADER / NAVBAR ========== -->
+<header class="header" id="mainHeader">
+    <nav class="nav-container">
+
+        <!-- Logo & Mobile Toggle Container -->
+        <div class="flex items-center gap-3">
+            @if (ViewContext.RouteData.Values["area"]?.ToString() == "Admin")
+            {
+                <button class="lg:hidden p-2 border border-white/10 rounded flex items-center justify-center bg-transparent cursor-pointer" id="sidebarToggle" type="button">
+                    <span class="material-symbols-outlined text-white text-xl">menu</span>
+                </button>
+            }
+            <a class="logo" asp-area="" asp-controller="Home" asp-action="Index">LEGACY ELEVEN</a>
+        </div>
+
+        <!-- Navigation Links (Desktop) -->
+        <ul class="nav-links" id="navLinks">
+            <li class="nav-link-wrapper">
+                <a class="nav-link active" asp-area="" asp-controller="Products" asp-action="Index">Shop</a>
+            </li>
+            <li class="nav-separator"></li>
+            <li class="nav-link-wrapper">
+                <a class="nav-link" asp-area="" asp-controller="Products" asp-action="Index" asp-route-category="retro-collection">Collections</a>
+                <!-- Mega Dropdown -->
+                <div class="mega-dropdown">
+                    <a class="dropdown-item" asp-area="" asp-controller="Products" asp-action="Index" asp-route-category="retro-collection">
+                        <span class="material-symbols-outlined">sports_soccer</span>
+                        Retro Collection
+                    </a>
+                    <a class="dropdown-item" asp-area="" asp-controller="Products" asp-action="Index" asp-route-category="rare-drops">
+                        <span class="material-symbols-outlined">diamond</span>
+                        Rare Drops
+                    </a>
+                    <a class="dropdown-item" asp-area="" asp-controller="Products" asp-action="Index" asp-route-category="new-arrivals">
+                        <span class="material-symbols-outlined">new_releases</span>
+                        New Arrivals
+                    </a>
+                    <a class="dropdown-item" asp-area="" asp-controller="Products" asp-action="Index" asp-route-category="legendary-sets">
+                        <span class="material-symbols-outlined">trophy</span>
+                        Legendary Sets
+                    </a>
+                </div>
+            </li>
+            <li class="nav-separator"></li>
+            <li class="nav-link-wrapper">
+                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="MuseumMoments">Museum Moments</a>
+            </li>
+            <li class="nav-separator"></li>
+            <li class="nav-link-wrapper">
+                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
+            </li>
+            <li id="navIndicatorLine"></li>
+        </ul>
+
+        <!-- Actions -->
+        <div class="actions">
+
+            <!-- Search Toggle -->
+            <div class="search-wrapper" id="searchWrapper">
+                <form class="m-0 flex items-center" asp-area="" asp-controller="Products" asp-action="Index" method="get">
+                    <input class="search-input" type="search" name="search" placeholder="Search jerseys..." aria-label="Search" id="searchInput">
+                    <button type="button" class="search-toggle" id="searchToggle" aria-label="Toggle search">
+                        <span class="material-symbols-outlined">search</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Wishlist (always visible) -->
+            <a class="wishlist-link" asp-area="" asp-controller="Wishlist" asp-action="Index" title="My Wishlist" id="wishlistLink">
+                <span class="material-symbols-outlined">favorite</span>
+            </a>
+
+            <div class="action-divider"></div>
+
+            <!-- Shopping Bag (Cart) -->
+            <div class="cart-wrapper" id="cartWrapper">
+                <a class="cart-link" asp-area="" asp-controller="Cart" asp-action="Index" title="Shopping Bag" id="cartLink">
+                    <span class="material-symbols-outlined">shopping_bag</span>
+                    @if (cartCount > 0)
+                    {
+                        <span class="cart-badge" id="cartBadge">@cartCount</span>
+                    }
+                </a>
+                <!-- Cart Dropdown Preview -->
+                <div class="cart-dropdown" id="cartDropdown">
+                    <div class="cart-dropdown-header">
+                        <span>Your Cart (@cartCount items)</span>
+                        <a href="#" id="clearCartBtn" class="clear-cart-btn">Clear</a>
+                    </div>
+                    <div class="cart-dropdown-items" id="cartDropdownItems">
+                        @if (cartList != null && cartList.Any())
+                        {
+                            @foreach (var item in cartList)
+                            {
+                                <div class="cart-dropdown-item">
+                                    <div class="cart-item-image" style="background-image: url('@item.ImagePath');"></div>
+                                    <div class="cart-item-info">
+                                        <div class="cart-item-name">@item.Name</div>
+                                        <div class="cart-item-details">Qty: @item.Quantity</div>
+                                        <div class="cart-item-price">$@item.Price.ToString("F2")</div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div style="text-align: center; color: var(--on-surface-variant); opacity: 0.5; padding: 24px 0; font-size: 12px;">Your cart is empty</div>
+                        }
+                    </div>
+                    <div class="cart-dropdown-footer">
+                        @{
+                            var cartTotal = cartList?.Sum(i => i.Subtotal) ?? 0;
+                        }
+                        <div class="cart-total-row">
+                            <span>Subtotal:</span>
+                            <span class="cart-total-price" id="cartTotalPrice">$@cartTotal.ToString("F2")</span>
+                        </div>
+                        <div class="cart-actions">
+                            <a asp-area="" asp-controller="Cart" asp-action="Index" class="btn btn-outline">View Cart</a>
+                            <a asp-area="" asp-controller="Checkout" asp-action="Index" class="btn btn-primary">Checkout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hidden form to clear cart via POST -->
+            <form id="clearCartForm" asp-area="" asp-controller="Cart" asp-action="Clear" method="post" style="display:none;"></form>
+
+            <div class="action-divider"></div>
+
+            <!-- Login Partial -->
+            <partial name="_LoginPartial" />
+
+            <!-- Mobile Menu Button -->
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open menu">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+        </div>
+    </nav>
+</header>
+
+<!-- Mobile Menu Overlay -->
+<div class="mobile-overlay" id="mobileOverlay"></div>
+
+<!-- Mobile Menu Panel -->
+<div class="mobile-menu" id="mobileMenu">
+    <div class="mobile-menu-header">
+        <a class="logo" asp-area="" asp-controller="Home" asp-action="Index" style="font-size: 22px;">LEGACY ELEVEN</a>
+        <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Close menu">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+    </div>
+
+    <div class="mobile-nav-links">
+        <a class="mobile-nav-link" asp-area="" asp-controller="Products" asp-action="Index">
+            Shop
+            <span class="material-symbols-outlined">arrow_forward</span>
+        </a>
+        <a class="mobile-nav-link" asp-area="" asp-controller="Products" asp-action="Index" asp-route-category="retro-collection">
+            Collections
+            <span class="material-symbols-outlined">arrow_forward</span>
+        </a>
+        <a class="mobile-nav-link" asp-area="" asp-controller="Home" asp-action="MuseumMoments">
+            Museum Moments
+            <span class="material-symbols-outlined">arrow_forward</span>
+        </a>
+        <a class="mobile-nav-link" asp-area="" asp-controller="Home" asp-action="Contact">
+            Contact
+            <span class="material-symbols-outlined">arrow_forward</span>
+        </a>
+    </div>
+
+    <div class="mobile-search">
+        <div class="mobile-search-container">
+            <form class="m-0" asp-area="" asp-controller="Products" asp-action="Index" method="get">
+                <input class="mobile-search-input" type="search" name="search" placeholder="Search jerseys..." aria-label="Search">
+                <button type="submit" class="mobile-search-btn">
+                    <span class="material-symbols-outlined">search</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="mobile-menu-footer" id="mobileMenuFooter">
+        @if (SignInManager.IsSignedIn(User))
+        {
+            var appUser = await UserManager.GetUserAsync(User);
+            var displayName = appUser?.FullName ?? User.Identity?.Name;
+
+            <a asp-area="" asp-controller="Account" asp-action="Profile" class="user-badge" style="justify-content: center; width: 100%; padding: 8px 12px; margin-bottom: 8px; text-decoration: none;">
+                <div class="user-avatar"><span class="material-symbols-outlined">person</span></div>
+                <span class="user-name">@displayName</span>
+            </a>
+            @if (User.IsInRole("Admin"))
+            {
+                <a class="btn btn-admin mobile-btn" style="margin-bottom: 8px;" asp-area="Admin" asp-controller="AdminDashboard" asp-action="Index">
+                    <span class="material-symbols-outlined">admin_panel_settings</span> Admin Panel
+                </a>
+            }
+            <form class="m-0 w-full" asp-area="" asp-controller="Account" asp-action="Logout" method="post">
+                <button type="submit" class="btn btn-logout mobile-btn">
+                    <span class="material-symbols-outlined">logout</span> Logout
+                </button>
+            </form>
+        }
+        else
+        {
+            <a class="btn btn-outline mobile-btn" style="margin-bottom: 8px;" asp-area="" asp-controller="Account" asp-action="Login">
+                <span class="material-symbols-outlined">login</span> Log In
+            </a>
+            <a class="btn btn-primary mobile-btn" asp-area="" asp-controller="Account" asp-action="Register">
+                <span class="material-symbols-outlined">person_add</span> Register
+            </a>
+        }
+    </div>
+</div>
+
+<!-- Command Palette Search Overlay (Ctrl+K) -->
+<div class="command-palette-overlay" id="commandPaletteOverlay">
+    <div class="command-palette">
+        <div class="command-palette-input-wrapper">
+            <span class="material-symbols-outlined">search</span>
+            <form class="m-0 flex-1" asp-area="" asp-controller="Products" asp-action="Index" method="get">
+                <input class="command-palette-input w-full" id="commandPaletteInput" type="text" name="search" placeholder="Search jerseys, collections, players...">
+            </form>
+            <span class="command-palette-kbd">ESC</span>
+        </div>
+        <div class="command-palette-results">
+            <div class="result-group-title">Quick Links</div>
+            <a class="result-item" asp-area="" asp-controller="Products" asp-action="Index">
+                <span class="material-symbols-outlined">sports_soccer</span>
+                <span>Retro Collection — Classic Heritage Jerseys</span>
+            </a>
+            <a class="result-item" asp-area="" asp-controller="Products" asp-action="Index" asp-route-category="rare-drops">
+                <span class="material-symbols-outlined">diamond</span>
+                <span>Rare Drops — Limited Edition Releases</span>
+            </a>
+            <a class="result-item" asp-area="" asp-controller="Home" asp-action="MuseumMoments">
+                <span class="material-symbols-outlined">museum</span>
+                <span>Museum Moments — Iconic Match History</span>
+            </a>
+            <div class="result-group-title">Popular Searches</div>
+            <a class="result-item" asp-area="" asp-controller="Products" asp-action="Index" asp-route-search="Brazil 1970">
+                <span class="material-symbols-outlined">search</span>
+                <span>Brazil 1970 World Cup Jersey</span>
+            </a>
+            <a class="result-item" asp-area="" asp-controller="Products" asp-action="Index" asp-route-search="AC Milan 2005">
+                <span class="material-symbols-outlined">search</span>
+                <span>AC Milan 2005 Champions League</span>
+            </a>
+            <a class="result-item" asp-area="" asp-controller="Products" asp-action="Index" asp-route-search="Maradona">
+                <span class="material-symbols-outlined">search</span>
+                <span>Argentina Maradona #10</span>
+            </a>
+        </div>
+    </div>
+</div>

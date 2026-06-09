@@ -1,0 +1,19 @@
+@{
+    ViewData["Title"] = "Access Denied";
+}
+
+<div class="max-w-container-max mx-auto px-gutter py-20 flex justify-center">
+    <div class="glass-card p-12 border border-red-500/20 rounded-lg text-center max-w-lg w-full space-y-6">
+        <div class="flex justify-center">
+            <span class="material-symbols-outlined text-red-500" style="font-size: 4rem;">lock</span>
+        </div>
+        <h2 class="font-display text-headline-md uppercase text-white tracking-wider">Access Denied</h2>
+        <p class="font-body-md text-on-surface-variant text-sm leading-relaxed">
+            You do not have the required permissions to access this page. Please log in with an authorized account.
+        </p>
+        <div class="flex justify-center gap-4 pt-4">
+            <a asp-controller="Home" asp-action="Index" class="border border-white/20 text-white hover:bg-white/10 text-xs px-6 py-3 font-label-bold tracking-widest uppercase decoration-none transition-colors">Return Home</a>
+            <a asp-controller="Account" asp-action="Login" class="bg-primary text-black font-label-bold px-6 py-3.5 uppercase tracking-widest text-xs font-bold hover:opacity-90 transition-opacity rounded-none decoration-none">Log In</a>
+        </div>
+    </div>
+</div>

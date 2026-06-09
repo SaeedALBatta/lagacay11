@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>About Us | LEGACY ELEVEN</title>
+    
+    <!-- Tailwind CSS Play CDN -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+    <!-- Google Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&amp;family=Inter:wght@400;700&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        background: "#0A0C10",
+                        primary: "#d4af37",
+                        "primary-fixed": "#ffe088",
+                        "on-surface-variant": "#d0c5af",
+                        surface: "#111318",
+                        "surface-container-high": "#282a2e",
+                        "surface-container-lowest": "#0c0e12"
+                    },
+                    spacing: {
+                        gutter: "24px",
+                        "container-max": "1280px"
+                    },
+                    fontFamily: {
+                        display: ["Oswald", "sans-serif"],
+                        body: ["Inter", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #0A0C10;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l2.5 7.5L40 10l-7.5 2.5L30 20l-2.5-7.5L20 10l7.5-2.5L30 0zm0 40l2.5 7.5L40 50l-7.5 2.5L30 60l-2.5-7.5L20 50l7.5-2.5L30 40zM10 20l1.25 3.75L15 25l-3.75 1.25L10 30l-1.25-3.75L5 25l3.75-1.25L10 20zm40 0l1.25 3.75L55 25l-3.75 1.25L50 30l-1.25-3.75L45 25l3.75-1.25L50 20z' fill='%23ffffff' fill-opacity='0.02' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+        .glass-card {
+            background: rgba(20, 23, 28, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .gold-glow:hover {
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+        }
+        .timeline-line {
+            background: linear-gradient(180deg, transparent, #d4af37 15%, #d4af37 85%, transparent);
+        }
+    </style>
+</head>
+<body class="text-[#e2e2e8] antialiased overflow-x-hidden font-body">
+
+    <!-- ========== HEADER/NAV BAR MOCK ========== -->
+    <header class="sticky top-0 z-50 h-20 bg-background/60 backdrop-blur-xl border-b border-white/10 flex items-center justify-between px-8">
+        <div class="font-display text-2xl font-bold tracking-widest text-primary">LEGACY ELEVEN</div>
+        <nav class="hidden md:flex items-center gap-8 text-xs font-bold tracking-wider uppercase text-on-surface-variant">
+            <a href="#" class="hover:text-primary">Shop</a>
+            <span class="w-1 h-1 bg-white/20 rounded-full"></span>
+            <a href="#" class="hover:text-primary">Collections</a>
+            <span class="w-1 h-1 bg-white/20 rounded-full"></span>
+            <a href="about.html" class="text-primary">About</a>
+            <span class="w-1 h-1 bg-white/20 rounded-full"></span>
+            <a href="contact.html" class="hover:text-primary">Contact</a>
+        </nav>
+        <div class="flex items-center gap-4 text-sm text-primary border border-primary/20 bg-primary/5 px-4 py-2 uppercase tracking-wider font-bold">
+            Preview Mode
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <div class="relative py-28 overflow-hidden border-b border-white/5 bg-gradient-to-b from-[#0C0E12] via-[#0A0C10]/95 to-[#0A0C10]">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="max-w-container-max mx-auto px-6 text-center relative z-10">
+            <span class="text-primary font-display font-semibold tracking-[0.25em] uppercase text-xs block mb-4">OUR LEGACY & MISSION</span>
+            <h1 class="font-display text-5xl sm:text-7xl uppercase text-white tracking-wide leading-tight">
+                IMMORTALIZING THE<br>BEAUTIFUL GAME
+            </h1>
+            <div class="h-1 w-24 bg-primary mx-auto my-6"></div>
+            <p class="text-on-surface-variant max-w-2xl mx-auto mt-6 text-sm sm:text-base md:text-lg leading-relaxed">
+                Legacy Eleven is a dedicated space celebrating the global history of football. We curate vintage apparel, replica match balls, and rare memorabilia to keep iconic memories alive for fans and elite collectors.
+            </p>
+        </div>
+    </div>
+
+    <!-- Core Values Section -->
+    <section class="py-20 max-w-container-max mx-auto px-6">
+        <div class="text-center mb-16">
+            <span class="text-primary text-xs uppercase tracking-widest font-bold">Our Pillars</span>
+            <h2 class="font-display text-3xl sm:text-4xl uppercase text-white mt-2">What We Stand For</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Pillar 1 -->
+            <div class="glass-card p-8 rounded-xl border border-white/10 hover:border-primary/30 transition-all duration-300 gold-glow">
+                <span class="material-symbols-outlined text-primary text-4xl mb-6">verified_user</span>
+                <h3 class="font-display text-xl uppercase text-white mb-4">100% Authentication</h3>
+                <p class="text-on-surface-variant text-sm leading-relaxed">
+                    Every piece of memorabilia in our catalog undergoes rigorous inspection by historical experts to guarantee absolute authenticity.
+                </p>
+            </div>
+            <!-- Pillar 2 -->
+            <div class="glass-card p-8 rounded-xl border border-white/10 hover:border-primary/30 transition-all duration-300 gold-glow">
+                <span class="material-symbols-outlined text-primary text-4xl mb-6">workspace_premium</span>
+                <h3 class="font-display text-xl uppercase text-white mb-4">Elite Craftsmanship</h3>
+                <p class="text-on-surface-variant text-sm leading-relaxed">
+                    Our match ball and jersey replicas use era-accurate materials and stitching techniques to replicate original matchday feel.
+                </p>
+            </div>
+            <!-- Pillar 3 -->
+            <div class="glass-card p-8 rounded-xl border border-white/10 hover:border-primary/30 transition-all duration-300 gold-glow">
+                <span class="material-symbols-outlined text-primary text-4xl mb-6">language</span>
+                <h3 class="font-display text-xl uppercase text-white mb-4">Global Heritage</h3>
+                <p class="text-on-surface-variant text-sm leading-relaxed">
+                    We cover historic tournaments globally, preserving memory archives from Montevideo 1930 to Qatar 2022 and beyond.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- History Timeline Section -->
+    <section class="py-20 bg-surface-container-lowest border-y border-white/5 relative">
+        <div class="max-w-container-max mx-auto px-6">
+            <div class="text-center mb-16">
+                <span class="text-primary text-xs uppercase tracking-widest font-bold">The Journey</span>
+                <h2 class="font-display text-3xl sm:text-4xl uppercase text-white mt-2">Our Historical Timeline</h2>
+            </div>
+            
+            <div class="relative max-w-4xl mx-auto py-10">
+                <!-- Vertical Line -->
+                <div class="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-0.5 timeline-line hidden md:block"></div>
+
+                <!-- Timeline Item 1 -->
+                <div class="relative grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 md:mb-20">
+                    <div class="md:text-right pr-0 md:pr-12 md:self-center">
+                        <span class="text-primary font-display text-3xl font-bold">1930</span>
+                        <h4 class="font-display text-xl uppercase text-white mt-1 mb-3">The Spark of World Cups</h4>
+                        <p class="text-on-surface-variant text-sm leading-relaxed">
+                            The inaugural FIFA World Cup in Uruguay lays the foundation for global football obsession. We began our archive here, cataloging the classic leather T-Model ball.
+                        </p>
+                    </div>
+                    <div></div>
+                    <div class="absolute left-1/2 -translate-x-1/2 top-1.5 w-4 h-4 bg-primary border-4 border-background rounded-full hidden md:block"></div>
+                </div>
+
+                <!-- Timeline Item 2 -->
+                <div class="relative grid grid-cols-1 md:grid-cols-2 gap-8 mb-16 md:mb-20">
+                    <div></div>
+                    <div class="pl-0 md:pl-12 md:self-center">
+                        <span class="text-primary font-display text-3xl font-bold">1986</span>
+                        <h4 class="font-display text-xl uppercase text-white mt-1 mb-3">Azteca & The Hand of God</h4>
+                        <p class="text-on-surface-variant text-sm leading-relaxed">
+                            Maradona's controversial brilliance in Mexico defines World Cup history. Legacy Eleven honors this era with authenticated Azteca ball replicas and signature stripes.
+                        </p>
+                    </div>
+                    <div class="absolute left-1/2 -translate-x-1/2 top-1.5 w-4 h-4 bg-primary border-4 border-background rounded-full hidden md:block"></div>
+                </div>
+
+                <!-- Timeline Item 3 -->
+                <div class="relative grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="md:text-right pr-0 md:pr-12 md:self-center">
+                        <span class="text-primary font-display text-3xl font-bold">2026</span>
+                        <h4 class="font-display text-xl uppercase text-white mt-1 mb-3">The Virtual Museum</h4>
+                        <p class="text-on-surface-variant text-sm leading-relaxed">
+                            Legacy Eleven goes online, introducing the Museum of Moments page to give collectors a premium interactive portal connecting historic match stories to high-quality memorabilia.
+                        </p>
+                    </div>
+                    <div></div>
+                    <div class="absolute left-1/2 -translate-x-1/2 top-1.5 w-4 h-4 bg-primary border-4 border-background rounded-full hidden md:block"></div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-surface-container-lowest border-t border-white/10 py-12 text-center text-xs text-on-surface-variant/50">
+        <p>© 2026 LEGACY ELEVEN. Standalone Preview Page.</p>
+    </footer>
+
+</body>
+</html>

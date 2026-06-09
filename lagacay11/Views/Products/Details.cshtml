@@ -1,0 +1,263 @@
+@model lagacay11.Models.ViewModels.ProductDetailsViewModel
+@{
+    ViewData["Title"] = Model.Product.Name;
+    var approvedReviews = Model.ApprovedReviews;
+    var averageRating = Model.AverageRating;
+    var relatedProducts = Model.RelatedProducts;
+    var mainImage = Model.Product.MainImagePath;
+}
+
+<div class="max-w-container-max mx-auto px-gutter py-12">
+    <!-- Breadcrumbs -->
+    <nav class="mb-8">
+        <ol class="flex flex-wrap items-center space-x-2 text-[10px] uppercase tracking-widest font-label-bold text-on-surface-variant">
+            <li><a asp-controller="Home" asp-action="Index" class="hover:text-primary transition-colors decoration-none">Home</a></li>
+            <li><span class="text-on-surface-variant/40">/</span></li>
+            <li><a asp-controller="Products" asp-action="Index" class="hover:text-primary transition-colors decoration-none">Jerseys</a></li>
+            <li><span class="text-on-surface-variant/40">/</span></li>
+            <li class="text-white truncate max-w-[200px] md:max-w-none">@Model.Product.Name</li>
+        </ol>
+    </nav>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        <!-- Jersey Gallery -->
+        <div class="lg:col-span-6 space-y-4">
+            <div class="glass-card overflow-hidden border border-white/10 rounded-lg">
+                <div class="relative spotlight-bg flex items-center justify-center p-8 h-[480px]">
+                    <img id="mainProductImage" src="@mainImage" alt="@Model.Product.Name" class="max-h-full max-w-full object-contain transition-transform" />
+                </div>
+            </div>
+            
+            <!-- Thumbnail Carousel/Grid -->
+            @if (Model.Product.ImagePaths.Count > 1)
+            {
+                <div class="flex gap-3 overflow-x-auto py-2 scrollbar-hide">
+                    @foreach (var imgPath in Model.Product.ImagePaths)
+                    {
+                        <img src="@imgPath" alt="Thumbnail" class="product-thumbnail border object-contain cursor-pointer w-20 h-20 bg-surface-container rounded-lg p-2 transition-all @(imgPath == mainImage ? "border-primary scale-95" : "border-white/10 hover:border-white/30")" data-src="@imgPath" />
+                    }
+                </div>
+            }
+        </div>
+
+        <!-- Jersey Information -->
+        <div class="lg:col-span-6 space-y-6">
+            <div class="flex flex-wrap gap-2">
+                @if (!string.IsNullOrEmpty(Model.Product.WorldCupEdition))
+                {
+                    <span class="legendary-badge text-black font-label-bold px-4 py-1.5 text-xs inline-block">🏆 @Model.Product.WorldCupEdition</span>
+                }
+                @foreach (var pc in Model.Product.Categories)
+                {
+                    <span class="bg-white/10 text-white font-label-bold py-1.5 px-4 text-xs inline-block rounded-none uppercase tracking-wider">@pc.Name</span>
+                }
+            </div>
+
+            <h1 class="font-display text-4xl text-white font-bold tracking-wide uppercase leading-tight">@Model.Product.Name</h1>
+
+            <!-- Rating Summary -->
+            <div class="flex items-center gap-2 text-sm text-on-surface-variant">
+                <span class="text-primary text-lg">★</span>
+                <span class="font-bold text-white">@averageRating.ToString("F1")</span>
+                <span class="text-on-surface-variant/70">(@approvedReviews.Count reviews)</span>
+            </div>
+
+            <div class="font-display text-3xl font-bold text-primary">$@Model.Product.Price.ToString("F2")</div>
+
+            <div class="space-y-2">
+                <h6 class="font-display text-xs text-on-surface-variant uppercase tracking-wider font-semibold">Description</h6>
+                <p class="font-body-md text-on-surface-variant leading-relaxed text-sm">@Model.Product.Description</p>
+            </div>
+
+            <!-- Product Specifications -->
+            <div class="grid grid-cols-2 gap-4 glass-card p-6 border border-white/10 rounded-lg">
+                <div>
+                    <span class="text-[10px] text-on-surface-variant uppercase tracking-widest block">Release Year</span>
+                    <strong class="text-white block mt-1 text-sm">@Model.Product.Year</strong>
+                </div>
+                @if (!string.IsNullOrEmpty(Model.Product.TeamName))
+                {
+                    <div>
+                        <span class="text-[10px] text-on-surface-variant uppercase tracking-widest block">National Team</span>
+                        <strong class="text-white block mt-1 text-sm">@Model.Product.TeamName</strong>
+                    </div>
+                }
+                @if (!string.IsNullOrEmpty(Model.Product.ClubName))
+                {
+                    <div>
+                        <span class="text-[10px] text-on-surface-variant uppercase tracking-widest block">Club</span>
+                        <strong class="text-white block mt-1 text-sm">@Model.Product.ClubName</strong>
+                    </div>
+                }
+                <div>
+                    <span class="text-[10px] text-on-surface-variant uppercase tracking-widest block">Stock Level</span>
+                    @if (Model.Product.StockQuantity > 0)
+                    {
+                        <strong class="text-secondary block mt-1 text-sm">@Model.Product.StockQuantity left</strong>
+                    }
+                    else
+                    {
+                        <strong class="text-red-400 block mt-1 text-sm">Sold Out</strong>
+                    }
+                </div>
+            </div>
+
+            <!-- Forms Row -->
+            @if (Model.Product.IsAvailable && Model.Product.StockQuantity > 0)
+            {
+                <div class="flex flex-col sm:flex-row gap-4 mt-6">
+                    <form asp-controller="Cart" asp-action="Add" method="post" class="flex flex-grow items-center gap-3 m-0">
+                        <input type="hidden" name="productId" value="@Model.Product.Id" />
+                        <div class="flex items-center border border-white/10 bg-background rounded-none">
+                            <span class="px-3 text-xs text-on-surface-variant uppercase tracking-widest font-label-bold">Qty</span>
+                            <input type="number" name="quantity" value="1" min="1" max="@Model.Product.StockQuantity" class="w-16 bg-transparent border-0 text-center py-3 text-white text-sm focus:outline-none" />
+                        </div>
+                        <button type="submit" class="bg-primary text-black font-label-bold py-3.5 px-8 uppercase tracking-widest text-xs font-bold hover:opacity-90 transition-opacity rounded-none flex-grow">Add to Cart 🛒</button>
+                    </form>
+
+                    <form asp-controller="Wishlist" asp-action="Add" method="post" class="m-0 flex items-stretch">
+                        <input type="hidden" name="productId" value="@Model.Product.Id" />
+                        <button type="submit" class="w-14 border border-white/20 text-white font-label-bold flex items-center justify-center hover:bg-white/10 transition-colors rounded-none text-red-500" title="Add to Wishlist">
+                            <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">favorite</span>
+                        </button>
+                    </form>
+                </div>
+            }
+            else
+            {
+                <div class="flex flex-col sm:flex-row gap-4 mt-6">
+                    <button class="bg-surface-container text-on-surface-variant/40 font-label-bold py-4 px-8 uppercase tracking-widest text-xs font-bold rounded-none flex-grow cursor-not-allowed" disabled>Sold Out</button>
+                    
+                    <form asp-controller="Wishlist" asp-action="Add" method="post" class="m-0 flex items-stretch">
+                        <input type="hidden" name="productId" value="@Model.Product.Id" />
+                        <button type="submit" class="w-14 border border-white/20 text-white font-label-bold flex items-center justify-center hover:bg-white/10 transition-colors rounded-none text-red-500" title="Add to Wishlist">
+                            <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">favorite</span>
+                        </button>
+                    </form>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Review Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 mt-20 pt-12 border-t border-white/10">
+        <!-- Review list -->
+        <div class="lg:col-span-7 space-y-6">
+            <h4 class="font-display text-headline-md uppercase text-white tracking-wide border-l-4 border-primary pl-4 mb-6">Customer Reviews (@approvedReviews.Count)</h4>
+
+            @if (!approvedReviews.Any())
+            {
+                <div class="p-8 glass-card rounded-lg text-center border border-white/10">
+                    <p class="text-on-surface-variant text-sm mb-0">No reviews have been written for this jersey yet. Be the first to leave one!</p>
+                </div>
+            }
+            else
+            {
+                <div class="flex flex-col gap-4">
+                    @foreach (var review in approvedReviews)
+                    {
+                        <div class="glass-card p-6 border border-white/10 rounded-lg space-y-3">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h6 class="font-bold text-white text-sm">@review.UserFullName</h6>
+                                    <span class="text-on-surface-variant/60 text-xs mt-1 block">@review.CreatedAt.ToString("MMM d, yyyy")</span>
+                                </div>
+                                <div class="text-primary text-sm flex gap-0.5">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        <span>@(i <= review.Rating ? "★" : "☆")</span>
+                                    }
+                                </div>
+                            </div>
+                            <p class="text-on-surface-variant font-body-md text-sm leading-relaxed">@review.Comment</p>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+
+        <!-- Write Review Form -->
+        <div class="lg:col-span-5">
+            <div class="glass-card p-8 border border-white/10 rounded-lg space-y-6">
+                <h5 class="font-display text-headline-md uppercase text-white">Write a Review</h5>
+                
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    @if (Model.CanUserReview)
+                    {
+                        <form asp-action="SubmitReview" method="post" class="space-y-6 m-0">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="productId" value="@Model.Product.Id" />
+
+                            <div class="space-y-2">
+                                <label class="font-label-bold text-on-surface-variant text-xs uppercase tracking-wider block">Rating</label>
+                                <select name="rating" class="w-full bg-background border border-white/10 text-white rounded p-3 text-sm focus:outline-none focus:border-primary" required>
+                                    <option value="5">★★★★★ (5 Stars)</option>
+                                    <option value="4">★★★★☆ (4 Stars)</option>
+                                    <option value="3">★★★☆☆ (3 Stars)</option>
+                                    <option value="2">★★☆☆☆ (2 Stars)</option>
+                                    <option value="1">★☆☆☆☆ (1 Star)</option>
+                                </select>
+                            </div>
+
+                            <div class="space-y-2">
+                                <label class="font-label-bold text-on-surface-variant text-xs uppercase tracking-wider block">Comment</label>
+                                <textarea name="comment" rows="4" class="w-full bg-background border border-white/10 text-white rounded p-4 text-sm focus:outline-none focus:border-primary placeholder-on-surface-variant/40" placeholder="Share your experience with this vintage jersey..." required></textarea>
+                            </div>
+
+                            <button type="submit" class="w-full bg-primary text-black font-label-bold py-4 uppercase tracking-widest text-xs font-bold hover:opacity-90 transition-opacity rounded-none">Submit Review</button>
+                            <div class="text-on-surface-variant/50 text-center text-[10px]">Your review will be public after administrator approval.</div>
+                        </form>
+                    }
+                    else
+                    {
+                        <div class="text-center p-8 bg-black/35 rounded border border-white/5 py-12">
+                            <span class="material-symbols-outlined text-primary text-4xl mb-4">shopping_bag</span>
+                            <p class="text-on-surface-variant mb-0 text-sm leading-relaxed">
+                                You must purchase this jersey to write a review. Only verified owners can submit ratings.
+                            </p>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="text-center p-8 bg-black/35 rounded border border-white/5 py-12">
+                        <p class="text-on-surface-variant mb-6 text-sm">Please log in to submit a rating and comment on this product.</p>
+                        <a asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Url.Action("Details", "Products", new { id = Model.Product.Id })" class="inline-block border border-primary text-primary hover:bg-primary hover:text-background font-label-bold px-6 py-2.5 transition-all text-xs uppercase tracking-wider decoration-none">Log In</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Related Products -->
+    @if (relatedProducts.Any())
+    {
+        <div class="mt-20 pt-12 border-t border-white/10">
+            <h4 class="font-display text-headline-md uppercase text-white mb-8 border-l-4 border-primary pl-4">You May Also Like</h4>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                @foreach (var prod in relatedProducts)
+                {
+                    var prodImg = prod.MainImagePath;
+
+                    <div class="glass-card flex flex-col group relative jersey-card">
+                        <div class="relative overflow-hidden spotlight-bg flex items-center justify-center p-6 h-48">
+                            <a asp-action="Details" asp-route-id="@prod.Id" class="w-full h-full flex items-center justify-center decoration-none">
+                                <img src="@prodImg" alt="@prod.Name" class="max-h-full max-w-full object-contain group-hover:scale-110 transition-transform duration-700" />
+                            </a>
+                        </div>
+                        <div class="p-4 border-t border-white/10 bg-black/40 flex flex-grow flex-col justify-between">
+                            <h3 class="font-headline-md text-stats-xl text-white mb-3 truncate">
+                                <a asp-action="Details" asp-route-id="@prod.Id" class="text-white hover:text-primary transition-colors decoration-none">@prod.Name</a>
+                            </h3>
+                            <div class="flex justify-between items-center border-t border-white/10 pt-3 mt-auto">
+                                <span class="font-stats-xl text-primary text-sm font-bold">$@prod.Price.ToString("F2")</span>
+                                <a asp-action="Details" asp-route-id="@prod.Id" class="border border-white/20 text-white hover:bg-white/10 text-[10px] px-4 py-2 font-label-bold tracking-widest uppercase decoration-none transition-colors">View</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,146 @@
+@model lagacay11.Models.ViewModels.AdminProductCreateViewModel
+@{
+    ViewData["Title"] = "Add New Jersey";
+    var categories = ViewBag.Categories as List<lagacay11.Models.Category> ?? new List<lagacay11.Models.Category>();
+}
+
+<div class="space-y-6 max-w-4xl mx-auto">
+    <!-- Breadcrumbs -->
+    <nav class="mb-6">
+        <ol class="flex items-center space-x-2 text-[10px] uppercase tracking-widest font-label-bold text-on-surface-variant">
+            <li><a asp-action="Index" class="hover:text-primary transition-colors decoration-none">Manage Jerseys</a></li>
+            <li><span class="text-on-surface-variant/40">/</span></li>
+            <li class="text-white">Add Jersey</li>
+        </ol>
+    </nav>
+
+    <div class="glass-card p-8 border border-white/10 rounded-lg space-y-6">
+        <h2 class="font-display text-headline-md uppercase text-white tracking-wider">Add New Football Jersey</h2>
+
+        <form asp-action="Create" method="post" enctype="multipart/form-data" class="space-y-8 m-0">
+            <div asp-validation-summary="ModelOnly" class="bg-red-500/10 border border-red-500/20 text-red-400 p-4 text-xs font-semibold rounded" role="alert"></div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                <!-- Main details -->
+                <div class="lg:col-span-8 space-y-6">
+                    <!-- Jersey Name -->
+                    <div class="space-y-2">
+                        <label asp-for="Name" class="font-label-bold text-on-surface-variant text-xs uppercase tracking-wider block"></label>
+                        <input asp-for="Name" class="w-full bg-background border border-white/10 text-white rounded p-3 text-sm focus:outline-none focus:border-primary placeholder-on-surface-variant/40" placeholder="e.g. Argentina 1986 Home Jersey" />
+                        <span asp-validation-for="Name" class="text-red-400 text-xs block"></span>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="space-y-2">
+                        <label asp-for="Description" class="font-label-bold text-on-surface-variant text-xs uppercase tracking-wider block"></label>
+                        <textarea asp-for="Description" rows="5" class="w-full bg-background border border-white/10 text-white rounded p-4 text-sm focus:outline-none focus:border-primary placeholder-on-surface-variant/40" placeholder="Enter detailed historical details, design cues, fabrics descriptions, etc..."></textarea>
+                        <span asp-validation-for="Description" class="text-red-400 text-xs block"></span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Price -->
+                        <div class="space-y-2">
+                            <label asp-for="Price" class="font-label-bold text-on-surface-variant text-xs uppercase tracking-wider block"></label>
+                            <div class="flex items-center bg-background border border-white/10 rounded overflow-hidden">
+                                <span class="px-4 text-sm text-on-surface-variant font-semibold bg-white/5 border-r border-white/10 py-3.5">$</span>
+                                <input asp-for="Price" type="text" class="bg-transparent border-0 text-white p-3 text-sm focus:outline-none flex-grow" placeholder="89.99" />
+                            </div>
+                            <span asp-validation-for="Price" class="text-red-400 text-xs block"></span>
+                        </div>
+
+                        <!-- Stock Quantity -->
+                        <div class="space-y-2">
+                            <label asp-for="StockQuantity" class="font-label-bold text-on-surface-variant text-xs uppercase tracking-wider block"></label>
+                            <input asp-for="StockQuantity" type="number" class="w-full bg-background border border-white/10 text-white rounded p-3.5 text-sm focus:outline-none focus:border-primary placeholder-on-surface-variant/40" placeholder="20" />
+                            <span asp-validation-for="StockQuantity" class="text-red-400 text-xs block"></span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Team Name -->
+                        <div class="space-y-2">
+                            <label asp-for="TeamName" class="font-label-bold text-on-surface-variant text-xs uppercase tracking-wider block"></label>
+                            <input asp-for="TeamName" class="w-full bg-background border border-white/10 text-white rounded p-3 text-sm focus:outline-none focus:border-primary placeholder-on-surface-variant/40" placeholder="e.g. Argentina (for national teams)" />
+                            <span asp-validation-for="TeamName" class="text-red-400 text-xs block"></span>
+                        </div>
+
+                        <!-- Club Name -->
+                        <div class="space-y-2">
+                            <label asp-for="ClubName" class="font-label-bold text-on-surface-variant text-xs uppercase tracking-wider block"></label>
+                            <input asp-for="ClubName" class="w-full bg-background border border-white/10 text-white rounded p-3 text-sm focus:outline-none focus:border-primary placeholder-on-surface-variant/40" placeholder="e.g. Manchester United (for club kits)" />
+                            <span asp-validation-for="ClubName" class="text-red-400 text-xs block"></span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Year -->
+                        <div class="space-y-2">
+                            <label asp-for="Year" class="font-label-bold text-on-surface-variant text-xs uppercase tracking-wider block"></label>
+                            <input asp-for="Year" type="number" class="w-full bg-background border border-white/10 text-white rounded p-3 text-sm focus:outline-none focus:border-primary placeholder-on-surface-variant/40" placeholder="1986" />
+                            <span asp-validation-for="Year" class="text-red-400 text-xs block"></span>
+                        </div>
+
+                        <!-- World Cup Edition -->
+                        <div class="space-y-2">
+                            <label asp-for="WorldCupEdition" class="font-label-bold text-on-surface-variant text-xs uppercase tracking-wider block"></label>
+                            <input asp-for="WorldCupEdition" class="w-full bg-background border border-white/10 text-white rounded p-3 text-sm focus:outline-none focus:border-primary placeholder-on-surface-variant/40" placeholder="e.g. Mexico 1986 (if applicable)" />
+                            <span asp-validation-for="WorldCupEdition" class="text-red-400 text-xs block"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category checklist / side properties -->
+                <div class="lg:col-span-4 space-y-6">
+                    <!-- Is Available -->
+                    <div class="glass-card p-6 border border-white/10 bg-black/20 rounded-lg space-y-3">
+                        <div class="flex items-center justify-between">
+                            <label asp-for="IsAvailable" class="font-bold text-white text-sm cursor-pointer"></label>
+                            <input asp-for="IsAvailable" class="rounded border-white/10 bg-background text-primary focus:ring-0 w-5 h-5 cursor-pointer" type="checkbox" />
+                        </div>
+                        <div class="text-on-surface-variant/50 text-[10px] uppercase tracking-wider">Disable this to hide the jersey from the catalog instantly.</div>
+                    </div>
+
+                    <!-- Categories Checklist -->
+                    <div class="glass-card p-6 border border-white/10 bg-black/20 rounded-lg space-y-4">
+                        <h6 class="font-display text-stats-xl text-white uppercase tracking-wider">Jersey Categories</h6>
+                        
+                        @if (categories == null || !categories.Any())
+                        {
+                            <p class="text-on-surface-variant/70 text-xs">No categories found in DB. Add categories first.</p>
+                        }
+                        else
+                        {
+                            <div class="space-y-2">
+                                @foreach (var cat in categories)
+                                {
+                                    <div class="flex items-center gap-2.5">
+                                        <input type="checkbox" name="SelectedCategoryIds" value="@cat.Id" class="rounded border-white/10 bg-background text-primary focus:ring-0 w-4 h-4 cursor-pointer" id="cat-checkbox-@cat.Id" @(Model.SelectedCategoryIds != null && Model.SelectedCategoryIds.Contains(cat.Id) ? "checked" : "") />
+                                        <label class="text-on-surface-variant text-xs cursor-pointer" for="cat-checkbox-@cat.Id">@cat.Name</label>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+
+                    <!-- Image Upload -->
+                    <div class="glass-card p-6 border border-white/10 bg-black/20 rounded-lg space-y-4">
+                        <h6 class="font-display text-stats-xl text-white uppercase tracking-wider">Upload Photos</h6>
+                        <input type="file" name="Images" class="w-full bg-background border border-white/10 text-white rounded p-2 text-xs focus:outline-none file:mr-4 file:py-1.5 file:px-4 file:rounded-none file:border-0 file:text-xs file:font-semibold file:bg-white/10 file:text-white hover:file:bg-white/20 file:cursor-pointer" multiple accept="image/*" />
+                        <div class="text-on-surface-variant/50 text-[10px] uppercase tracking-wider leading-relaxed">
+                            Select one or more images. The first image uploaded will serve as the listing's main photo.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-end gap-4 pt-6 border-t border-white/10">
+                <a asp-action="Index" class="border border-white/20 text-white hover:bg-white/10 text-xs px-6 py-3 font-label-bold tracking-widest uppercase decoration-none transition-colors rounded-none">Cancel</a>
+                <button type="submit" class="bg-primary text-black font-label-bold px-6 py-3.5 uppercase tracking-widest text-xs font-bold hover:opacity-90 transition-opacity rounded-none">Save Jersey</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

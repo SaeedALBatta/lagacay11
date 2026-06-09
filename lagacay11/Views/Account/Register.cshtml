@@ -1,0 +1,420 @@
+@model lagacay11.Models.RegisterViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | Legacy Eleven</title>
+    <!-- Tailwind CSS Play CDN -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/navbar.css" asp-append-version="true" />
+    
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#ffe088",
+                        "on-surface-variant": "#d0c5af",
+                        "background": "#0A0C10",
+                        "surface-variant": "#333539",
+                        "on-secondary-fixed-variant": "#005228",
+                        "surface-tint": "#e9c349",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "primary-container": "#d4af37",
+                        "surface-bright": "#37393e",
+                        "on-error": "#690005",
+                        "on-surface": "#e2e2e8",
+                        "inverse-on-surface": "#2f3035",
+                        "on-secondary": "#003919",
+                        "secondary-fixed": "#6bfe9c",
+                        "primary-fixed-dim": "#e9c349",
+                        "on-tertiary": "#2f3131",
+                        "outline-variant": "#4d4635",
+                        "surface-container-low": "#1a1c20",
+                        "on-secondary-container": "#00431f",
+                        "on-background": "#e2e2e8",
+                        "error-container": "#93000a",
+                        "on-primary": "#3c2f00",
+                        "on-primary-fixed-variant": "#574500",
+                        "secondary": "#4ae183",
+                        "tertiary-fixed": "#e2e2e2",
+                        "surface-container-high": "#282a2e",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "surface-container-highest": "#333539",
+                        "surface": "#111318",
+                        "on-primary-fixed": "#241a00",
+                        "tertiary-container": "#b2b3b3",
+                        "surface-container": "#1e2024",
+                        "inverse-surface": "#e2e2e8",
+                        "tertiary": "#cecece",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-lowest": "#0c0e12",
+                        "on-secondary-fixed": "#00210c",
+                        "secondary-container": "#06bb63",
+                        "inverse-primary": "#735c00",
+                        "primary": "#d4af37",
+                        "on-tertiary-container": "#434546",
+                        "secondary-fixed-dim": "#4ae183",
+                        "outline": "#99907c",
+                        "error": "#ffb4ab",
+                        "on-primary-container": "#554300",
+                        "surface-dim": "#111318"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "margin-mobile": "16px",
+                        "unit": "8px",
+                        "margin-desktop": "48px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Oswald"],
+                        "label-bold": ["Inter"],
+                        "display-lg": ["Oswald"],
+                        "headline-lg-mobile": ["Oswald"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "stats-xl": ["Oswald"],
+                        "headline-md": ["Oswald"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["48px", {"lineHeight": "56px", "fontWeight": "600"}],
+                        "label-bold": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                        "display-lg": ["72px", {"lineHeight": "80px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-lg-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "stats-xl": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "500"}]
+                    }
+                },
+            },
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0A0C10;
+        }
+        .font-headline {
+            font-family: 'Oswald', sans-serif;
+        }
+        .glass-card {
+            background: rgba(15, 17, 23, 0.75);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .spotlight-bg {
+            background: radial-gradient(circle at center, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
+            transition: background 0.1s ease-out;
+        }
+        
+        /* Underline navigation animation */
+        .nav-link-underline {
+            position: relative;
+        }
+        .nav-link-underline::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #d4af37;
+            transform-origin: bottom right;
+            transition: transform 0.3s ease-out;
+        }
+        .nav-link-underline:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        /* Float animation for heritage cards */
+        @@keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(1deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+        .float-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        .float-delay-1 {
+            animation: float 7s ease-in-out infinite;
+            animation-delay: 1s;
+        }
+
+        /* Gold button glowing states */
+        .gold-btn {
+            background: linear-gradient(135deg, #d4af37 0%, #f2ca50 100%);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+            transition: all 0.4s ease;
+        }
+        .gold-btn:hover {
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .gold-border-focus:focus {
+            border-color: #d4af37 !important;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.3) !important;
+        }
+
+        /* SweetAlert2 Styling overrides */
+        .swal-custom-popup {
+            background-color: #111318 !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 0px !important;
+        }
+        .swal-custom-title {
+            color: #ffffff !important;
+            font-family: 'Oswald', sans-serif !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.05em !important;
+        }
+        .swal-custom-html {
+            color: #d0c5af !important;
+            font-family: 'Inter', sans-serif !important;
+        }
+        .swal-custom-confirm-btn {
+            background-color: #d4af37 !important;
+            color: #000000 !important;
+            font-family: 'Inter', sans-serif !important;
+            font-weight: 700 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.1em !important;
+            border-radius: 0px !important;
+            padding: 12px 30px !important;
+            border: none !important;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-100 flex flex-col justify-between overflow-x-hidden relative bg-[#0A0C10]">
+
+    <!-- Glowing Background Spotlights -->
+    <div class="absolute top-0 left-0 w-full h-full pointer-events-none z-0 spotlight-bg" id="global-spotlight"></div>
+
+    <!-- MAIN NAVBAR (Shared from Home) -->
+    <partial name="_Navbar" />
+
+    <!-- SPLIT SCREEN LAYOUT -->
+    <main class="flex-grow w-full max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center z-10 relative">
+        
+        <!-- Left Side: Interactive Forms -->
+        <div class="lg:col-span-5 w-full">
+            <div class="glass-card p-8 md:p-10 rounded-lg shadow-2xl relative overflow-hidden">
+                <!-- Inner glow decoration -->
+                <div class="absolute -top-12 -left-12 w-36 h-36 bg-[#d4af37]/5 rounded-full blur-2xl"></div>
+
+                <!-- Tabs header -->
+                <div class="flex border-b border-white/10 mb-8 relative z-10">
+                    <a asp-action="Login" asp-route-returnUrl="@ViewData["ReturnUrl"]" class="flex-1 pb-4 text-center font-headline text-lg uppercase tracking-wider border-b-2 border-transparent text-slate-400 font-medium hover:text-white transition-all decoration-none">
+                        Log In
+                    </a>
+                    <a href="#" class="flex-1 pb-4 text-center font-headline text-lg uppercase tracking-wider border-b-2 border-[#d4af37] text-white font-medium transition-all decoration-none">
+                        Register
+                    </a>
+                </div>
+
+                <!-- Form Register -->
+                <form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post" class="space-y-5 relative z-10">
+                    <div asp-validation-summary="ModelOnly" class="bg-red-500/10 border border-red-500/20 text-red-400 p-4 text-xs font-semibold rounded"></div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Full Name -->
+                        <div class="space-y-1.5">
+                            <label asp-for="FullName" class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400">Full Name</label>
+                            <div class="relative">
+                                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-base">person</span>
+                                <input asp-for="FullName" required placeholder="Cristiano R." class="w-full bg-black/40 border border-white/10 rounded-none pl-9 pr-4 py-2.5 text-xs text-white focus:outline-none gold-border-focus transition-all" />
+                            </div>
+                            <span asp-validation-for="FullName" class="text-red-400 text-[10px] block"></span>
+                        </div>
+
+                        <!-- Phone Number -->
+                        <div class="space-y-1.5">
+                            <label asp-for="PhoneNumber" class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400">Phone Number</label>
+                            <div class="relative">
+                                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-base">phone</span>
+                                <input asp-for="PhoneNumber" required placeholder="+1 555-0199" class="w-full bg-black/40 border border-white/10 rounded-none pl-9 pr-4 py-2.5 text-xs text-white focus:outline-none gold-border-focus transition-all" />
+                            </div>
+                            <span asp-validation-for="PhoneNumber" class="text-red-400 text-[10px] block"></span>
+                        </div>
+                    </div>
+
+                    <!-- Email Address -->
+                    <div class="space-y-1.5">
+                        <label asp-for="Email" class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400">Email Address</label>
+                        <div class="relative">
+                            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-base">mail</span>
+                            <input asp-for="Email" type="email" required placeholder="legend@legacyeleven.com" class="w-full bg-black/40 border border-white/10 rounded-none pl-9 pr-4 py-2.5 text-xs text-white focus:outline-none gold-border-focus transition-all" />
+                        </div>
+                        <span asp-validation-for="Email" class="text-red-400 text-[10px] block"></span>
+                    </div>
+
+                    <!-- Shipping Address -->
+                    <div class="space-y-1.5">
+                        <label asp-for="Address" class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400">Shipping Address</label>
+                        <div class="relative">
+                            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-base">home</span>
+                            <input asp-for="Address" required placeholder="123 Pitch Side Way, Stadium City" class="w-full bg-black/40 border border-white/10 rounded-none pl-9 pr-4 py-2.5 text-xs text-white focus:outline-none gold-border-focus transition-all" />
+                        </div>
+                        <span asp-validation-for="Address" class="text-red-400 text-[10px] block"></span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Password -->
+                        <div class="space-y-1.5">
+                            <label asp-for="Password" class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400">Password</label>
+                            <input asp-for="Password" type="password" required placeholder="Min 6 chars" class="w-full bg-black/40 border border-white/10 rounded-none px-3 py-2.5 text-xs text-white focus:outline-none gold-border-focus transition-all" />
+                            <span asp-validation-for="Password" class="text-red-400 text-[10px] block"></span>
+                        </div>
+                        <!-- Confirm Password -->
+                        <div class="space-y-1.5">
+                            <label asp-for="ConfirmPassword" class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400">Confirm</label>
+                            <input asp-for="ConfirmPassword" type="password" required placeholder="Repeat password" class="w-full bg-black/40 border border-white/10 rounded-none px-3 py-2.5 text-xs text-white focus:outline-none gold-border-focus transition-all" />
+                            <span asp-validation-for="ConfirmPassword" class="text-red-400 text-[10px] block"></span>
+                        </div>
+                    </div>
+
+                    <div class="text-[9px] text-slate-400 leading-normal bg-white/2 p-2 border border-white/5">
+                        <strong class="text-[#d4af37]">Password Rules:</strong> At least 6 characters, including 1 uppercase, 1 lowercase, and 1 digit.
+                    </div>
+
+                    <!-- T&C Checkbox -->
+                    <div class="flex items-start gap-3">
+                        <input class="rounded border-white/10 bg-[#0A0C10] text-[#d4af37] focus:ring-0 w-4 h-4 cursor-pointer mt-0.5" id="terms" type="checkbox" required />
+                        <label class="text-slate-400 text-[11px] leading-relaxed cursor-pointer" for="terms">
+                            I agree to the <a class="text-[#d4af37] hover:underline decoration-none" href="#">Terms and Conditions</a> and <a class="text-[#d4af37] hover:underline decoration-none" href="#">Privacy Policy</a> regarding my digital asset ownership.
+                        </label>
+                    </div>
+
+                    <button type="submit" class="w-full gold-btn text-black font-bold py-3.5 uppercase tracking-widest text-xs flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined text-sm">person_add</span>
+                        <span>Join The Vault</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Right Side: Alive Visuals (Heritage Slideshow & Moving Interactive Cards) -->
+        <div class="lg:col-span-7 flex flex-col items-center justify-center space-y-8 relative">
+            
+            <!-- Sliding Banner (Stadium Backdrop) -->
+            <div class="w-full aspect-[16/9] border border-white/10 rounded-lg overflow-hidden relative shadow-2xl group">
+                <img id="slideshow-image" class="w-full h-full object-cover filter brightness-[0.4] group-hover:scale-105 transition-transform duration-1000" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAifyqtRn2MTKXyf7BX8FNVYKg45Ew23BUHLF2n0NNER6USx4J3U5poxQzD6XAhXVlLfjuBniI1turlp2vYCBw3Lh3GEkvynMj0Y6dp8bZeMCoFzUm3h4YcSSAg67sx9BbuwHDAq326R6XwlDQhNHeFZB2PcUU5Ei8NuOaP_WPO6PX7OqibvRfkcs5R_Vp2kFu0QJVoPYkBezp_yt-93k_AVknfaLQGEX2mS1OMCfc8ErUbpbq24wDhT65uz1D24hO05yeYvTu69fg" alt="Football stadium backdrop" />
+                <div class="absolute inset-0 bg-gradient-to-t from-[#0A0C10] via-transparent to-transparent"></div>
+                
+                <div class="absolute bottom-6 left-6 right-6 text-left space-y-2">
+                    <span class="text-xs uppercase tracking-widest text-[#d4af37] font-semibold">Legacy Moments</span>
+                    <h3 id="slideshow-title" class="font-headline text-2xl md:text-3xl text-white uppercase font-bold leading-none">Immortalizing The Beautiful Game</h3>
+                    <p id="slideshow-desc" class="text-xs text-slate-300 max-w-md">Discover authentic retro collectibles worn in historical world cup tournaments.</p>
+                </div>
+            </div>
+
+            <!-- Floating Authentic Cards -->
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-6 w-full pt-4">
+                <!-- Card 1 -->
+                <div class="glass-card p-4 flex flex-col items-center text-center float-animation group cursor-pointer hover:border-[#d4af37]/30 transition-all">
+                    <div class="aspect-square w-20 overflow-hidden relative mb-3 bg-black/40 p-2 border border-white/5 rounded-full flex items-center justify-center">
+                        <img class="max-h-full max-w-full object-contain filter grayscale group-hover:grayscale-0 transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCesjMZlTwu8Y4Com3P8LAU-3QiASmJC6OX09Kya1kzORJuenLo9kY3G6NaReqK_G3r6dj7xlBKEeuk5Ijy4g3E-HCX_nmqxtg4bSW7idKgUAzRoht8gOg22yzTesiHg6-AOD_pTr_-TfCdJpM5btGhDyN3nAzaUiaElPgu6lotjwPyCxJEDh0CqpCUJr02ZO_63FWx0Ftib2nfQwzPnOMEiVPG-UutmWVmbYeewJEYxdN1m5W3q5fPzZ12mLGYEe9NzTXzHoYf9BI" alt="1970 Brazil" />
+                    </div>
+                    <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-widest group-hover:text-[#d4af37] transition-colors">1970 Brazil</span>
+                </div>
+                <!-- Card 2 -->
+                <div class="glass-card p-4 flex flex-col items-center text-center float-delay-1 group cursor-pointer hover:border-[#d4af37]/30 transition-all">
+                    <div class="aspect-square w-20 overflow-hidden relative mb-3 bg-black/40 p-2 border border-white/5 rounded-full flex items-center justify-center">
+                        <img class="max-h-full max-w-full object-contain filter grayscale group-hover:grayscale-0 transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmq1CRD0ziUrj6U4W5swbpyKZYfGuirmFgGVz2RIiL3TjaxlYs9C_I9pUPFR1nS6-gb-ZJkGWtI0RSyZbYYJpncgmfVvDP9FZKurEydcww9Vi0-rM8cKh_hJq-nZ9oVghXkSkkdfX4UEBzx_6A3BCZve6SnO0FYhJeotUXnot5IvhxJlCNTGL_3MImsdrHtg7uVyBDPIdaFe0NDZ8Du-nmtJII1IVa7wJ1yA5yETAc4fC6fVOERH8aGpaoHzDfRfBSA74BUyTtCIk" alt="Maradona 1986" />
+                    </div>
+                    <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-widest group-hover:text-[#d4af37] transition-colors">1986 Argentina</span>
+                </div>
+                <!-- Card 3 -->
+                <div class="glass-card p-4 flex flex-col items-center text-center float-animation group cursor-pointer hover:border-[#d4af37]/30 transition-all hidden md:flex">
+                    <div class="aspect-square w-20 overflow-hidden relative mb-3 bg-black/40 p-2 border border-white/5 rounded-full flex items-center justify-center">
+                        <img class="max-h-full max-w-full object-contain filter grayscale group-hover:grayscale-0 transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzIQKlm1mYSIF2r1is9iwYTE77lBCcxGq4qXAqqMgJ7qYzOzLu5fGS7f-Ulv71ybf1WcrMqv89IjM8NKcYvFZQqm0HYGCVMyP8AktLeEOnf-v7_tMe1LyiK0aSykkecz5qF5ZZcbB-Gj8Iv53OAmSRaeAkEkv37fJsFscQqH2tXnC4zBcnfUICgEMm6YsNTbkBaJWYO32FerhApR2iECXl6RtQwb0_Qyc-oH2RSdTA5VOhxT8hXnpwBgBtjRpi9aOL3IEHj4aXNHM" alt="Pele 1958" />
+                    </div>
+                    <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-widest group-hover:text-[#d4af37] transition-colors">1958 Sweden</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-6 text-center text-[10px] text-slate-500 uppercase tracking-widest border-t border-white/5 bg-[#0c0e12] z-10 relative">
+        © 2026 LEGACY ELEVEN. ALL RIGHTS RESERVED.
+    </footer>
+
+    <!-- Interactive JS Tab Switcher & Spotlight -->
+    <script>
+        // Mousemove spotlight effect
+        document.addEventListener('mousemove', (e) => {
+            const spotlight = document.getElementById('global-spotlight');
+            if (spotlight) {
+                const x = e.clientX;
+                const y = e.clientY;
+                spotlight.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(212, 175, 55, 0.15) 0%, transparent 65%)`;
+            }
+        });
+
+        // Slideshow loop logic
+        const slideshowData = [
+            {
+                img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAifyqtRn2MTKXyf7BX8FNVYKg45Ew23BUHLF2n0NNER6USx4J3U5poxQzD6XAhXVlLfjuBniI1turlp2vYCBw3Lh3GEkvynMj0Y6dp8bZeMCoFzUm3h4YcSSAg67sx9BbuwHDAq326R6XwlDQhNHeFZB2PcUU5Ei8NuOaP_WPO6PX7OqibvRfkcs5R_Vp2kFu0QJVoPYkBezp_yt-93k_AVknfaLQGEX2mS1OMCfc8ErUbpbq24wDhT65uz1D24hO05yeYvTu69fg",
+                title: "Immortalizing The Beautiful Game",
+                desc: "Discover authentic retro collectibles worn in historical world cup tournaments."
+            },
+            {
+                img: "https://lh3.googleusercontent.com/aida-public/AB6AXuAmq1CRD0ziUrj6U4W5swbpyKZYfGuirmFgGVz2RIiL3TjaxlYs9C_I9pUPFR1nS6-gb-ZJkGWtI0RSyZbYYJpncgmfVvDP9FZKurEydcww9Vi0-rM8cKh_hJq-nZ9oVghXkSkkdfX4UEBzx_6A3BCZve6SnO0FYhJeotUXnot5IvhxJlCNTGL_3MImsdrHtg7uVyBDPIdaFe0NDZ8Du-nmtJII1IVa7wJ1yA5yETAc4fC6fVOERH8aGpaoHzDfRfBSA74BUyTtCIk",
+                title: "The Hand of God - Mexico 1986",
+                desc: "Explore the Argentine collections inspired by Diego Maradona's historic goals."
+            },
+            {
+                img: "https://lh3.googleusercontent.com/aida-public/AB6AXuBzIQKlm1mYSIF2r1is9iwYTE77lBCcxGq4qXAqqMgJ7qYzOzLu5fGS7f-Ulv71ybf1WcrMqv89IjM8NKcYvFZQqm0HYGCVMyP8AktLeEOnf-v7_tMe1LyiK0aSykkecz5qF5ZZcbB-Gj8Iv53OAmSRaeAkEkv37fJsFscQqH2tXnC4zBcnfUICgEMm6YsNTbkBaJWYO32FerhApR2iECXl6RtQwb0_Qyc-oH2RSdTA5VOhxT8hXnpwBgBtjRpi9aOL3IEHj4aXNHM",
+                title: "The King's Debut - Sweden 1958",
+                desc: "Commemorating Pelé's legendary introduction to the global football stage."
+            }
+        ];
+
+        let currentSlide = 0;
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % slideshowData.length;
+            const slide = slideshowData[currentSlide];
+            
+            const imgEl = document.getElementById('slideshow-image');
+            const titleEl = document.getElementById('slideshow-title');
+            const descEl = document.getElementById('slideshow-desc');
+
+            if (imgEl && titleEl && descEl) {
+                imgEl.src = slide.img;
+                titleEl.textContent = slide.title;
+                descEl.textContent = slide.desc;
+            }
+        }, 5000);
+    </script>
+    
+    <!-- Scripts -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/navbar.js" asp-append-version="true"></script>
+    <partial name="_ValidationScriptsPartial" />
+</body>
+</html>

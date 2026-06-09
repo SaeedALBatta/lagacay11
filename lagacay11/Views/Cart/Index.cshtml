@@ -1,0 +1,144 @@
+@model lagacay11.Models.ViewModels.CartViewModel
+@{
+    ViewData["Title"] = "Shopping Cart";
+}
+
+<div class="max-w-container-max mx-auto px-gutter py-12">
+    <h2 class="font-display text-headline-md uppercase text-white tracking-wider mb-8 border-l-4 border-primary pl-4">Your Shopping Cart</h2>
+
+    @if (Model == null || Model.Items == null || !Model.Items.Any())
+    {
+        <div class="text-center py-20 glass-card border border-white/10 rounded-lg space-y-6">
+            <div class="text-5xl">🛒</div>
+            <h4 class="font-display text-headline-md text-white">Your cart is empty</h4>
+            <p class="text-on-surface-variant text-sm">Looks like you haven't added any vintage jerseys to your cart yet.</p>
+            <a asp-controller="Products" asp-action="Index" class="inline-block bg-primary text-black font-label-bold px-8 py-3.5 uppercase tracking-widest text-xs font-bold hover:opacity-90 transition-opacity rounded-none decoration-none">Browse Jerseys</a>
+        </div>
+    }
+    else
+    {
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <!-- Cart Items List -->
+            <div class="lg:col-span-8 space-y-6">
+                <div class="glass-card border border-white/10 rounded-lg overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full border-collapse">
+                            <thead>
+                                <tr class="bg-surface-container-high border-b border-white/10">
+                                    <th scope="col" class="px-6 py-4 text-left text-xs uppercase tracking-widest text-primary font-display font-semibold">Product</th>
+                                    <th scope="col" class="px-6 py-4 text-left text-xs uppercase tracking-widest text-primary font-display font-semibold">Price</th>
+                                    <th scope="col" class="px-6 py-4 text-left text-xs uppercase tracking-widest text-primary font-display font-semibold">Quantity</th>
+                                    <th scope="col" class="px-6 py-4 text-left text-xs uppercase tracking-widest text-primary font-display font-semibold">Subtotal</th>
+                                    <th scope="col" class="px-6 py-4 text-right text-xs uppercase tracking-widest text-primary font-display font-semibold">Remove</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Items)
+                                {
+                                    <tr class="border-b border-white/5 hover:bg-white/2 transition-colors">
+                                        <!-- Product info -->
+                                        <td class="px-6 py-4 align-middle">
+                                            <div class="flex items-center space-x-4">
+                                                <img src="@item.ImagePath" alt="@item.Name" class="rounded border border-white/10 object-contain w-16 h-16 p-1 bg-surface-container" />
+                                                <div>
+                                                    <h6 class="font-display font-bold text-white text-sm leading-snug">
+                                                        <a asp-controller="Products" asp-action="Details" asp-route-id="@item.ProductId" class="text-white hover:text-primary transition-colors decoration-none">@item.Name</a>
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <!-- Price -->
+                                        <td class="px-6 py-4 align-middle text-on-surface-variant font-semibold text-sm">
+                                            $@item.Price.ToString("F2")
+                                        </td>
+                                        <!-- Quantity -->
+                                        <td class="px-6 py-4 align-middle">
+                                            <form asp-action="UpdateQuantity" method="post" class="flex items-center space-x-1.5 m-0">
+                                                <input type="hidden" name="productId" value="@item.ProductId" />
+                                                <input type="number" name="quantity" value="@item.Quantity" min="1" class="bg-background border border-white/10 text-white rounded text-center py-1 px-2 text-xs focus:outline-none focus:border-primary w-16" />
+                                                <button type="submit" class="border border-white/15 text-white p-1 hover:bg-white/10 transition-colors flex items-center justify-center bg-transparent" title="Update Quantity">
+                                                    <span class="material-symbols-outlined text-sm">sync</span>
+                                                </button>
+                                            </form>
+                                        </td>
+                                        <!-- Subtotal -->
+                                        <td class="px-6 py-4 align-middle text-primary font-display font-bold text-sm">
+                                            $@item.Subtotal.ToString("F2")
+                                        </td>
+                                        <!-- Action -->
+                                        <td class="px-6 py-4 align-middle text-right">
+                                            <form asp-action="Remove" method="post" class="m-0 inline-block">
+                                                <input type="hidden" name="productId" value="@item.ProductId" />
+                                                <button type="submit" class="text-red-500 hover:text-red-400 p-2 hover:bg-red-500/10 rounded-full transition-all flex items-center justify-center bg-transparent border-0" title="Remove Item">
+                                                    <span class="material-symbols-outlined text-lg">delete</span>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="flex justify-between items-center mt-6">
+                    <a asp-controller="Products" asp-action="Index" class="border border-white/20 text-white hover:bg-white/10 text-xs px-6 py-3 font-label-bold tracking-widest uppercase decoration-none transition-colors">← Continue Shopping</a>
+                    <form asp-action="Clear" method="post" class="m-0">
+                        <button type="submit" class="border border-red-500/20 text-red-400 hover:bg-red-500/10 text-xs px-6 py-3 font-label-bold tracking-widest uppercase decoration-none transition-colors bg-transparent">Clear Cart 🗑️</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Cart Summary -->
+            <div class="lg:col-span-4">
+                <div class="glass-card border border-white/10 p-6 rounded-lg space-y-6">
+                    <h5 class="font-display text-headline-md uppercase text-white tracking-wider">Order Summary</h5>
+                    <div class="flex justify-between items-center text-sm text-on-surface-variant">
+                        <span>Subtotal</span>
+                        <span class="font-semibold text-white">$@Model.Total.ToString("F2")</span>
+                    </div>
+                    <div class="flex justify-between items-center text-sm text-on-surface-variant">
+                        <span>Shipping</span>
+                        <span class="text-secondary font-bold uppercase text-xs">FREE</span>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.CouponCode))
+                    {
+                        <div class="flex justify-between items-center text-sm text-secondary">
+                            <span class="flex items-center gap-1">
+                                <span class="material-symbols-outlined text-sm">sell</span>
+                                <span>Coupon (@Model.CouponCode)</span>
+                            </span>
+                            <span class="font-semibold">-$@Model.DiscountAmount.ToString("F2")</span>
+                        </div>
+                        <form asp-action="RemoveCoupon" method="post" class="m-0">
+                            <button type="submit" class="text-red-400 hover:text-red-300 text-[10px] uppercase tracking-wider font-semibold bg-transparent border-0 p-0 cursor-pointer flex items-center gap-0.5">
+                                <span class="material-symbols-outlined text-xs">cancel</span> Remove Coupon
+                            </button>
+                        </form>
+                    }
+
+                    <hr class="border-white/10" />
+
+                    @if (string.IsNullOrEmpty(Model.CouponCode))
+                    {
+                        <form asp-action="ApplyCoupon" method="post" class="space-y-2 m-0">
+                            <label class="block text-[10px] font-label-bold text-on-surface-variant uppercase tracking-wider">Have a Coupon?</label>
+                            <div class="flex gap-2">
+                                <input type="text" name="couponCode" placeholder="Enter code" class="flex-grow rounded bg-background border border-white/10 px-3 py-2 text-white text-xs uppercase focus:outline-none focus:border-primary" required />
+                                <button type="submit" class="border border-primary text-primary hover:bg-primary hover:text-background px-4 py-2 font-label-bold text-xs uppercase tracking-wider transition-all bg-transparent cursor-pointer">Apply</button>
+                            </div>
+                        </form>
+                    }
+
+                    <div class="flex justify-between items-center">
+                        <span class="font-display font-bold text-white text-base uppercase">Total</span>
+                        <span class="font-display font-bold text-primary text-2xl">$@Model.FinalTotal.ToString("F2")</span>
+                    </div>
+
+                    <a asp-controller="Checkout" asp-action="Index" class="block w-full bg-primary text-black text-center font-label-bold py-4 uppercase tracking-widest text-xs font-bold hover:opacity-90 transition-opacity rounded-none decoration-none">Proceed to Checkout</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

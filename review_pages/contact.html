@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Contact Us | LEGACY ELEVEN</title>
+    
+    <!-- Tailwind CSS Play CDN -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    
+    <!-- Google Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&amp;family=Inter:wght@400;700&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        background: "#0A0C10",
+                        primary: "#d4af37",
+                        "primary-fixed": "#ffe088",
+                        "on-surface-variant": "#d0c5af",
+                        surface: "#111318",
+                        "surface-container-high": "#282a2e",
+                        "surface-container-lowest": "#0c0e12"
+                    },
+                    spacing: {
+                        gutter: "24px",
+                        "container-max": "1280px"
+                    },
+                    fontFamily: {
+                        display: ["Oswald", "sans-serif"],
+                        body: ["Inter", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #0A0C10;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l2.5 7.5L40 10l-7.5 2.5L30 20l-2.5-7.5L20 10l7.5-2.5L30 0zm0 40l2.5 7.5L40 50l-7.5 2.5L30 60l-2.5-7.5L20 50l7.5-2.5L30 40zM10 20l1.25 3.75L15 25l-3.75 1.25L10 30l-1.25-3.75L5 25l3.75-1.25L10 20zm40 0l1.25 3.75L55 25l-3.75 1.25L50 30l-1.25-3.75L45 25l3.75-1.25L50 20z' fill='%23ffffff' fill-opacity='0.02' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+        .glass-card {
+            background: rgba(20, 23, 28, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .gold-glow:hover {
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+        }
+        .form-input {
+            background: #0A0C10;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+        .form-input:focus {
+            border-color: #d4af37;
+            outline: none;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+        }
+    </style>
+</head>
+<body class="text-[#e2e2e8] antialiased overflow-x-hidden font-body">
+
+    <!-- ========== HEADER/NAV BAR MOCK ========== -->
+    <header class="sticky top-0 z-50 h-20 bg-background/60 backdrop-blur-xl border-b border-white/10 flex items-center justify-between px-8">
+        <div class="font-display text-2xl font-bold tracking-widest text-primary">LEGACY ELEVEN</div>
+        <nav class="hidden md:flex items-center gap-8 text-xs font-bold tracking-wider uppercase text-on-surface-variant">
+            <a href="#" class="hover:text-primary">Shop</a>
+            <span class="w-1 h-1 bg-white/20 rounded-full"></span>
+            <a href="#" class="hover:text-primary">Collections</a>
+            <span class="w-1 h-1 bg-white/20 rounded-full"></span>
+            <a href="about.html" class="hover:text-primary">About</a>
+            <span class="w-1 h-1 bg-white/20 rounded-full"></span>
+            <a href="contact.html" class="text-primary">Contact</a>
+        </nav>
+        <div class="flex items-center gap-4 text-sm text-primary border border-primary/20 bg-primary/5 px-4 py-2 uppercase tracking-wider font-bold">
+            Preview Mode
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <div class="relative py-24 overflow-hidden border-b border-white/5 bg-gradient-to-b from-[#0C0E12] via-[#0A0C10]/95 to-[#0A0C10]">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="max-w-container-max mx-auto px-6 text-center relative z-10">
+            <span class="text-primary font-display font-semibold tracking-[0.25em] uppercase text-xs block mb-4">CONNECT WITH OUR ARCHIVISTS</span>
+            <h1 class="font-display text-4xl sm:text-6xl uppercase text-white tracking-wide leading-tight">
+                GET IN TOUCH
+            </h1>
+            <div class="h-1 w-24 bg-primary mx-auto my-6"></div>
+            <p class="text-on-surface-variant max-w-2xl mx-auto mt-6 text-sm sm:text-base leading-relaxed">
+                Have questions about authentication, custom drop requests, or order tracking? Contact our support team. We reply within 24 hours.
+            </p>
+        </div>
+    </div>
+
+    <!-- Contact section grid -->
+    <section class="py-20 max-w-container-max mx-auto px-6">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch">
+            
+            <!-- Left Column: Contact Cards -->
+            <div class="lg:col-span-5 space-y-6 flex flex-col justify-between">
+                <div class="space-y-6">
+                    <!-- Address Card -->
+                    <div class="glass-card p-6 rounded-lg border border-white/10 flex gap-4 items-start">
+                        <span class="material-symbols-outlined text-primary text-2xl">location_on</span>
+                        <div>
+                            <h4 class="font-display text-lg uppercase text-white mb-2">Our Headquarters</h4>
+                            <p class="text-on-surface-variant text-sm leading-relaxed">
+                                11 Football Avenue, Zurich, Switzerland
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Email Card -->
+                    <div class="glass-card p-6 rounded-lg border border-white/10 flex gap-4 items-start">
+                        <span class="material-symbols-outlined text-primary text-2xl">mail</span>
+                        <div>
+                            <h4 class="font-display text-lg uppercase text-white mb-2">Electronic Support</h4>
+                            <p class="text-on-surface-variant text-sm leading-relaxed mb-1">
+                                general: support@legacyeleven.com
+                            </p>
+                            <p class="text-on-surface-variant text-sm leading-relaxed">
+                                billing: accounts@legacyeleven.com
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Phone Card -->
+                    <div class="glass-card p-6 rounded-lg border border-white/10 flex gap-4 items-start">
+                        <span class="material-symbols-outlined text-primary text-2xl">call</span>
+                        <div>
+                            <h4 class="font-display text-lg uppercase text-white mb-2">Direct Hotline</h4>
+                            <p class="text-on-surface-variant text-sm leading-relaxed">
+                                +41 44 234 5678 (Mon-Fri, 9am - 5pm CET)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Subtle Info text -->
+                <div class="p-6 bg-primary/5 border border-primary/20 rounded-lg text-xs text-primary leading-relaxed">
+                    <strong>Note:</strong> Visited by appointment only. For high-value memorabilia evaluations, please fill out the form specifying the tournament and certification status of your items.
+                </div>
+            </div>
+
+            <!-- Right Column: Glass Form -->
+            <div class="lg:col-span-7 glass-card p-8 md:p-10 rounded-xl border border-white/10">
+                <h3 class="font-display text-2xl uppercase text-white mb-6">Send A Message</h3>
+                
+                <form class="space-y-6" onsubmit="event.preventDefault(); alert('Preview Form Submitted!');">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest block mb-2">Full Name</label>
+                            <input type="text" placeholder="John Doe" class="form-input w-full rounded p-3 text-xs" required />
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest block mb-2">Email Address</label>
+                            <input type="email" placeholder="john@example.com" class="form-input w-full rounded p-3 text-xs" required />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest block mb-2">Subject</label>
+                        <input type="text" placeholder="Inquiry about Argentina 1986 Jersey" class="form-input w-full rounded p-3 text-xs" required />
+                    </div>
+
+                    <div>
+                        <label class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest block mb-2">Message</label>
+                        <textarea rows="5" placeholder="State your request in detail..." class="form-input w-full rounded p-3 text-xs" required></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full py-4 bg-primary hover:bg-primary-fixed text-black font-bold uppercase tracking-wider text-xs transition-all duration-300">
+                        Submit Message
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FAQ Accordion section -->
+    <section class="py-20 bg-surface-container-lowest border-t border-white/5">
+        <div class="max-w-3xl mx-auto px-6">
+            <div class="text-center mb-12">
+                <span class="text-primary text-xs uppercase tracking-widest font-bold">Answers</span>
+                <h2 class="font-display text-3xl uppercase text-white mt-2">Frequently Asked Questions</h2>
+            </div>
+
+            <div class="space-y-4">
+                <!-- FAQ Item 1 -->
+                <div class="glass-card rounded border border-white/10 overflow-hidden">
+                    <button onclick="toggleFaq(this)" class="w-full px-6 py-4 flex justify-between items-center text-left text-white font-bold text-sm uppercase tracking-wide hover:bg-white/5 transition-colors focus:outline-none">
+                        <span>Are the jerseys and match balls authenticated?</span>
+                        <span class="material-symbols-outlined text-primary text-sm transition-transform duration-300">expand_more</span>
+                    </button>
+                    <div class="max-h-0 overflow-hidden transition-all duration-300 opacity-0 bg-black/20">
+                        <p class="p-6 text-on-surface-variant text-xs leading-relaxed border-t border-white/5">
+                            Yes. Every high-value historical jersey, replica, and match ball is certified by professional sports appraisers. Each purchase arrives with an official Legacy Eleven Certificate of Authenticity (COA) containing catalog serial tracking.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="glass-card rounded border border-white/10 overflow-hidden">
+                    <button onclick="toggleFaq(this)" class="w-full px-6 py-4 flex justify-between items-center text-left text-white font-bold text-sm uppercase tracking-wide hover:bg-white/5 transition-colors focus:outline-none">
+                        <span>How long does global shipping take?</span>
+                        <span class="material-symbols-outlined text-primary text-sm transition-transform duration-300">expand_more</span>
+                    </button>
+                    <div class="max-h-0 overflow-hidden transition-all duration-300 opacity-0 bg-black/20">
+                        <p class="p-6 text-on-surface-variant text-xs leading-relaxed border-t border-white/5">
+                            We ship worldwide with secure, insured DHL/FedEx shipping. Delivery typically takes 3-5 business days for Europe and North America, and 5-10 business days for the rest of the world. All collectibles are shipped in temperature-controlled packaging.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="glass-card rounded border border-white/10 overflow-hidden">
+                    <button onclick="toggleFaq(this)" class="w-full px-6 py-4 flex justify-between items-center text-left text-white font-bold text-sm uppercase tracking-wide hover:bg-white/5 transition-colors focus:outline-none">
+                        <span>Can I request a specific vintage kit?</span>
+                        <span class="material-symbols-outlined text-primary text-sm transition-transform duration-300">expand_more</span>
+                    </button>
+                    <div class="max-h-0 overflow-hidden transition-all duration-300 opacity-0 bg-black/20">
+                        <p class="p-6 text-on-surface-variant text-xs leading-relaxed border-t border-white/5">
+                            Absolutely! If you're looking for a specific tournament jersey or commemorative match ball not in our active catalog, contact us with the details. Our network of global curators will source it and notify you of availability.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-surface-container-lowest border-t border-white/10 py-12 text-center text-xs text-on-surface-variant/50">
+        <p>© 2026 LEGACY ELEVEN. Standalone Preview Page.</p>
+    </footer>
+
+    <script>
+        function toggleFaq(button) {
+            const container = button.parentElement;
+            const content = container.querySelector('div');
+            const icon = button.querySelector('.material-symbols-outlined');
+
+            if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+                content.style.maxHeight = '0px';
+                content.style.opacity = '0';
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                content.style.maxHeight = '200px';
+                content.style.opacity = '1';
+                icon.style.transform = 'rotate(180deg)';
+            }
+        }
+    </script>
+
+</body>
+</html>

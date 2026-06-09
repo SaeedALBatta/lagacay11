@@ -1,0 +1,132 @@
+@model lagacay11.Models.ViewModels.AdminProductListViewModel
+@{
+    ViewData["Title"] = "Manage Jerseys";
+    var categories = Model.Categories;
+    var search = Model.SelectedSearch;
+    var categoryId = Model.SelectedCategoryId;
+}
+
+<div class="space-y-8">
+    <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-4">
+        <h3 class="font-display text-headline-md uppercase text-white tracking-wider border-l-4 border-primary pl-4">Jersey Catalog</h3>
+        
+        <!-- Filters Form -->
+        <form asp-action="Index" method="get" class="flex flex-wrap items-center gap-3 m-0">
+            <input type="text" name="search" value="@search" class="bg-background border border-white/10 text-white rounded px-3 py-2 text-xs focus:outline-none focus:border-primary placeholder-on-surface-variant/40 w-60" placeholder="Search by name, team, club..." />
+            
+            <select name="categoryId" class="border border-white/10 bg-surface-container text-white text-xs rounded px-3 py-2 focus:outline-none focus:border-primary w-44">
+                <option value="">All Categories</option>
+                @foreach (var cat in categories)
+                {
+                    <!option value="@cat.Id" @(categoryId == cat.Id ? "selected" : "")>@cat.Name</!option>
+                }
+            </select>
+
+            <button type="submit" class="bg-primary text-black font-label-bold px-4 py-2 uppercase tracking-widest text-[10px] font-bold hover:opacity-90 transition-opacity rounded-none">Filter</button>
+            
+            @if (!string.IsNullOrEmpty(search) || categoryId.HasValue)
+            {
+                <a asp-action="Index" class="border border-white/20 text-white hover:bg-white/10 text-[10px] px-4 py-2 font-label-bold tracking-widest uppercase decoration-none transition-colors rounded-none">Clear</a>
+            }
+            
+            <a asp-action="Create" class="border border-primary text-primary hover:bg-primary hover:text-black text-[10px] px-4 py-2 font-label-bold tracking-widest uppercase decoration-none transition-all rounded-none">+ Add Jersey</a>
+        </form>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert-dismissible glass-card border-secondary/30 text-white px-6 py-4 flex justify-between items-center mb-4 transition-all duration-500" role="alert">
+            <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-secondary">check_circle</span>
+                <span class="font-sans text-sm">@TempData["SuccessMessage"]</span>
+            </div>
+            <button type="button" class="text-on-surface-variant hover:text-white transition-colors flex items-center justify-center bg-transparent border-0" onclick="this.parentElement.remove();" aria-label="Close">
+                <span class="material-symbols-outlined text-lg">close</span>
+            </button>
+        </div>
+    }
+
+    <div class="glass-card border border-white/10 rounded-lg overflow-hidden mb-8">
+        <div class="overflow-x-auto">
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-surface-container-high border-b border-white/10">
+                        <th class="px-6 py-4 text-left text-xs uppercase tracking-widest text-primary font-display font-semibold">Image</th>
+                        <th class="px-6 py-4 text-left text-xs uppercase tracking-widest text-primary font-display font-semibold">Jersey Details</th>
+                        <th class="px-6 py-4 text-left text-xs uppercase tracking-widest text-primary font-display font-semibold">Price</th>
+                        <th class="px-6 py-4 text-left text-xs uppercase tracking-widest text-primary font-display font-semibold">Stock</th>
+                        <th class="px-6 py-4 text-left text-xs uppercase tracking-widest text-primary font-display font-semibold">Categories</th>
+                        <th class="px-6 py-4 text-left text-xs uppercase tracking-widest text-primary font-display font-semibold">Status</th>
+                        <th class="px-6 py-4 text-right text-xs uppercase tracking-widest text-primary font-display font-semibold">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Products == null || !Model.Products.Any())
+                    {
+                        <tr>
+                            <td colspan="7" class="px-6 py-8 text-center text-on-surface-variant text-sm">No jerseys found matching filters.</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        foreach (var product in Model.Products)
+                        {
+                            var mainImage = product.MainImagePath;
+
+                            <tr class="border-b border-white/5 hover:bg-white/2 transition-colors">
+                                <td class="px-6 py-4 align-middle">
+                                    <img src="@mainImage" alt="@product.Name" class="rounded border border-white/10 object-contain w-12 h-12 p-1 bg-surface-container" />
+                                </td>
+                                <td class="px-6 py-4 align-middle">
+                                    <h6 class="font-display font-bold text-white text-sm mb-0.5">@product.Name</h6>
+                                    <span class="text-on-surface-variant/70 text-xs block mt-0.5">
+                                        Year: @product.Year 
+                                        @if (!string.IsNullOrEmpty(product.TeamName)) { <span>| Team: @product.TeamName</span> }
+                                        @if (!string.IsNullOrEmpty(product.ClubName)) { <span>| Club: @product.ClubName</span> }
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 align-middle text-primary font-display font-bold text-base">$@product.Price.ToString("F2")</td>
+                                <td class="px-6 py-4 align-middle text-sm">
+                                    @if (product.StockQuantity == 0)
+                                    {
+                                        <span class="text-red-400 font-bold uppercase tracking-wider text-xs">Out of Stock</span>
+                                    }
+                                    else if (product.StockQuantity <= 5)
+                                    {
+                                        <span class="text-amber-400 font-bold uppercase tracking-wider text-xs">Low Stock (@product.StockQuantity)</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-secondary font-bold">@product.StockQuantity</span>
+                                    }
+                                </td>
+                                <td class="px-6 py-4 align-middle">
+                                    @foreach (var cat in product.Categories)
+                                    {
+                                        <span class="inline-block bg-white/10 text-white font-label-bold py-1 px-2.5 text-[10px] uppercase tracking-wider rounded-none mr-1">@cat.Name</span>
+                                    }
+                                </td>
+                                <td class="px-6 py-4 align-middle">
+                                    @if (product.IsAvailable)
+                                    {
+                                        <span class="inline-block bg-secondary text-on-secondary font-label-bold px-3 py-1 text-[10px] uppercase tracking-wider">Active</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="inline-block bg-surface-container text-on-surface-variant/50 font-label-bold px-3 py-1 text-[10px] uppercase tracking-wider">Unavailable</span>
+                                    }
+                                </td>
+                                <td class="px-6 py-4 align-middle text-right">
+                                    <div class="flex justify-end gap-2">
+                                        <a asp-action="Edit" asp-route-id="@product.Id" class="border border-white/20 text-white hover:bg-white/10 text-xs px-3 py-1.5 font-label-bold tracking-widest uppercase decoration-none transition-colors">Edit</a>
+                                        <a asp-action="Delete" asp-route-id="@product.Id" class="border border-red-500/20 text-red-400 hover:bg-red-500/10 text-xs px-3 py-1.5 font-label-bold tracking-widest uppercase decoration-none transition-colors">Delete</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

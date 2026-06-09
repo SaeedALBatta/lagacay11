@@ -1,0 +1,237 @@
+@{
+    ViewData["Title"] = "Museum of Moments";
+}
+
+<div class="min-h-screen bg-[#0A0C10] text-white font-body-lg">
+    <!-- Hero Banner -->
+    <div class="relative py-24 md:py-32 overflow-hidden border-b border-white/5 bg-gradient-to-b from-[#0C0E12] via-[#0A0C10]/95 to-[#0A0C10]">
+        <!-- Subtle Glow Background Effect -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
+        
+        <div class="max-w-container-max mx-auto px-gutter text-center relative z-10">
+            <span class="text-primary font-label-bold tracking-[0.25em] uppercase text-xs block mb-4 animate-pulse">LEGACY ELEVEN VIRTUAL GALLERY</span>
+            <h1 class="font-display-lg text-4xl sm:text-6xl md:text-7xl uppercase text-white tracking-wide leading-tight">
+                THE MUSEUM OF MOMENTS
+            </h1>
+            <div class="h-1 w-24 bg-primary mx-auto my-6"></div>
+            <p class="font-body-md text-on-surface-variant max-w-2xl mx-auto mt-6 text-sm sm:text-base md:text-lg leading-relaxed">
+                Step into our curated archive celebrating the greatest moments in footballing history. Each card represents an era-defining match, immortalized through historical records and corresponding collectible jerseys.
+            </p>
+        </div>
+    </div>
+
+    <!-- Gallery Grid -->
+    <div class="py-20 md:py-28 max-w-container-max mx-auto px-gutter">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+            
+            <!-- Moment Card 1: Maradona -->
+            <div class="glass-card flex flex-col group relative border border-white/10 bg-black/40 rounded-xl overflow-hidden shadow-2xl hover:border-primary/30 transition-all duration-500 hover:-translate-y-2">
+                <!-- Image Container -->
+                <div class="relative aspect-[4/3] overflow-hidden">
+                    <img class="w-full h-full object-cover transition-transform duration-[1000ms] group-hover:scale-110" 
+                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmq1CRD0ziUrj6U4W5swbpyKZYfGuirmFgGVz2RIiL3TjaxlYs9C_I9pUPFR1nS6-gb-ZJkGWtI0RSyZbYYJpncgmfVvDP9FZKurEydcww9Vi0-rM8cKh_hJq-nZ9oVghXkSkkdfX4UEBzx_6A3BCZve6SnO0FYhJeotUXnot5IvhxJlCNTGL_3MImsdrHtg7uVyBDPIdaFe0NDZ8Du-nmtJII1IVa7wJ1yA5yETAc4fC6fVOERH8aGpaoHzDfRfBSA74BUyTtCIk" 
+                         alt="Diego Maradona Hand of God 1986">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent"></div>
+                    <div class="absolute top-4 left-4 z-20">
+                        <span class="bg-primary/90 text-black font-label-bold px-3 py-1 text-[10px] uppercase tracking-wider rounded">MEXICO 1986</span>
+                    </div>
+                </div>
+
+                <!-- Content Area -->
+                <div class="p-6 flex-grow flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-display-lg text-2xl uppercase text-white mb-2 tracking-wide">The Hand of God</h3>
+                        <p class="font-body-md text-on-surface-variant text-sm leading-relaxed mb-6">
+                            A legendary World Cup quarter-final between Argentina and England. Diego Maradona scored two historic goals that defined his genius and controversial brilliance forever.
+                        </p>
+                    </div>
+
+                    <div>
+                        <!-- Accordion Button -->
+                        <button onclick="toggleStats(this, 'stats-maradona')" class="w-full py-2.5 px-4 text-xs text-primary hover:text-white uppercase tracking-wider font-label-bold border border-primary/20 hover:border-primary bg-primary/5 rounded transition-all duration-300 flex items-center justify-center gap-2 mb-3">
+                            <span>Show Match Details & Stats</span>
+                            <span class="material-symbols-outlined text-sm">keyboard_arrow_down</span>
+                        </button>
+
+                        <!-- Hidden Stats Panel -->
+                        <div id="stats-maradona" class="hidden overflow-hidden transition-all duration-500 max-h-0 opacity-0 mb-4">
+                            <div class="p-4 bg-black/40 rounded border border-white/5 space-y-3">
+                                <div class="grid grid-cols-2 gap-2 text-[11px] font-label-bold text-on-surface-variant/70 border-b border-white/5 pb-2">
+                                    <div>MATCH</div><div class="text-right text-white font-body-md">Argentina 2 - 1 England</div>
+                                    <div>DATE</div><div class="text-right text-white font-body-md">June 22, 1986</div>
+                                    <div>VENUE</div><div class="text-right text-white font-body-md">Estadio Azteca, CDMX</div>
+                                </div>
+                                <div class="text-xs text-on-surface-variant/80 leading-relaxed font-body-md">
+                                    <strong>Stat of the Match:</strong> Maradona completed 4 dribbles and created 3 chances. His second goal involved a 60-meter, 10-second sprint past 5 England defenders, later voted the "Goal of the Century".
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Browse Shop Link -->
+                        @if (ViewBag.MaradonaProductId != null)
+                        {
+                            <a href="/Products/Details/@ViewBag.MaradonaProductId" class="w-full py-3 bg-primary hover:bg-primary-fixed text-black hover:text-black text-center font-label-bold uppercase text-xs tracking-widest rounded transition-all duration-300 block decoration-none">
+                                Browse Memorabilia
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="/Products?search=Argentina+1986" class="w-full py-3 bg-primary hover:bg-primary-fixed text-black hover:text-black text-center font-label-bold uppercase text-xs tracking-widest rounded transition-all duration-300 block decoration-none">
+                                Browse Memorabilia
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Moment Card 2: Pele -->
+            <div class="glass-card flex flex-col group relative border border-white/10 bg-black/40 rounded-xl overflow-hidden shadow-2xl hover:border-primary/30 transition-all duration-500 hover:-translate-y-2">
+                <!-- Image Container -->
+                <div class="relative aspect-[4/3] overflow-hidden">
+                    <img class="w-full h-full object-cover transition-transform duration-[1000ms] group-hover:scale-110" 
+                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzIQKlm1mYSIF2r1is9iwYTE77lBCcxGq4qXAqqMgJ7qYzOzLu5fGS7f-Ulv71ybf1WcrMqv89IjM8NKcYvFZQqm0HYGCVMyP8AktLeEOnf-v7_tMe1LyiK0aSykkecz5qF5ZZcbB-Gj8Iv53OAmSRaeAkEkv37fJsFscQqH2tXnC4zBcnfUICgEMm6YsNTbkBaJWYO32FerhApR2iECXl6RtQwb0_Qyc-oH2RSdTA5VOhxT8hXnpwBgBtjRpi9aOL3IEHj4aXNHM" 
+                         alt="Pele 1958 World Cup Debut">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent"></div>
+                    <div class="absolute top-4 left-4 z-20">
+                        <span class="bg-primary/90 text-black font-label-bold px-3 py-1 text-[10px] uppercase tracking-wider rounded">SWEDEN 1958</span>
+                    </div>
+                </div>
+
+                <!-- Content Area -->
+                <div class="p-6 flex-grow flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-display-lg text-2xl uppercase text-white mb-2 tracking-wide">The King's Debut</h3>
+                        <p class="font-body-md text-on-surface-variant text-sm leading-relaxed mb-6">
+                            A 17-year-old prodigy takes the global stage. Pelé's dazzling speed and incredible skills captured the hearts of fans worldwide, ushering in the golden age of Brazilian football.
+                        </p>
+                    </div>
+
+                    <div>
+                        <!-- Accordion Button -->
+                        <button onclick="toggleStats(this, 'stats-pele')" class="w-full py-2.5 px-4 text-xs text-primary hover:text-white uppercase tracking-wider font-label-bold border border-primary/20 hover:border-primary bg-primary/5 rounded transition-all duration-300 flex items-center justify-center gap-2 mb-3">
+                            <span>Show Match Details & Stats</span>
+                            <span class="material-symbols-outlined text-sm">keyboard_arrow_down</span>
+                        </button>
+
+                        <!-- Hidden Stats Panel -->
+                        <div id="stats-pele" class="hidden overflow-hidden transition-all duration-500 max-h-0 opacity-0 mb-4">
+                            <div class="p-4 bg-black/40 rounded border border-white/5 space-y-3">
+                                <div class="grid grid-cols-2 gap-2 text-[11px] font-label-bold text-on-surface-variant/70 border-b border-white/5 pb-2">
+                                    <div>MATCH</div><div class="text-right text-white font-body-md">Brazil 5 - 2 Sweden</div>
+                                    <div>DATE</div><div class="text-right text-white font-body-md">June 29, 1958</div>
+                                    <div>VENUE</div><div class="text-right text-white font-body-md">Råsunda Stadium, Solna</div>
+                                </div>
+                                <div class="text-xs text-on-surface-variant/80 leading-relaxed font-body-md">
+                                    <strong>Stat of the Match:</strong> Pelé became the youngest player to play and score in a World Cup Final. He scored 2 goals, including a legendary chip over a defender and volley.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Browse Shop Link -->
+                        @if (ViewBag.PeleProductId != null)
+                        {
+                            <a href="/Products/Details/@ViewBag.PeleProductId" class="w-full py-3 bg-primary hover:bg-primary-fixed text-black hover:text-black text-center font-label-bold uppercase text-xs tracking-widest rounded transition-all duration-300 block decoration-none">
+                                Browse Memorabilia
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="/Products?search=Brazil+1958" class="w-full py-3 bg-primary hover:bg-primary-fixed text-black hover:text-black text-center font-label-bold uppercase text-xs tracking-widest rounded transition-all duration-300 block decoration-none">
+                                Browse Memorabilia
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Moment Card 3: Zidane -->
+            <div class="glass-card flex flex-col group relative border border-white/10 bg-black/40 rounded-xl overflow-hidden shadow-2xl hover:border-primary/30 transition-all duration-500 hover:-translate-y-2">
+                <!-- Image Container -->
+                <div class="relative aspect-[4/3] overflow-hidden">
+                    <img class="w-full h-full object-cover transition-transform duration-[1000ms] group-hover:scale-110" 
+                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAyDYvhMzFCjznb4ERIO9eh3Ws7KDOx2u8LFTHPoje9RZz_bny_GBvlT7VvvqV8TIIG2ltfaUYf4PVENuQFr2OnarCzVa6Gru1375fUgktTMzMZ6E1HirdBE5LMyGknl5idnxqjrlPsMxvASNvpzCH0FhWJSXKvY8_yb_re1tSBXiXPqvRtMzMcm9jZ6jJrGKjZIDvxTPQHyyLlIHaN8GKjmxbxYAfug7heN9ZQ9UgwP__n3-oj3dGw_KtUCNLrgzXbilKQiRljB8" 
+                         alt="Zinedine Zidane France 1998 Victory">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent"></div>
+                    <div class="absolute top-4 left-4 z-20">
+                        <span class="bg-primary/90 text-black font-label-bold px-3 py-1 text-[10px] uppercase tracking-wider rounded">FRANCE 1998</span>
+                    </div>
+                </div>
+
+                <!-- Content Area -->
+                <div class="p-6 flex-grow flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-display-lg text-2xl uppercase text-white mb-2 tracking-wide">Host Nation Glory</h3>
+                        <p class="font-body-md text-on-surface-variant text-sm leading-relaxed mb-6">
+                            Zinedine Zidane's two iconic headers in the World Cup Final in Paris. A tournament of pure elegance, style, and national pride, lifting Les Bleus to their first global victory.
+                        </p>
+                    </div>
+
+                    <div>
+                        <!-- Accordion Button -->
+                        <button onclick="toggleStats(this, 'stats-zidane')" class="w-full py-2.5 px-4 text-xs text-primary hover:text-white uppercase tracking-wider font-label-bold border border-primary/20 hover:border-primary bg-primary/5 rounded transition-all duration-300 flex items-center justify-center gap-2 mb-3">
+                            <span>Show Match Details & Stats</span>
+                            <span class="material-symbols-outlined text-sm">keyboard_arrow_down</span>
+                        </button>
+
+                        <!-- Hidden Stats Panel -->
+                        <div id="stats-zidane" class="hidden overflow-hidden transition-all duration-500 max-h-0 opacity-0 mb-4">
+                            <div class="p-4 bg-black/40 rounded border border-white/5 space-y-3">
+                                <div class="grid grid-cols-2 gap-2 text-[11px] font-label-bold text-on-surface-variant/70 border-b border-white/5 pb-2">
+                                    <div>MATCH</div><div class="text-right text-white font-body-md">France 3 - 0 Brazil</div>
+                                    <div>DATE</div><div class="text-right text-white font-body-md">July 12, 1998</div>
+                                    <div>VENUE</div><div class="text-right text-white font-body-md">Stade de France, Paris</div>
+                                </div>
+                                <div class="text-xs text-on-surface-variant/80 leading-relaxed font-body-md">
+                                    <strong>Stat of the Match:</strong> Zidane scored two headers in the first half from corner kicks. France played with 10 men from the 68th minute and still secured a historic 3-0 victory.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Browse Shop Link -->
+                        @if (ViewBag.ZidaneProductId != null)
+                        {
+                            <a href="/Products/Details/@ViewBag.ZidaneProductId" class="w-full py-3 bg-primary hover:bg-primary-fixed text-black hover:text-black text-center font-label-bold uppercase text-xs tracking-widest rounded transition-all duration-300 block decoration-none">
+                                Browse Memorabilia
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="/Products?search=France+1998" class="w-full py-3 bg-primary hover:bg-primary-fixed text-black hover:text-black text-center font-label-bold uppercase text-xs tracking-widest rounded transition-all duration-300 block decoration-none">
+                                Browse Memorabilia
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleStats(button, panelId) {
+        const panel = document.getElementById(panelId);
+        const icon = button.querySelector('.material-symbols-outlined');
+        const text = button.querySelector('span');
+
+        if (panel.classList.contains('hidden')) {
+            // Open
+            panel.classList.remove('hidden');
+            // Force reflow
+            panel.offsetHeight;
+            panel.style.maxHeight = '200px';
+            panel.style.opacity = '1';
+            icon.innerText = 'keyboard_arrow_up';
+            text.innerText = 'Hide Match Details';
+        } else {
+            // Close
+            panel.style.maxHeight = '0';
+            panel.style.opacity = '0';
+            icon.innerText = 'keyboard_arrow_down';
+            text.innerText = 'Show Match Details & Stats';
+            setTimeout(() => {
+                panel.classList.add('hidden');
+            }, 300);
+        }
+    }
+</script>

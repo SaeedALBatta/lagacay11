@@ -1,0 +1,51 @@
+@model lagacay11.Models.ViewModels.AdminCategoryViewModel
+@{
+    ViewData["Title"] = $"Edit {Model.Name}";
+}
+
+<div class="space-y-6 max-w-xl mx-auto">
+    <!-- Breadcrumbs -->
+    <nav class="mb-6">
+        <ol class="flex items-center space-x-2 text-[10px] uppercase tracking-widest font-label-bold text-on-surface-variant">
+            <li><a asp-action="Index" class="hover:text-primary transition-colors decoration-none">Manage Categories</a></li>
+            <li><span class="text-on-surface-variant/40">/</span></li>
+            <li class="text-white">Edit Category</li>
+        </ol>
+    </nav>
+
+    <div class="glass-card p-8 border border-white/10 rounded-lg space-y-6">
+        <h2 class="font-display text-headline-md uppercase text-white tracking-wider">Edit Category</h2>
+
+        <form asp-action="Edit" method="post" class="space-y-6 m-0">
+            <input type="hidden" asp-for="Id" />
+            <div asp-validation-summary="ModelOnly" class="bg-red-500/10 border border-red-500/20 text-red-400 p-4 text-xs font-semibold rounded" role="alert"></div>
+
+            <div class="space-y-2">
+                <label asp-for="Name" class="font-label-bold text-on-surface-variant text-xs uppercase tracking-wider block"></label>
+                <input asp-for="Name" class="w-full bg-background border border-white/10 text-white rounded p-3 text-sm focus:outline-none focus:border-primary placeholder-on-surface-variant/40" />
+                <span asp-validation-for="Name" class="text-red-400 text-xs block"></span>
+            </div>
+
+            <div class="space-y-2">
+                <label asp-for="Slug" class="font-label-bold text-on-surface-variant text-xs uppercase tracking-wider block"></label>
+                <input asp-for="Slug" class="w-full bg-background border border-white/10 text-white rounded p-3 text-sm focus:outline-none focus:border-primary placeholder-on-surface-variant/40" />
+                <span asp-validation-for="Slug" class="text-red-400 text-xs block"></span>
+            </div>
+
+            <div class="space-y-2">
+                <label asp-for="Description" class="font-label-bold text-on-surface-variant text-xs uppercase tracking-wider block"></label>
+                <textarea asp-for="Description" rows="4" class="w-full bg-background border border-white/10 text-white rounded p-4 text-sm focus:outline-none focus:border-primary placeholder-on-surface-variant/40"></textarea>
+                <span asp-validation-for="Description" class="text-red-400 text-xs block"></span>
+            </div>
+
+            <div class="flex justify-end gap-4 pt-4">
+                <a asp-action="Index" class="border border-white/20 text-white hover:bg-white/10 text-xs px-6 py-3 font-label-bold tracking-widest uppercase decoration-none transition-colors rounded-none">Cancel</a>
+                <button type="submit" class="bg-primary text-black font-label-bold px-6 py-3.5 uppercase tracking-widest text-xs font-bold hover:opacity-90 transition-opacity rounded-none">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

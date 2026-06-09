@@ -1,0 +1,179 @@
+@model lagacay11.Models.ViewModels.AdminProductEditViewModel
+@{
+    ViewData["Title"] = $"Edit {Model.Name}";
+    var categories = ViewBag.Categories as List<lagacay11.Models.Category> ?? new List<lagacay11.Models.Category>();
+}
+
+<div class="space-y-6 max-w-4xl mx-auto">
+    <!-- Breadcrumbs -->
+    <nav class="mb-6">
+        <ol class="flex items-center space-x-2 text-[10px] uppercase tracking-widest font-label-bold text-on-surface-variant">
+            <li><a asp-action="Index" class="hover:text-primary transition-colors decoration-none">Manage Jerseys</a></li>
+            <li><span class="text-on-surface-variant/40">/</span></li>
+            <li class="text-white">Edit Jersey</li>
+        </ol>
+    </nav>
+
+    <div class="glass-card p-8 border border-white/10 rounded-lg space-y-6">
+        <h2 class="font-display text-headline-md uppercase text-white tracking-wider">Edit Football Jersey</h2>
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert-dismissible glass-card border-secondary/30 text-white px-6 py-4 flex justify-between items-center mb-4 transition-all duration-500" role="alert">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-secondary">check_circle</span>
+                    <span class="font-sans text-sm">@TempData["SuccessMessage"]</span>
+                </div>
+                <button type="button" class="text-on-surface-variant hover:text-white transition-colors flex items-center justify-center bg-transparent border-0" onclick="this.parentElement.remove();" aria-label="Close">
+                    <span class="material-symbols-outlined text-lg">close</span>
+                </button>
+            </div>
+        }
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <!-- Main details Form -->
+            <div class="lg:col-span-8">
+                <form asp-action="Edit" method="post" enctype="multipart/form-data" id="editProductForm" class="space-y-6 m-0">
+                    <input type="hidden" asp-for="Id" />
+                    <div asp-validation-summary="ModelOnly" class="bg-red-500/10 border border-red-500/20 text-red-400 p-4 text-xs font-semibold rounded" role="alert"></div>
+
+                    <!-- Jersey Name -->
+                    <div class="space-y-2">
+                        <label asp-for="Name" class="font-label-bold text-on-surface-variant text-xs uppercase tracking-wider block"></label>
+                        <input asp-for="Name" class="w-full bg-background border border-white/10 text-white rounded p-3 text-sm focus:outline-none focus:border-primary placeholder-on-surface-variant/40" />
+                        <span asp-validation-for="Name" class="text-red-400 text-xs block"></span>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="space-y-2">
+                        <label asp-for="Description" class="font-label-bold text-on-surface-variant text-xs uppercase tracking-wider block"></label>
+                        <textarea asp-for="Description" rows="5" class="w-full bg-background border border-white/10 text-white rounded p-4 text-sm focus:outline-none focus:border-primary placeholder-on-surface-variant/40"></textarea>
+                        <span asp-validation-for="Description" class="text-red-400 text-xs block"></span>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Price -->
+                        <div class="space-y-2">
+                            <label asp-for="Price" class="font-label-bold text-on-surface-variant text-xs uppercase tracking-wider block"></label>
+                            <div class="flex items-center bg-background border border-white/10 rounded overflow-hidden">
+                                <span class="px-4 text-sm text-on-surface-variant font-semibold bg-white/5 border-r border-white/10 py-3.5">$</span>
+                                <input asp-for="Price" type="text" class="bg-transparent border-0 text-white p-3 text-sm focus:outline-none flex-grow" />
+                            </div>
+                            <span asp-validation-for="Price" class="text-red-400 text-xs block"></span>
+                        </div>
+
+                        <!-- Stock Quantity -->
+                        <div class="space-y-2">
+                            <label asp-for="StockQuantity" class="font-label-bold text-on-surface-variant text-xs uppercase tracking-wider block"></label>
+                            <input asp-for="StockQuantity" type="number" class="w-full bg-background border border-white/10 text-white rounded p-3.5 text-sm focus:outline-none focus:border-primary placeholder-on-surface-variant/40" />
+                            <span asp-validation-for="StockQuantity" class="text-red-400 text-xs block"></span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Team Name -->
+                        <div class="space-y-2">
+                            <label asp-for="TeamName" class="font-label-bold text-on-surface-variant text-xs uppercase tracking-wider block"></label>
+                            <input asp-for="TeamName" class="w-full bg-background border border-white/10 text-white rounded p-3 text-sm focus:outline-none focus:border-primary placeholder-on-surface-variant/40" />
+                            <span asp-validation-for="TeamName" class="text-red-400 text-xs block"></span>
+                        </div>
+
+                        <!-- Club Name -->
+                        <div class="space-y-2">
+                            <label asp-for="ClubName" class="font-label-bold text-on-surface-variant text-xs uppercase tracking-wider block"></label>
+                            <input asp-for="ClubName" class="w-full bg-background border border-white/10 text-white rounded p-3 text-sm focus:outline-none focus:border-primary placeholder-on-surface-variant/40" />
+                            <span asp-validation-for="ClubName" class="text-red-400 text-xs block"></span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Year -->
+                        <div class="space-y-2">
+                            <label asp-for="Year" class="font-label-bold text-on-surface-variant text-xs uppercase tracking-wider block"></label>
+                            <input asp-for="Year" type="number" class="w-full bg-background border border-white/10 text-white rounded p-3 text-sm focus:outline-none focus:border-primary placeholder-on-surface-variant/40" />
+                            <span asp-validation-for="Year" class="text-red-400 text-xs block"></span>
+                        </div>
+
+                        <!-- World Cup Edition -->
+                        <div class="space-y-2">
+                            <label asp-for="WorldCupEdition" class="font-label-bold text-on-surface-variant text-xs uppercase tracking-wider block"></label>
+                            <input asp-for="WorldCupEdition" class="w-full bg-background border border-white/10 text-white rounded p-3 text-sm focus:outline-none focus:border-primary placeholder-on-surface-variant/40" />
+                            <span asp-validation-for="WorldCupEdition" class="text-red-400 text-xs block"></span>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end gap-4 pt-6 border-t border-white/10">
+                        <a asp-action="Index" class="border border-white/20 text-white hover:bg-white/10 text-xs px-6 py-3 font-label-bold tracking-widest uppercase decoration-none transition-colors rounded-none">Cancel</a>
+                        <button type="submit" class="bg-primary text-black font-label-bold px-6 py-3.5 uppercase tracking-widest text-xs font-bold hover:opacity-90 transition-opacity rounded-none">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Categories & Images Sidebar -->
+            <div class="lg:col-span-4 space-y-6">
+                <!-- Is Available Switch -->
+                <div class="glass-card p-6 border border-white/10 bg-black/20 rounded-lg space-y-3">
+                    <div class="flex items-center justify-between">
+                        <label asp-for="IsAvailable" class="font-bold text-white text-sm cursor-pointer"></label>
+                        <input asp-for="IsAvailable" class="rounded border-white/10 bg-background text-primary focus:ring-0 w-5 h-5 cursor-pointer" type="checkbox" form="editProductForm" />
+                    </div>
+                </div>
+
+                <!-- Categories List -->
+                <div class="glass-card p-6 border border-white/10 bg-black/20 rounded-lg space-y-4">
+                    <h6 class="font-display text-stats-xl text-white uppercase tracking-wider">Categories</h6>
+                    <div class="space-y-2">
+                        @foreach (var cat in categories)
+                        {
+                            <div class="flex items-center gap-2.5">
+                                <input type="checkbox" name="SelectedCategoryIds" value="@cat.Id" class="rounded border-white/10 bg-background text-primary focus:ring-0 w-4 h-4 cursor-pointer" form="editProductForm" id="cat-checkbox-@cat.Id" @(Model.SelectedCategoryIds != null && Model.SelectedCategoryIds.Contains(cat.Id) ? "checked" : "") />
+                                <label class="text-on-surface-variant text-xs cursor-pointer" for="cat-checkbox-@cat.Id">@cat.Name</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Manage Existing Images -->
+                <div class="glass-card p-6 border border-white/10 bg-black/20 rounded-lg space-y-4">
+                    <h6 class="font-display text-stats-xl text-white uppercase tracking-wider">Existing Photos</h6>
+                    <div class="grid grid-cols-2 gap-4">
+                        @foreach (var img in Model.ExistingImages)
+                        {
+                            <div class="border border-white/10 rounded p-3 bg-background flex flex-col justify-between h-44 relative">
+                                <img src="@img.ImagePath" class="rounded object-contain w-full h-24 bg-surface-container-low mb-2" />
+                                
+                                <div class="flex justify-between items-center px-1">
+                                    <div class="flex items-center gap-1.5">
+                                        <input class="rounded-full border-white/10 bg-background text-primary focus:ring-0 w-3 h-3 cursor-pointer" type="radio" name="mainImageId" value="@img.Id" form="editProductForm" @(img.IsMain ? "checked" : "") id="main-radio-@img.Id" />
+                                        <label class="text-on-surface-variant/80 text-[10px] uppercase font-bold cursor-pointer" for="main-radio-@img.Id">Main</label>
+                                    </div>
+
+                                    <!-- Delete Image mini Form -->
+                                    <form asp-action="DeleteImage" method="post" class="m-0">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="imageId" value="@img.Id" />
+                                        <input type="hidden" name="productId" value="@Model.Id" />
+                                        <button type="submit" class="text-red-500 hover:text-red-400 p-1 hover:bg-red-500/10 rounded-full transition-all flex items-center justify-center bg-transparent border-0" title="Delete Photo">
+                                            <span class="material-symbols-outlined text-sm">delete</span>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Upload New Images -->
+                <div class="glass-card p-6 border border-white/10 bg-black/20 rounded-lg space-y-4">
+                    <h6 class="font-display text-stats-xl text-white uppercase tracking-wider">Add New Photos</h6>
+                    <input type="file" name="Images" class="w-full bg-background border border-white/10 text-white rounded p-2 text-xs focus:outline-none file:mr-4 file:py-1.5 file:px-4 file:rounded-none file:border-0 file:text-xs file:font-semibold file:bg-white/10 file:text-white hover:file:bg-white/20 file:cursor-pointer" form="editProductForm" multiple accept="image/*" />
+                    <div class="text-on-surface-variant/50 text-[10px] uppercase tracking-wider leading-relaxed">Choose files and click "Save Changes".</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

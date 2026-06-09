@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] | Legacy Eleven Admin</title>
+    
+    <!-- Google Fonts: Inter, Oswald, Material Symbols -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    
+    <!-- Tailwind CSS Play CDN & Config -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "secondary-container": "#06bb63",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "tertiary-fixed": "#e2e2e2",
+                        "primary-fixed-dim": "#e9c349",
+                        "surface-container-lowest": "#0c0e12",
+                        "on-primary-fixed-variant": "#574500",
+                        "on-error-container": "#ffdad6",
+                        "background": "#111318",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "on-secondary": "#003919",
+                        "on-secondary-container": "#00431f",
+                        "surface-bright": "#37393e",
+                        "on-secondary-fixed-variant": "#005228",
+                        "inverse-surface": "#e2e2e8",
+                        "on-tertiary-container": "#434546",
+                        "on-surface-variant": "#d0c5af",
+                        "on-primary-container": "#554300",
+                        "primary-container": "#d4af37",
+                        "on-error": "#690005",
+                        "inverse-on-surface": "#2f3035",
+                        "error": "#ffb4ab",
+                        "surface-container": "#1e2024",
+                        "inverse-primary": "#735c00",
+                        "secondary-fixed": "#6bfe9c",
+                        "surface-container-low": "#1a1c20",
+                        "surface-variant": "#333539",
+                        "primary-fixed": "#ffe088",
+                        "on-secondary-fixed": "#00210c",
+                        "surface-tint": "#e9c349",
+                        "error-container": "#93000a",
+                        "tertiary": "#cecece",
+                        "secondary": "#4ae183",
+                        "surface-dim": "#111318",
+                        "on-primary": "#3c2f00",
+                        "surface-container-high": "#282a2e",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "on-surface": "#e2e2e8",
+                        "surface": "#111318",
+                        "secondary-fixed-dim": "#4ae183",
+                        "primary": "#f2ca50",
+                        "on-background": "#e2e2e8",
+                        "surface-container-highest": "#333539",
+                        "tertiary-container": "#b2b3b3",
+                        "outline-variant": "#4d4635",
+                        "outline": "#99907c",
+                        "on-primary-fixed": "#241a00",
+                        "on-tertiary": "#2f3131"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.125rem",
+                        lg: "0.25rem",
+                        xl: "0.5rem",
+                        full: "0.75rem"
+                    },
+                    spacing: {
+                        "margin-mobile": "16px",
+                        "container-max": "1280px",
+                        "unit": "8px",
+                        "margin-desktop": "48px",
+                        "gutter": "24px"
+                    },
+                    fontFamily: {
+                        "headline-md": ["Oswald"],
+                        "headline-lg-mobile": ["Oswald"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Oswald"],
+                        "label-bold": ["Inter"],
+                        "headline-lg": ["Oswald"],
+                        "stats-xl": ["Oswald"],
+                        "body-md": ["Inter"]
+                    },
+                    fontSize: {
+                        "headline-md": ["32px", { lineHeight: "40px", fontWeight: "500" }],
+                        "headline-lg-mobile": ["32px", { lineHeight: "40px", fontWeight: "600" }],
+                        "body-lg": ["18px", { lineHeight: "28px", fontWeight: "400" }],
+                        "display-lg": ["72px", { lineHeight: "80px", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "label-bold": ["14px", { lineHeight: "20px", letterSpacing: "0.05em", fontWeight: "700" }],
+                        "headline-lg": ["48px", { lineHeight: "56px", fontWeight: "600" }],
+                        "stats-xl": ["24px", { lineHeight: "32px", fontWeight: "600" }],
+                        "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Storefront Navbar CSS -->
+    <link rel="stylesheet" href="~/css/navbar.css" asp-append-version="true" />
+    <style>
+        body {
+            background-color: #0A0C10;
+            background-image: radial-gradient(circle at 50% 0%, #1a1c20 0%, #0A0C10 70%);
+            background-attachment: fixed;
+        }
+        .glass-panel {
+            background-color: rgba(20, 23, 28, 0.6);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .glass-panel-glow {
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+        }
+        @@media (min-width: 1024px) {
+            .admin-sidebar {
+                top: 80px;
+                height: calc(100vh - 80px);
+                position: fixed !important;
+                z-index: 40 !important;
+            }
+            #mainHeader.scrolled ~ .admin-sidebar {
+                top: 64px;
+                height: calc(100vh - 64px);
+            }
+        }
+    </style>
+</head>
+<body class="text-on-background font-body-md bg-background min-h-screen selection:bg-primary/30 selection:text-primary overflow-x-hidden">
+    <!-- ========== MAIN HEADER / NAVBAR ========== -->
+    <partial name="_Navbar" />
+
+    <!-- Sidebar Navigation -->
+    <partial name="_AdminNav" />
+
+    <!-- Main Content Area -->
+    <div class="lg:pl-64 min-h-screen flex flex-col">
+
+        <!-- Main Body Content -->
+        <main class="flex-grow p-8 max-w-[1400px] w-full mx-auto" role="main">
+            @RenderBody()
+        </main>
+
+        <!-- Footer -->
+        <footer class="mt-auto flex justify-between items-center px-8 py-6 border-t border-outline-variant/30 bg-surface/40 text-on-surface-variant font-body-md text-xs">
+            <p class="mb-0">© 2026 Legacy Eleven Digital Collectibles. All rights reserved.</p>
+            <div class="flex gap-6">
+                <a class="hover:text-primary transition-colors decoration-none" href="#">Support</a>
+                <a class="hover:text-primary transition-colors decoration-none" href="#">Privacy Policy</a>
+                <a class="hover:text-primary transition-colors decoration-none" href="#">Terms of Service</a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/navbar.js" asp-append-version="true"></script>
+    
+    <!-- Responsive Sidebar Toggle Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const toggleBtn = document.getElementById("sidebarToggle");
+            const sidebar = document.querySelector(".admin-sidebar");
+            
+            if (toggleBtn && sidebar) {
+                toggleBtn.addEventListener("click", function (e) {
+                    e.stopPropagation();
+                    sidebar.classList.remove("-translate-x-full");
+                });
+            }
+            
+            const closeBtn = document.getElementById("sidebarCloseBtn");
+            if (closeBtn && sidebar) {
+                closeBtn.addEventListener("click", function () {
+                    sidebar.classList.add("-translate-x-full");
+                });
+            }
+            
+            document.addEventListener("click", function (e) {
+                if (sidebar && !sidebar.classList.contains("-translate-x-full") && !sidebar.contains(e.target) && e.target !== toggleBtn) {
+                    sidebar.classList.add("-translate-x-full");
+                }
+            });
+        });
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

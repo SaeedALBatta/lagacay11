@@ -1,0 +1,360 @@
+@model lagacay11.Models.ViewModels.HomeIndexViewModel
+@{
+    ViewData["Title"] = "LEGACY ELEVEN | FIFA World Cup Marketplace";
+    var categories = Model.Categories;
+    var testimonials = Model.Testimonials;
+    var retroArrivals = Model.RetroArrivals;
+    var wcFeatured = Model.WcFeatured;
+}
+
+<!-- Hero Section -->
+<section class="relative h-[921px] min-h-[700px] flex items-center overflow-hidden">
+    <div class="absolute inset-0 z-0">
+        <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAifyqtRn2MTKXyf7BX8FNVYKg45Ew23BUHLF2n0NNER6USx4J3U5poxQzD6XAhXVlLfjuBniI1turlp2vYCBw3Lh3GEkvynMj0Y6dp8bZeMCoFzUm3h4YcSSAg67sx9BbuwHDAq326R6XwlDQhNHeFZB2PcUU5Ei8NuOaP_WPO6PX7OqibvRfkcs5R_Vp2kFu0QJVoPYkBezp_yt-93k_AVknfaLQGEX2mS1OMCfc8ErUbpbq24wDhT65uz1D24hO05yeYvTu69fg" alt="Football stadium sunset pitch">
+        <div class="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent"></div>
+    </div>
+    <div class="relative z-10 w-full px-gutter max-w-container-max mx-auto">
+        <div class="max-w-3xl space-y-8">
+            <h1 class="font-display-lg text-display-lg text-white uppercase tracking-tighter leading-none">
+                IMMORTALIZING THE <br><span class="text-primary">BEAUTIFUL GAME</span>
+            </h1>
+            <p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
+                The definitive destination for World Cup heritage and rare collectibles. Experience sporting history through our curated digital artifacts.
+            </p>
+            <div class="flex flex-wrap items-center gap-6 pt-4">
+                <a asp-controller="Products" asp-action="Index" class="bg-primary text-on-primary font-label-bold px-10 py-4 rounded-none gold-glow transition-all transform hover:-translate-y-1 uppercase tracking-widest decoration-none">
+                    SHOP THE COLLECTION
+                </a>
+                <div class="glass-card px-6 py-3 flex items-center gap-4">
+                    <div class="flex flex-col items-center">
+                        <span class="font-headline-md text-headline-md leading-none text-white" id="days">00</span>
+                        <span class="text-[10px] uppercase tracking-widest text-on-surface-variant">Days</span>
+                    </div>
+                    <div class="w-px h-8 bg-white/20"></div>
+                    <div class="flex flex-col items-center">
+                        <span class="font-headline-md text-headline-md leading-none text-white" id="hours">00</span>
+                        <span class="text-[10px] uppercase tracking-widest text-on-surface-variant">Hrs</span>
+                    </div>
+                    <div class="w-px h-8 bg-white/20"></div>
+                    <div class="flex flex-col items-center">
+                        <span class="font-headline-md text-headline-md leading-none text-white" id="minutes">00</span>
+                        <span class="text-[10px] uppercase tracking-widest text-on-surface-variant">Min</span>
+                    </div>
+                    <div class="w-px h-8 bg-white/20"></div>
+                    <div class="flex flex-col items-center">
+                        <span class="font-headline-md text-headline-md leading-none text-primary" id="seconds">00</span>
+                        <span class="text-[10px] uppercase tracking-widest text-on-surface-variant">Sec</span>
+                    </div>
+                    <div class="text-primary font-label-bold ml-2 uppercase tracking-wider text-xs hidden sm:block">TO WORLD CUP 2026</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Trending Teams (Horizontal Scroll) -->
+<section class="py-16 overflow-hidden">
+    <div class="px-gutter max-w-container-max mx-auto mb-8 flex justify-between items-end">
+        <h2 class="font-headline-md text-headline-md uppercase tracking-tight text-white border-l-4 border-primary pl-4">Trending Teams</h2>
+        <a asp-controller="Products" asp-action="Index" class="text-primary font-label-bold flex items-center gap-2 hover:translate-x-1 transition-transform uppercase decoration-none text-sm">
+            VIEW ALL TEAMS <span class="material-symbols-outlined text-sm">arrow_forward</span>
+        </a>
+    </div>
+    <div class="flex space-x-12 overflow-x-auto pb-8 px-gutter scrollbar-hide max-w-container-max mx-auto">
+        <!-- Team Item -->
+        <a asp-controller="Products" asp-action="Index" asp-route-search="Brazil" class="flex-none group cursor-pointer text-center decoration-none">
+            <div class="w-40 h-40 glass-card rounded-full flex items-center justify-center spotlight-bg group-hover:border-primary/50 transition-all p-8 relative overflow-hidden">
+                <img class="relative z-10 w-full object-contain filter grayscale group-hover:grayscale-0 transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3BcWvxEGk08KX9H5zpBQ9PpEFLNdll5bA3-vQ4GPzQvhM2hePxBJa79QopuY4hm-fROgQFMOQBSGdEcLt14ipnfAzmFlSawGlenRB8HXTmsh41ImJ6S1a1hooK-xNww9oe5UH8S6_WslDkOjmT9C_HobPzemL5xx6by_Qao08jzonj0RYS1F_yPCpWpMKOpBwOHFAvB7vjfWEr-205fxyeR9HtKzTTte3gWf9Yqg4nfZJX6JwmJK4cNHkaYGvxtFTFmsZ6YfS2tY" alt="Brazil Crest">
+            </div>
+            <p class="mt-4 font-label-bold uppercase tracking-widest text-on-surface-variant group-hover:text-primary mb-0">Brazil</p>
+        </a>
+        <!-- Team Item -->
+        <a asp-controller="Products" asp-action="Index" asp-route-search="Argentina" class="flex-none group cursor-pointer text-center decoration-none">
+            <div class="w-40 h-40 glass-card rounded-full flex items-center justify-center spotlight-bg group-hover:border-primary/50 transition-all p-8 relative overflow-hidden">
+                <img class="relative z-10 w-full object-contain filter grayscale group-hover:grayscale-0 transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATixqkkSY_bveMQm5y-j81-y4KKlwaLeNaYKpRraicu_ls_5Ye7SZ8EOy20WPiskV-CVL0wyA2ge1UdY3gjqFDDVeovkNUaJ9hqpwOLxcCKbBZttAuTM3BfuBSXIdeE84iOl3UmHJCs0gnCaaDdtXPApO972hKH3n6YKRKjUCx3AnitRfPU2NPs8itc3I1e0gH7AJ96HeGI1AnwRb9NuUnXi9aDlwi323avIB5hIpdf6xrF6I9sOYtgME_gnpVZF1bSqRTxuXEpO4" alt="Argentina Crest">
+            </div>
+            <p class="mt-4 font-label-bold uppercase tracking-widest text-on-surface-variant group-hover:text-primary mb-0">Argentina</p>
+        </a>
+        <!-- Team Item -->
+        <a asp-controller="Products" asp-action="Index" asp-route-search="France" class="flex-none group cursor-pointer text-center decoration-none">
+            <div class="w-40 h-40 glass-card rounded-full flex items-center justify-center spotlight-bg group-hover:border-primary/50 transition-all p-8 relative overflow-hidden">
+                <img class="relative z-10 w-full object-contain filter grayscale group-hover:grayscale-0 transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbeuh4q3TekN4LUDNMDvCOwZk5z3Rd9u6gXgM8Ewf_-dHvTYCZi7ocmaNk5Fe6h3QaMf7q_FNoxw08O0sAdE-8f56F6jdbsAl4c6RxSc7L3izyGrB9Iuz4GjKcB8e6sE5Xn1Bt99so_ycjt6L4ECeVPjwAaCofibEQOhnmxqUKPaXDC2CfYtn3aer7O5xzHm27ICe03SACnN7yxffwIMbkrB-o8WPxytzHBanrwd6dBq_ucLokME8Xc-aDDwjkNoE1PNlTGkrHMac" alt="France Crest">
+            </div>
+            <p class="mt-4 font-label-bold uppercase tracking-widest text-on-surface-variant group-hover:text-primary mb-0">France</p>
+        </a>
+        <!-- Team Item -->
+        <a asp-controller="Products" asp-action="Index" asp-route-search="England" class="flex-none group cursor-pointer text-center decoration-none">
+            <div class="w-40 h-40 glass-card rounded-full flex items-center justify-center spotlight-bg group-hover:border-primary/50 transition-all p-8 relative overflow-hidden">
+                <img class="relative z-10 w-full object-contain filter grayscale group-hover:grayscale-0 transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBs4KoBvZDkNSuYQR56Kl9_ce1Dtocc_1QlK8rG2TCG1pb-G-hVscjYW4_LN5_NOrNfekh59SlaA-_dxsD9KhpSkXHaUQwId9rJtKS2zfC_6YK_26cYERPjQZgrhtKrlcikwH7PR7XIvFy7WRN6RKl1i2--W_fZBfMKukOTknMuzXpxniwCnRmeQgH12jK8-anYsEFtoutI9te8bge65YvAA-fFivmASl_pDBNTaOzuswA5Jt-46Ow3E8K6gTcwHc5e8WcamJGiXx8" alt="England Crest">
+            </div>
+            <p class="mt-4 font-label-bold uppercase tracking-widest text-on-surface-variant group-hover:text-primary mb-0">England</p>
+        </a>
+        <!-- Team Item -->
+        <a asp-controller="Products" asp-action="Index" asp-route-search="Germany" class="flex-none group cursor-pointer text-center decoration-none">
+            <div class="w-40 h-40 glass-card rounded-full flex items-center justify-center spotlight-bg group-hover:border-primary/50 transition-all p-8 relative overflow-hidden">
+                <img class="relative z-10 w-full object-contain filter grayscale group-hover:grayscale-0 transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGOLO6iGmRuDnOtLsqUAyuBVjVKS2NAV7djCVV7bY_Uqt90WH9SlhyoymXoi4BVSqAFCR9PC2CL3qwaukW-gL3AS1CtdDS8QY4PUEeuBjzjkCxG4F9nAmaRYVyMR9ohEcERS_2_dW6DHZhEx8zlOSlpTTe_ezKAs_PcMDinj3l4p009CiaByY_jCVjp7enqsdoozTAYe-BjqajcmxaOrd1zIgqBnmeGSpzx4DUrlFvLZtIkzKqsiqUdfeITxoRNkg01ZmehtTJLQk" alt="Germany Crest">
+            </div>
+            <p class="mt-4 font-label-bold uppercase tracking-widest text-on-surface-variant group-hover:text-primary mb-0">Germany</p>
+        </a>
+        <!-- Team Item -->
+        <a asp-controller="Products" asp-action="Index" asp-route-search="Italy" class="flex-none group cursor-pointer text-center decoration-none">
+            <div class="w-40 h-40 glass-card rounded-full flex items-center justify-center spotlight-bg group-hover:border-primary/50 transition-all p-8 relative overflow-hidden">
+                <img class="relative z-10 w-full object-contain filter grayscale group-hover:grayscale-0 transition-all" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNrcZdYHIipwiJZQhk4E4ps1CVXDV87OAI_SZ82T2DLKkgSSRZxJk5YRDebPqI8UaiA8Rthy5-OPIKVswDjKGffS75tVBgDax8udMwrYvGVuBkp6P600xIzU_QSVk9nRVOZzkOQEihlUZWY40re4bZIsScGdId8YEgyFHJbdAqXRNZhpi_Bnjr93jhJNH5KPIXfOUHIVL8sqM1GaQlTzFArrVPNdF7bmtToxASN8eeUinEwqemGRDl5F95C3jLVOiRL71zwYk7SLQ" alt="Italy Crest">
+            </div>
+            <p class="mt-4 font-label-bold uppercase tracking-widest text-on-surface-variant group-hover:text-primary mb-0">Italy</p>
+        </a>
+    </div>
+</section>
+
+<!-- Featured Products -->
+<section class="py-24 bg-surface-container-lowest relative">
+    <div class="px-gutter max-w-container-max mx-auto mb-12">
+        <span class="text-primary font-label-bold tracking-[0.3em] uppercase block mb-2 text-xs">Exclusive Artifacts</span>
+        <h2 class="font-headline-lg text-headline-lg uppercase text-white">New Arrivals</h2>
+    </div>
+    
+    <div class="px-gutter max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        @if (retroArrivals.Any())
+        {
+            @foreach (var prod in retroArrivals.Take(4))
+            {
+                <div class="glass-card flex flex-col group relative">
+                    <div class="absolute top-4 left-4 z-20">
+                        @if (prod.Price >= 300)
+                        {
+                            <span class="legendary-badge text-black font-label-bold px-4 py-1 text-[10px]">LEGENDARY</span>
+                        }
+                        else if (prod.Price >= 120)
+                        {
+                            <span class="bg-secondary text-on-secondary font-label-bold px-4 py-1 text-[10px] uppercase tracking-wider">Rare</span>
+                        }
+                        else
+                        {
+                            <span class="bg-[#8E8E93] text-white font-label-bold px-4 py-1 text-[10px] uppercase tracking-wider">Common</span>
+                        }
+                    </div>
+                    <div class="relative overflow-hidden aspect-[4/5] spotlight-bg p-8 flex items-center justify-center" style="height: 250px;">
+                        <a asp-controller="Products" asp-action="Details" asp-route-id="@prod.Id" class="w-full h-full flex items-center justify-center decoration-none">
+                            <img class="max-h-full max-w-full object-contain group-hover:scale-110 transition-transform duration-700" src="@prod.MainImagePath" alt="@prod.Name">
+                        </a>
+                    </div>
+                    <div class="p-6 border-t border-white/10 bg-black/40 flex flex-col justify-between flex-grow">
+                        <div>
+                            <h3 class="font-headline-md text-stats-xl text-white mb-1 truncate">
+                                <a asp-controller="Products" asp-action="Details" asp-route-id="@prod.Id" class="text-white hover:text-primary transition-colors decoration-none">@prod.Name</a>
+                            </h3>
+                            <p class="font-body-md text-on-surface-variant mb-4 text-sm">
+                                Year: @prod.Year | @(string.IsNullOrEmpty(prod.WorldCupEdition) ? "Heritage Issue" : prod.WorldCupEdition)
+                            </p>
+                        </div>
+                        <div class="flex justify-between items-center mt-auto">
+                            <span class="font-stats-xl text-primary">$@prod.Price.ToString("F2")</span>
+                            @if (prod.IsAvailable && prod.StockQuantity > 0)
+                            {
+                                <form asp-controller="Cart" asp-action="Add" method="post" class="m-0">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="productId" value="@prod.Id" />
+                                    <input type="hidden" name="quantity" value="1" />
+                                    <button type="submit" class="material-symbols-outlined w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-primary hover:text-black transition-all bg-transparent text-white cursor-pointer" data-icon="add">add</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <span class="bg-red-500/20 text-red-400 font-label-bold px-3 py-1.5 text-xs uppercase tracking-wider">Sold Out</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <!-- Fallback Mock Cards -->
+            <div class="glass-card flex flex-col group relative">
+                <div class="absolute top-4 left-4 z-20">
+                    <span class="legendary-badge text-black font-label-bold px-4 py-1 text-[10px]">LEGENDARY</span>
+                </div>
+                <div class="relative overflow-hidden aspect-[4/5] spotlight-bg p-8">
+                    <img class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCesjMZlTwu8Y4Com3P8LAU-3QiASmJC6OX09Kya1kzORJuenLo9kY3G6NaReqK_G3r6dj7xlBKEeuk5Ijy4g3E-HCX_nmqxtg4bSW7idKgUAzRoht8gOg22yzTesiHg6-AOD_pTr_-TfCdJpM5btGhDyN3nAzaUiaElPgu6lotjwPyCxJEDh0CqpCUJr02ZO_63FWx0Ftib2nfQwzPnOMEiVPG-UutmWVmbYeewJEYxdN1m5W3q5fPzZ12mLGYEe9NzTXzHoYf9BI" alt="1970 Brazil Jersey">
+                </div>
+                <div class="p-6 border-t border-white/10 bg-black/40">
+                    <h3 class="font-headline-md text-stats-xl text-white mb-1">1970 Brazil 'Signature' Edition</h3>
+                    <p class="font-body-md text-on-surface-variant mb-4">Official Reproduction • Size L</p>
+                    <div class="flex justify-between items-center">
+                        <span class="font-stats-xl text-primary">$499.00</span>
+                        <a href="/Products" class="material-symbols-outlined w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-primary hover:text-black transition-all decoration-none text-white">add</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="glass-card flex flex-col group relative">
+                <div class="absolute top-4 left-4 z-20">
+                    <span class="bg-secondary text-on-secondary font-label-bold px-4 py-1 text-[10px] uppercase tracking-wider">Rare</span>
+                </div>
+                <div class="relative overflow-hidden aspect-[4/5] spotlight-bg p-8">
+                    <img class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-AyYsCQAe6ioAniuzKWZh27M5CHM-qjBDjU9qv_HWqsmgCzpBo5BmahOL_5BerP0SndUWja93tubLPFoFRa-42y5Sf9VLre_JuSj8JJl1k62Y1q28ACZfMqRskuXZyCQhGgyDze4IvEyNFULCZw_rsxu_YAwve-T8q0K7f1F0ApKIgumgbciP9BioGUpUkQUI24LJQa8Zf7QjfECBVdFKQWddxCTWovz_w6SvfpBxYX9DWr_FlVsQSTCDUJTezVBLyJy-3GzrA8E" alt="1930 T-Model Ball">
+                </div>
+                <div class="p-6 border-t border-white/10 bg-black/40">
+                    <h3 class="font-headline-md text-stats-xl text-white mb-1">1930 T-Model Official Replica</h3>
+                    <p class="font-body-md text-on-surface-variant mb-4">Hand-Stitched Leather • Exhibition Grade</p>
+                    <div class="flex justify-between items-center">
+                        <span class="font-stats-xl text-primary">$180.00</span>
+                        <a href="/Products" class="material-symbols-outlined w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-primary hover:text-black transition-all decoration-none text-white">add</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="glass-card flex flex-col group relative">
+                <div class="absolute top-4 left-4 z-20">
+                    <span class="legendary-badge text-black font-label-bold px-4 py-1 text-[10px]">LEGENDARY</span>
+                </div>
+                <div class="relative overflow-hidden aspect-[4/5] spotlight-bg p-8">
+                    <img class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCilwA5lOUWwLburPI079myDq5l0JmDf0d3pP0PCxPSVLgOyoH5NTr91VMM0TqGHVkr5vUvTtMvUaVpSuSZSeerjqluIWhW1Mfl0jT1cW7Jh0R5c0jrhs_OCxUdJ5ybaEhfmUxt4zF8RY7TQ_THr9T5w9Vu0PIBQGVtcXE0_IXGFSyv6uGutO9rTyd6_q-3sCohawBy6C-MMDp7R_2DW5Q9A_-E0OcdWuvsrJ8ekdiOGKAfCIeFiKSztsTZTUJXnjT9QIOa0HbKMEw" alt="1986 Argentina Jersey">
+                </div>
+                <div class="p-6 border-t border-white/10 bg-black/40">
+                    <h3 class="font-headline-md text-stats-xl text-white mb-1">1986 Argentina 'Azul' Heritage</h3>
+                    <p class="font-body-md text-on-surface-variant mb-4">Commemorative Issue • Authenticated</p>
+                    <div class="flex justify-between items-center">
+                        <span class="font-stats-xl text-primary">$620.00</span>
+                        <a href="/Products" class="material-symbols-outlined w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-primary hover:text-black transition-all decoration-none text-white">add</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="glass-card flex flex-col group relative">
+                <div class="absolute top-4 left-4 z-20">
+                    <span class="bg-[#8E8E93] text-white font-label-bold px-4 py-1 text-[10px] uppercase tracking-wider">Common</span>
+                </div>
+                <div class="relative overflow-hidden aspect-[4/5] spotlight-bg p-8">
+                    <img class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7OoKj1Fir7QcZBSGGfJ4aUHjRBXWISgXQy4TwAo3wvG7JqMK0RKMcaRQEHhfTwkFa9ME_YarDhyqNw-8dkk20PDmXQ8xsHV_JOXo_5XkPNBpAdtQDtk1DccYtgmd7BOfwN7UJHADzERSHvhCIAC746uPPCFonuzAPKKEiE3Q5GbMp59HogRIHRtLQYODMzCzB6GMdFb9BdqltC7dbErPrN_lm0mRPn--7e1ovu_-eTZ1Lz0mo37L0_3MOHnbtAvU98FT-FRw6sAw" alt="World Cup Poster">
+                </div>
+                <div class="p-6 border-t border-white/10 bg-black/40">
+                    <h3 class="font-headline-md text-stats-xl text-white mb-1">Legacy Poster Series Vol. I</h3>
+                    <p class="font-body-md text-on-surface-variant mb-4">Limited Edition Silk Print</p>
+                    <div class="flex justify-between items-center">
+                        <span class="font-stats-xl text-primary">$45.00</span>
+                        <a href="/Products" class="material-symbols-outlined w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-primary hover:text-black transition-all decoration-none text-white">add</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+
+
+<!-- Testimonials and Reviews Section -->
+<section class="py-24 max-w-container-max mx-auto px-gutter">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
+        <!-- What Collectors Say -->
+        <div class="glass-card p-8 md:p-12 border border-white/10 flex flex-col justify-between">
+            <div>
+                <span class="text-primary font-label-bold tracking-widest uppercase block mb-2 text-xs">COLLECTOR WORDS</span>
+                <h2 class="font-display text-headline-md uppercase text-white mb-8">What Collectors Say</h2>
+                
+                @if (testimonials.Any())
+                {
+                    <div class="flex flex-col gap-6 mb-8">
+                        @foreach (var t in testimonials)
+                        {
+                            <div class="p-6 bg-black/35 border border-white/5 rounded">
+                                <p class="text-on-surface-variant font-body-md italic mb-4">"@t.Content"</p>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-primary font-label-bold uppercase text-xs tracking-wider">— @t.UserFullName</span>
+                                    <span class="text-on-surface-variant/50 text-[10px]">@t.CreatedAt.ToString("yyyy")</span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <p class="text-on-surface-variant font-body-md italic">No testimonials approved yet. Be the first to share your experience!</p>
+                }
+            </div>
+        </div>
+
+        <!-- Share Your Story Form -->
+        <div class="glass-card p-8 md:p-12 border border-white/10 flex flex-col justify-between">
+            <div>
+                <span class="text-primary font-label-bold tracking-widest uppercase block mb-2 text-xs">SHARE YOUR EXPERTISE</span>
+                <h2 class="font-display text-headline-md uppercase text-white mb-8">Share Your Story</h2>
+                
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <form asp-controller="Testimonials" asp-action="Submit" method="post" class="space-y-6">
+                        @Html.AntiForgeryToken()
+                        <div class="space-y-2">
+                            <label class="font-label-bold text-on-surface-variant text-xs uppercase tracking-wider block">Your Feedback</label>
+                            <textarea name="content" rows="4" class="w-full rounded bg-background border border-white/10 text-white p-4 text-sm focus:outline-none focus:border-primary placeholder-on-surface-variant/40" placeholder="Tell us how you love your jerseys, the shipping process, or our collection catalog..." required></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-primary text-on-primary font-label-bold py-4 hover:opacity-90 transition-opacity uppercase tracking-wider text-sm rounded-none border-none cursor-pointer">Submit Testimonial</button>
+                        <div class="text-on-surface-variant/50 text-center text-[10px]">Your feedback will be featured on the homepage after administrator approval.</div>
+                    </form>
+                }
+                else
+                {
+                    <div class="text-center p-8 bg-black/35 rounded border border-white/5 py-12">
+                        <p class="text-on-surface-variant mb-6 text-sm">Please log in to submit a testimonial about our shop.</p>
+                        <a asp-controller="Account" asp-action="Login" asp-route-returnUrl="@Url.Action("Index", "Home")" class="inline-block border border-primary text-primary hover:bg-primary hover:text-background font-label-bold px-6 py-2.5 transition-all text-xs uppercase tracking-wider decoration-none">Log In</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter / CTA -->
+<section class="py-24 px-gutter max-w-container-max mx-auto">
+    <div class="glass-card p-16 text-center border-primary/20 bg-gradient-to-br from-surface-container-high to-background overflow-hidden relative">
+        <div class="absolute -top-24 -right-24 w-64 h-64 bg-primary/10 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-secondary/5 rounded-full blur-3xl"></div>
+        <h2 class="font-headline-lg text-headline-lg text-white mb-4">JOIN THE ELITE COLLECTORS</h2>
+        <p class="font-body-lg text-on-surface-variant max-w-2xl mx-auto mb-10 text-base">
+            Subscribe to receive early access to 'Legacy Drops' and exclusive insights into the world's most valuable football artifacts.
+        </p>
+        <form class="flex flex-col md:flex-row gap-4 max-w-xl mx-auto">
+            <input class="flex-grow bg-black border border-white/10 px-6 py-4 font-label-bold focus:border-primary focus:ring-1 focus:ring-primary transition-all outline-none text-white text-sm" placeholder="ENTER YOUR EMAIL" type="email" required>
+            <button type="submit" class="bg-primary text-on-primary font-label-bold px-10 py-4 uppercase gold-glow transition-all cursor-pointer border-none">Join The Vault</button>
+        </form>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        // Live World Cup 2026 Countdown Logic
+        function updateCountdown() {
+            const now = new Date();
+            const targetDate = new Date(2026, 5, 11, 0, 0, 0); // June 11, 2026
+            
+            const diff = targetDate - now;
+            if (diff <= 0) {
+                const daysEl = document.getElementById('days');
+                const hoursEl = document.getElementById('hours');
+                const minutesEl = document.getElementById('minutes');
+                const secondsEl = document.getElementById('seconds');
+                if (daysEl) daysEl.textContent = "0";
+                if (hoursEl) hoursEl.textContent = "00";
+                if (minutesEl) minutesEl.textContent = "00";
+                if (secondsEl) secondsEl.textContent = "00";
+                return;
+            }
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / (1000 * 60)) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+            
+            const daysEl = document.getElementById('days');
+            const hoursEl = document.getElementById('hours');
+            const minutesEl = document.getElementById('minutes');
+            const secondsEl = document.getElementById('seconds');
+            if(daysEl) daysEl.textContent = days;
+            if(hoursEl) hoursEl.textContent = hours.toString().padStart(2, '0');
+            if(minutesEl) minutesEl.textContent = minutes.toString().padStart(2, '0');
+            if(secondsEl) secondsEl.textContent = seconds.toString().padStart(2, '0');
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+}

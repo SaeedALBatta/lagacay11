@@ -1,0 +1,192 @@
+@model lagacay11.Models.ProfileViewModel
+@{
+    ViewData["Title"] = "My Profile | Legacy Eleven";
+}
+
+<style>
+    .profile-card {
+        background: rgba(18, 22, 28, 0.85);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    }
+    
+    .profile-input {
+        background-color: rgba(0, 0, 0, 0.6) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        color: #ffffff !important;
+        font-size: 0.95rem !important; /* Larger text for readability */
+        transition: all 0.3s ease;
+    }
+    
+    .profile-input:focus {
+        border-color: #d4af37 !important;
+        box-shadow: 0 0 10px rgba(212, 175, 55, 0.3) !important;
+        outline: none;
+    }
+
+    .info-label {
+        color: #ffe088; /* High-contrast light gold */
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+    }
+
+    .info-value {
+        color: #f3f4f6; /* Near white for high legibility */
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    /* Gold button glowing states */
+    .gold-btn {
+        background: linear-gradient(135deg, #d4af37 0%, #f2ca50 100%) !important;
+        box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+        transition: all 0.4s ease;
+    }
+    .gold-btn:hover {
+        box-shadow: 0 0 25px rgba(212, 175, 55, 0.5);
+        transform: translateY(-2px);
+    }
+    
+    .circle-avatar, .rounded-circle {
+        border-radius: 50% !important;
+    }
+    
+    .pill-badge {
+        border-radius: 9999px !important;
+    }
+</style>
+
+<main class="w-full max-w-7xl mx-auto px-6 py-12 relative z-10">
+    <!-- Spotlight Effect matching other views -->
+    <div class="absolute top-0 left-0 w-full h-full pointer-events-none z-0 spotlight-bg opacity-30" id="profile-spotlight"></div>
+
+    <!-- Header Section -->
+    <div class="mb-10 text-left border-b border-white/15 pb-6 relative z-10">
+        <span class="text-xs uppercase tracking-widest text-[#d4af37] font-bold">Member Vault</span>
+        <h1 class="font-headline text-4xl text-white uppercase font-bold tracking-wider mt-2">My Account Profile</h1>
+    </div>
+
+    <!-- Dashboard Content -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 relative z-10">
+        
+        <!-- Left Column: User Summary Card -->
+        <div class="lg:col-span-4 space-y-6">
+            <div class="profile-card p-8 rounded-lg relative overflow-hidden">
+                <!-- Decorative background elements -->
+                <div class="absolute -top-12 -left-12 w-36 h-36 bg-[#d4af37]/10 rounded-circle blur-2xl"></div>
+
+                <div class="flex flex-col items-center pb-6 border-b border-white/10 relative">
+                    <div class="w-28 h-28 circle-avatar bg-gradient-to-tr from-[#d4af37] to-[#ffe088] p-1 shadow-xl relative flex items-center justify-center mb-5">
+                        <div class="w-full h-full circle-avatar bg-[#111318] flex items-center justify-center">
+                            <span class="material-symbols-outlined text-5xl text-[#d4af37]">person</span>
+                        </div>
+                        @if (Model.Role == "Admin")
+                        {
+                            <span class="absolute -bottom-1 bg-[#d4af37] text-black text-xs font-extrabold px-3 py-1 pill-badge uppercase tracking-wider shadow-md">Admin</span>
+                        }
+                    </div>
+                    <h2 class="text-white font-headline text-2xl uppercase tracking-wide text-center font-bold">@Model.FullName</h2>
+                    <span class="text-[#ffe088] text-sm mt-2 font-medium">@Model.Email</span>
+                </div>
+
+                <div class="pt-6 space-y-5">
+                    <div>
+                        <span class="block info-label">Security Access Level</span>
+                        <span class="info-value flex items-center gap-2 mt-1.5">
+                            <span class="w-2.5 h-2.5 circle-avatar @(Model.Role == "Admin" ? "bg-[#d4af37]" : "bg-green-400")"></span>
+                            @Model.Role Level
+                        </span>
+                    </div>
+                    <div>
+                        <span class="block info-label">Joined Date</span>
+                        <span class="info-value block mt-1.5">@Model.CreatedAt.ToString("MMMM dd, yyyy")</span>
+                    </div>
+                </div>
+
+                @if (Model.Role == "Admin")
+                {
+                    <div class="pt-6 border-t border-white/10 mt-6">
+                        <a href="/Admin/AdminDashboard" class="w-full inline-flex items-center justify-center gap-2 border-2 border-[#d4af37] text-[#d4af37] hover:bg-[#d4af37] hover:text-black font-bold text-xs tracking-wider uppercase py-3.5 transition-all duration-300 rounded-none decoration-none">
+                            <span class="material-symbols-outlined text-sm">dashboard</span>
+                            <span>Admin Dashboard</span>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Right Column: Edit Profile Form -->
+        <div class="lg:col-span-8">
+            <div class="profile-card p-8 rounded-lg relative">
+                <div class="border-b border-white/10 pb-4 mb-6">
+                    <h3 class="font-headline text-2xl text-white uppercase tracking-wider font-bold">Profile Information</h3>
+                    <p class="text-slate-300 text-sm mt-1">Update your personal collector details and shipping destination address below.</p>
+                </div>
+
+                <form asp-action="Profile" method="post" class="space-y-6">
+                    <div asp-validation-summary="ModelOnly" class="bg-red-500/10 border border-red-500/20 text-red-400 p-4 text-sm font-semibold rounded mb-6"></div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Full Name -->
+                        <div class="space-y-2">
+                            <label asp-for="FullName" class="block text-xs font-bold uppercase tracking-wider text-slate-300">Full Name</label>
+                            <div class="relative">
+                                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">person</span>
+                                <input asp-for="FullName" required placeholder="e.g. Cristiano Ronaldo" class="w-full profile-input rounded-none pl-10 pr-4 py-3 focus:outline-none" />
+                            </div>
+                            <span asp-validation-for="FullName" class="text-red-400 text-xs block font-medium"></span>
+                        </div>
+
+                        <!-- Phone Number -->
+                        <div class="space-y-2">
+                            <label asp-for="PhoneNumber" class="block text-xs font-bold uppercase tracking-wider text-slate-300">Phone Number</label>
+                            <div class="relative">
+                                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">phone</span>
+                                <input asp-for="PhoneNumber" required placeholder="e.g. +1 555-0199" class="w-full profile-input rounded-none pl-10 pr-4 py-3 focus:outline-none" />
+                            </div>
+                            <span asp-validation-for="PhoneNumber" class="text-red-400 text-xs block font-medium"></span>
+                        </div>
+                    </div>
+
+                    <!-- Shipping Address -->
+                    <div class="space-y-2">
+                        <label asp-for="Address" class="block text-xs font-bold uppercase tracking-wider text-slate-300">Shipping Address</label>
+                        <div class="relative">
+                            <span class="material-symbols-outlined absolute left-3 top-3 text-slate-400 text-lg">home</span>
+                            <textarea asp-for="Address" required rows="4" placeholder="Enter your full shipping address (Street, Apartment, City, Zip Code)" class="w-full profile-input rounded-none pl-10 pr-4 py-3 focus:outline-none resize-none"></textarea>
+                        </div>
+                        <span asp-validation-for="Address" class="text-red-400 text-xs block font-medium"></span>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="flex justify-end pt-5 border-t border-white/10 mt-8">
+                        <button type="submit" class="gold-btn text-black font-extrabold py-4 px-10 uppercase tracking-widest text-xs flex items-center justify-center gap-2 rounded-none">
+                            <span class="material-symbols-outlined text-sm">save</span>
+                            <span>Save Changes</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // Subtle interactive mouse spotlight inside the profile layout
+        document.addEventListener('mousemove', (e) => {
+            const spotlight = document.getElementById('profile-spotlight');
+            if (spotlight) {
+                const rect = spotlight.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                spotlight.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(212, 175, 55, 0.15) 0%, transparent 60%)`;
+            }
+        });
+    </script>
+}

@@ -1,0 +1,88 @@
+@{
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+    var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+}
+
+<aside class="admin-sidebar fixed lg:absolute inset-y-0 left-0 z-50 w-64 bg-surface-container-low border-r border-outline-variant flex flex-col py-margin-mobile px-3 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out">
+    <!-- Header with Avatar and Close Button -->
+    <div class="px-3 mb-8 flex items-center justify-between relative">
+        <div class="flex items-center gap-3">
+            <img alt="Legacy Eleven Admin Avatar" class="w-10 h-10 rounded-full border border-outline-variant/50 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwNMCIwd1rOFzVk-aDHYGVojE6xIHf0nNTX-b0k-8aJIzjAO05KVB7U_XQU-y36fpLdH4OyKS61w0CxGzj-okcsWjOfYf33t7P0V7MYklvQk2s1jORyVx2IvLMk7T9b38XIEjYUrcY3LE0m6zOgLZ3keFAosSTU2sE0s6W-YBVsrVvkf1qWuWI_eYCsT1JEn2bl5FVyUQwSIe5IUKfB2V_tJYW6MMvFBoBaPkfCKH_xb72u3OJLYw5tiwH33BEYopY2bzOj8qZdZU"/>
+            <div>
+                <h1 class="font-display-lg text-stats-xl text-primary uppercase tracking-tighter mb-0">Legacy Eleven</h1>
+                <p class="font-label-bold text-[10px] text-on-surface-variant uppercase tracking-widest mt-1 mb-0">Admin Console</p>
+            </div>
+        </div>
+        <!-- Mobile Close Sidebar button -->
+        <button class="lg:hidden material-symbols-outlined text-on-surface-variant hover:text-white" id="sidebarCloseBtn">close</button>
+    </div>
+    
+    <!-- Navigation Links -->
+    <nav class="flex-grow space-y-1 overflow-y-auto px-1 flex flex-col">
+        <!-- Dashboard -->
+        <a class="@(currentController == "AdminDashboard" ? "flex items-center gap-3 px-4 py-3 rounded-lg text-primary font-bold border-r-2 border-primary bg-surface-container-highest/50 transition-colors duration-200 decoration-none" : "flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200 opacity-80 hover:opacity-100 decoration-none")" 
+           asp-area="Admin" asp-controller="AdminDashboard" asp-action="Index">
+            <span class="material-symbols-outlined" style="@(currentController == "AdminDashboard" ? "font-variation-settings: 'FILL' 1;" : "")">dashboard</span>
+            <span>Dashboard</span>
+        </a>
+        
+        <!-- Inventory (Jersey Catalog) -->
+        <a class="@(currentController == "AdminProducts" && currentAction == "Index" ? "flex items-center gap-3 px-4 py-3 rounded-lg text-primary font-bold border-r-2 border-primary bg-surface-container-highest/50 transition-colors duration-200 decoration-none" : "flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200 opacity-80 hover:opacity-100 decoration-none")" 
+           asp-area="Admin" asp-controller="AdminProducts" asp-action="Index">
+            <span class="material-symbols-outlined" style="@(currentController == "AdminProducts" && currentAction == "Index" ? "font-variation-settings: 'FILL' 1;" : "")">inventory_2</span>
+            <span>Inventory</span>
+        </a>
+
+        <!-- Discount Management -->
+        <a class="@(currentController == "AdminCoupons" ? "flex items-center gap-3 px-4 py-3 rounded-lg text-primary font-bold border-r-2 border-primary bg-surface-container-highest/50 transition-colors duration-200 decoration-none" : "flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200 opacity-80 hover:opacity-100 decoration-none")" 
+           asp-area="Admin" asp-controller="AdminCoupons" asp-action="Index">
+            <span class="material-symbols-outlined" style="@(currentController == "AdminCoupons" ? "font-variation-settings: 'FILL' 1;" : "")">local_offer</span>
+            <span>Discount Management</span>
+        </a>
+        
+        <!-- User Management -->
+        <a class="@(currentController == "AdminUsers" ? "flex items-center gap-3 px-4 py-3 rounded-lg text-primary font-bold border-r-2 border-primary bg-surface-container-highest/50 transition-colors duration-200 decoration-none" : "flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200 opacity-80 hover:opacity-100 decoration-none")" 
+           asp-area="Admin" asp-controller="AdminUsers" asp-action="Index">
+            <span class="material-symbols-outlined" style="@(currentController == "AdminUsers" ? "font-variation-settings: 'FILL' 1;" : "")">group</span>
+            <span>Users</span>
+        </a>
+        
+        <!-- Transactions (Order List) -->
+        <a class="@(currentController == "AdminOrders" ? "flex items-center gap-3 px-4 py-3 rounded-lg text-primary font-bold border-r-2 border-primary bg-surface-container-highest/50 transition-colors duration-200 decoration-none" : "flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200 opacity-80 hover:opacity-100 decoration-none")" 
+           asp-area="Admin" asp-controller="AdminOrders" asp-action="Index">
+            <span class="material-symbols-outlined" style="@(currentController == "AdminOrders" ? "font-variation-settings: 'FILL' 1;" : "")">payments</span>
+            <span>Transactions</span>
+        </a>
+        
+        <!-- Category Management -->
+        <a class="@(currentController == "AdminCategories" ? "flex items-center gap-3 px-4 py-3 rounded-lg text-primary font-bold border-r-2 border-primary bg-surface-container-highest/50 transition-colors duration-200 decoration-none" : "flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200 opacity-80 hover:opacity-100 decoration-none")" 
+           asp-area="Admin" asp-controller="AdminCategories" asp-action="Index">
+            <span class="material-symbols-outlined" style="@(currentController == "AdminCategories" ? "font-variation-settings: 'FILL' 1;" : "")">category</span>
+            <span>Categories</span>
+        </a>
+        
+        <!-- Reviews Moderation -->
+        <a class="@(currentController == "AdminReviews" ? "flex items-center gap-3 px-4 py-3 rounded-lg text-primary font-bold border-r-2 border-primary bg-surface-container-highest/50 transition-colors duration-200 decoration-none" : "flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200 opacity-80 hover:opacity-100 decoration-none")" 
+           asp-area="Admin" asp-controller="AdminReviews" asp-action="Index">
+            <span class="material-symbols-outlined" style="@(currentController == "AdminReviews" ? "font-variation-settings: 'FILL' 1;" : "")">rate_review</span>
+            <span>Reviews</span>
+        </a>
+        
+        <!-- Testimonials Moderation -->
+        <a class="@(currentController == "AdminTestimonials" ? "flex items-center gap-3 px-4 py-3 rounded-lg text-primary font-bold border-r-2 border-primary bg-surface-container-highest/50 transition-colors duration-200 decoration-none" : "flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors duration-200 opacity-80 hover:opacity-100 decoration-none")" 
+           asp-area="Admin" asp-controller="AdminTestimonials" asp-action="Index">
+            <span class="material-symbols-outlined" style="@(currentController == "AdminTestimonials" ? "font-variation-settings: 'FILL' 1;" : "")">forum</span>
+            <span>Testimonials</span>
+        </a>
+    </nav>
+    
+    <!-- Footer CTA -->
+    <div class="px-3 mt-auto pt-6 border-t border-outline-variant/30">
+        <a class="w-full bg-primary text-[#0A0C10] font-label-bold text-label-bold px-4 py-2.5 rounded flex items-center justify-center gap-2 hover:bg-primary/90 hover:shadow-[0_0_15px_rgba(212,175,55,0.4)] transition-all duration-300 decoration-none" 
+           asp-area="Admin" asp-controller="AdminProducts" asp-action="Create">
+            <span class="material-symbols-outlined text-sm">add</span>
+            Create New Asset
+        </a>
+        <p class="text-[10px] text-on-surface-variant opacity-50 mt-4 mb-0 text-center">System v2.4.1</p>
+    </div>
+</aside>

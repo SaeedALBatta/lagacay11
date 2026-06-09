@@ -1,0 +1,106 @@
+@model lagacay11.Models.ViewModels.CheckoutPageViewModel
+@{
+    ViewData["Title"] = "Checkout";
+    var cart = Model.CartItems;
+    var cartTotal = Model.CartTotal;
+}
+
+<div class="max-w-container-max mx-auto px-gutter py-12">
+    <h2 class="font-display text-headline-md uppercase text-white tracking-wider mb-8 border-l-4 border-primary pl-4">Secure Checkout</h2>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <!-- Billing / Shipping Details Form -->
+        <div class="lg:col-span-7">
+            <div class="glass-card p-8 border border-white/10 rounded-lg space-y-6">
+                <h5 class="font-display text-headline-md uppercase text-white tracking-wider">Shipping & Payment Details</h5>
+
+                <form asp-action="PlaceOrder" method="post" class="space-y-6 m-0">
+                    <div asp-validation-summary="ModelOnly" class="bg-red-500/10 border border-red-500/20 text-red-400 p-4 text-xs font-semibold rounded" role="alert"></div>
+
+                    <!-- Shipping Address -->
+                    <div class="space-y-2">
+                        <label asp-for="Form.ShippingAddress" class="font-label-bold text-on-surface-variant text-xs uppercase tracking-wider block"></label>
+                        <textarea asp-for="Form.ShippingAddress" rows="3" class="w-full bg-background border border-white/10 text-white rounded p-4 text-sm focus:outline-none focus:border-primary placeholder-on-surface-variant/40" placeholder="Enter your full street address, apartment number, city, and zip code..."></textarea>
+                        <span asp-validation-for="Form.ShippingAddress" class="text-red-400 text-xs block"></span>
+                        <div class="text-on-surface-variant/50 text-[10px] uppercase tracking-wider">Please double check your shipping location for secure delivery.</div>
+                    </div>
+
+                    <!-- Payment Details (Simulation) -->
+                    <div class="glass-card p-6 border border-white/10 bg-black/20 rounded-lg space-y-4">
+                        <h6 class="font-display text-stats-xl text-white uppercase tracking-wider">💳 Payment Simulation</h6>
+                        <p class="text-on-surface-variant text-xs leading-relaxed">
+                            Legacy Eleven jerseys are paid via dummy gateway for development. Please enter any payment transaction reference number to complete.
+                        </p>
+
+                        <div class="space-y-2">
+                            <label asp-for="Form.PaymentReference" class="font-label-bold text-on-surface-variant text-xs uppercase tracking-wider block"></label>
+                            <input asp-for="Form.PaymentReference" class="w-full bg-background border border-white/10 text-white rounded p-3 text-sm focus:outline-none focus:border-primary placeholder-on-surface-variant/40" placeholder="e.g. TXN-123456" />
+                            <span asp-validation-for="Form.PaymentReference" class="text-red-400 text-xs block"></span>
+                        </div>
+                    </div>
+
+                    <div class="pt-4">
+                        <button type="submit" class="w-full bg-primary text-black font-label-bold py-4 uppercase tracking-widest text-sm font-bold hover:opacity-90 transition-opacity rounded-none cursor-pointer">
+                            Place Order ($@Model.FinalTotal.ToString("F2"))
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Order Summary Side Panel -->
+        <div class="lg:col-span-5">
+            <div class="glass-card p-6 border border-white/10 rounded-lg space-y-6">
+                <h5 class="font-display text-headline-md uppercase text-white tracking-wider">Your Order</h5>
+
+                <!-- Items list -->
+                <div class="divide-y divide-white/5 max-h-[250px] overflow-y-auto pr-2 scrollbar-hide">
+                    @foreach (var item in cart)
+                    {
+                        <div class="flex items-center justify-between py-3 first:pt-0 last:pb-0">
+                            <div class="flex items-center">
+                                <img src="@item.ImagePath" alt="@item.Name" class="rounded border border-white/10 object-contain w-12 h-12 p-1 bg-surface-container mr-4" />
+                                <div>
+                                    <h6 class="font-display font-bold text-white text-sm truncate max-w-[180px] mb-0.5">@item.Name</h6>
+                                    <span class="text-on-surface-variant/70 text-xs">Qty: @item.Quantity</span>
+                                </div>
+                            </div>
+                            <span class="font-display text-primary text-sm font-semibold">$@item.Subtotal.ToString("F2")</span>
+                        </div>
+                    }
+                </div>
+
+                <hr class="border-white/10" />
+
+                <!-- Totals -->
+                <div class="flex justify-between items-center text-xs text-on-surface-variant">
+                    <span>Subtotal</span>
+                    <span class="text-white">$@Model.CartTotal.ToString("F2")</span>
+                </div>
+                @if (!string.IsNullOrEmpty(Model.CouponCode))
+                {
+                    <div class="flex justify-between items-center text-xs text-secondary">
+                        <span class="flex items-center gap-1">
+                            <span class="material-symbols-outlined text-sm">sell</span>
+                            <span>Coupon (@Model.CouponCode)</span>
+                        </span>
+                        <span class="font-semibold">-$@Model.DiscountAmount.ToString("F2")</span>
+                    </div>
+                }
+                <div class="flex justify-between items-center text-xs text-on-surface-variant">
+                    <span>Shipping</span>
+                    <span class="text-secondary font-bold uppercase text-[10px]">FREE</span>
+                </div>
+                <hr class="border-white/10" />
+                <div class="flex justify-between items-center">
+                    <span class="font-display font-bold text-white text-sm uppercase">Order Total</span>
+                    <span class="font-display font-bold text-primary text-xl">$@Model.FinalTotal.ToString("F2")</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
