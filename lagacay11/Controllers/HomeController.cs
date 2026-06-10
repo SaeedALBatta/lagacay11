@@ -82,9 +82,19 @@ namespace lagacay11.Controllers
             var peleProduct = await _productRepository.GetAvailableProductsAsync("1958 World Cup Final Match Ball Replica", null, null, null, null, null, null);
             var zidaneProduct = await _productRepository.GetAvailableProductsAsync("1998 'Tricolore' Match Ball Replica", null, null, null, null, null, null);
 
+            var messiProduct = await _productRepository.GetAvailableProductsAsync("2022 World Cup Final Match Ball Replica", null, null, null, null, null, null);
+            var iniestaProduct = await _productRepository.GetAvailableProductsAsync("2010 World Cup Final Jabulani Replica", null, null, null, null, null, null);
+            var ronaldoProduct = await _productRepository.GetAvailableProductsAsync("2002 World Cup Final Fevernova Replica", null, null, null, null, null, null);
+            var gotzeProduct = await _productRepository.GetAvailableProductsAsync("2014 World Cup Final Brazuca Replica", null, null, null, null, null, null);
+
             ViewBag.MaradonaProductId = maradonaProduct.FirstOrDefault()?.Id;
             ViewBag.PeleProductId = peleProduct.FirstOrDefault()?.Id;
             ViewBag.ZidaneProductId = zidaneProduct.FirstOrDefault()?.Id;
+
+            ViewBag.Messi2022ProductId = messiProduct.FirstOrDefault()?.Id;
+            ViewBag.Iniesta2010ProductId = iniestaProduct.FirstOrDefault()?.Id;
+            ViewBag.Ronaldo2002ProductId = ronaldoProduct.FirstOrDefault()?.Id;
+            ViewBag.Gotze2014ProductId = gotzeProduct.FirstOrDefault()?.Id;
 
             return View();
         }

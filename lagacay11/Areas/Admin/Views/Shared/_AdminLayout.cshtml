@@ -124,15 +124,23 @@
         }
         @@media (min-width: 1024px) {
             .admin-sidebar {
-                top: 80px;
-                height: calc(100vh - 80px);
+                top: 80px !important;
+                height: calc(100vh - 80px) !important;
                 position: fixed !important;
                 z-index: 40 !important;
             }
             #mainHeader.scrolled ~ .admin-sidebar {
-                top: 64px;
-                height: calc(100vh - 64px);
+                top: 64px !important;
+                height: calc(100vh - 64px) !important;
             }
+        }
+        /* Hide scrollbar in sidebar while keeping scroll functionality */
+        .admin-sidebar nav {
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE/Edge */
+        }
+        .admin-sidebar nav::-webkit-scrollbar {
+            display: none; /* Chrome/Safari/Opera */
         }
     </style>
 </head>

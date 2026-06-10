@@ -204,6 +204,246 @@
                 </div>
             </div>
 
+            <!-- Moment Card 4: Messi -->
+            <div class="glass-card flex flex-col group relative border border-white/10 bg-black/40 rounded-xl overflow-hidden shadow-2xl hover:border-primary/30 transition-all duration-500 hover:-translate-y-2">
+                <!-- Image Container -->
+                <div class="relative aspect-[4/3] overflow-hidden">
+                    <img class="w-full h-full object-cover transition-transform duration-[1000ms] group-hover:scale-110" 
+                         src="https://theluxurylifestylemagazine.com/wp-content/uploads/2022/12/53344CA1-AD10-4FC5-A7AB-F1072F580CB4-1050x1082.jpg" 
+                         alt="Lionel Messi Argentina 2022 World Cup Champion">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent"></div>
+                    <div class="absolute top-4 left-4 z-20">
+                        <span class="bg-primary/90 text-black font-label-bold px-3 py-1 text-[10px] uppercase tracking-wider rounded">QATAR 2022</span>
+                    </div>
+                </div>
+
+                <!-- Content Area -->
+                <div class="p-6 flex-grow flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-display-lg text-2xl uppercase text-white mb-2 tracking-wide">The Ultimate Coronation</h3>
+                        <p class="font-body-md text-on-surface-variant text-sm leading-relaxed mb-6">
+                            Lionel Messi led Argentina to World Cup glory in the greatest final ever played, securing the one trophy that had eluded him throughout his legendary career.
+                        </p>
+                    </div>
+
+                    <div>
+                        <!-- Accordion Button -->
+                        <button onclick="toggleStats(this, 'stats-messi')" class="w-full py-2.5 px-4 text-xs text-primary hover:text-white uppercase tracking-wider font-label-bold border border-primary/20 hover:border-primary bg-primary/5 rounded transition-all duration-300 flex items-center justify-center gap-2 mb-3">
+                            <span>Show Match Details & Stats</span>
+                            <span class="material-symbols-outlined text-sm">keyboard_arrow_down</span>
+                        </button>
+
+                        <!-- Hidden Stats Panel -->
+                        <div id="stats-messi" class="hidden overflow-hidden transition-all duration-500 max-h-0 opacity-0 mb-4">
+                            <div class="p-4 bg-black/40 rounded border border-white/5 space-y-3">
+                                <div class="grid grid-cols-2 gap-2 text-[11px] font-label-bold text-on-surface-variant/70 border-b border-white/5 pb-2">
+                                    <div>MATCH</div><div class="text-right text-white font-body-md">Argentina 3 - 3 France (4 - 2 pens)</div>
+                                    <div>DATE</div><div class="text-right text-white font-body-md">December 18, 2022</div>
+                                    <div>VENUE</div><div class="text-right text-white font-body-md">Lusail Stadium, Lusail</div>
+                                </div>
+                                <div class="text-xs text-on-surface-variant/80 leading-relaxed font-body-md">
+                                    <strong>Stat of the Match:</strong> Messi scored twice in the final and converted his penalty in the shootout. He was awarded the Golden Ball for the tournament.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Browse Shop Link -->
+                        @if (ViewBag.Messi2022ProductId != null)
+                        {
+                            <a href="/Products/Details/@ViewBag.Messi2022ProductId" class="w-full py-3 bg-primary hover:bg-primary-fixed text-black hover:text-black text-center font-label-bold uppercase text-xs tracking-widest rounded transition-all duration-300 block decoration-none">
+                                Browse Memorabilia
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="/Products?search=Argentina+2022" class="w-full py-3 bg-primary hover:bg-primary-fixed text-black hover:text-black text-center font-label-bold uppercase text-xs tracking-widest rounded transition-all duration-300 block decoration-none">
+                                Browse Memorabilia
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Moment Card 5: Iniesta -->
+            <div class="glass-card flex flex-col group relative border border-white/10 bg-black/40 rounded-xl overflow-hidden shadow-2xl hover:border-primary/30 transition-all duration-500 hover:-translate-y-2">
+                <!-- Image Container -->
+                <div class="relative aspect-[4/3] overflow-hidden">
+                    <img class="w-full h-full object-cover transition-transform duration-[1000ms] group-hover:scale-110" 
+                         src="https://pbs.twimg.com/media/FXY6QQBXgAARpOU.jpg" 
+                         alt="Andres Iniesta Spain 2010 World Cup Winner">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent"></div>
+                    <div class="absolute top-4 left-4 z-20">
+                        <span class="bg-primary/90 text-black font-label-bold px-3 py-1 text-[10px] uppercase tracking-wider rounded">SOUTH AFRICA 2010</span>
+                    </div>
+                </div>
+
+                <!-- Content Area -->
+                <div class="p-6 flex-grow flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-display-lg text-2xl uppercase text-white mb-2 tracking-wide">The Golden Strike</h3>
+                        <p class="font-body-md text-on-surface-variant text-sm leading-relaxed mb-6">
+                            Andrés Iniesta's dramatic 116th-minute extra-time volley broke Dutch hearts and propelled Spain's 'tiki-taka' generation to their first-ever World Cup title.
+                        </p>
+                    </div>
+
+                    <div>
+                        <!-- Accordion Button -->
+                        <button onclick="toggleStats(this, 'stats-iniesta')" class="w-full py-2.5 px-4 text-xs text-primary hover:text-white uppercase tracking-wider font-label-bold border border-primary/20 hover:border-primary bg-primary/5 rounded transition-all duration-300 flex items-center justify-center gap-2 mb-3">
+                            <span>Show Match Details & Stats</span>
+                            <span class="material-symbols-outlined text-sm">keyboard_arrow_down</span>
+                        </button>
+
+                        <!-- Hidden Stats Panel -->
+                        <div id="stats-iniesta" class="hidden overflow-hidden transition-all duration-500 max-h-0 opacity-0 mb-4">
+                            <div class="p-4 bg-black/40 rounded border border-white/5 space-y-3">
+                                <div class="grid grid-cols-2 gap-2 text-[11px] font-label-bold text-on-surface-variant/70 border-b border-white/5 pb-2">
+                                    <div>MATCH</div><div class="text-right text-white font-body-md">Spain 1 - 0 Netherlands</div>
+                                    <div>DATE</div><div class="text-right text-white font-body-md">July 11, 2010</div>
+                                    <div>VENUE</div><div class="text-right text-white font-body-md">Soccer City, Johannesburg</div>
+                                </div>
+                                <div class="text-xs text-on-surface-variant/80 leading-relaxed font-body-md">
+                                    <strong>Stat of the Match:</strong> Iniesta scored the latest winning goal in a World Cup Final. Spain became the first European team to win the tournament outside Europe.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Browse Shop Link -->
+                        @if (ViewBag.Iniesta2010ProductId != null)
+                        {
+                            <a href="/Products/Details/@ViewBag.Iniesta2010ProductId" class="w-full py-3 bg-primary hover:bg-primary-fixed text-black hover:text-black text-center font-label-bold uppercase text-xs tracking-widest rounded transition-all duration-300 block decoration-none">
+                                Browse Memorabilia
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="/Products?search=Spain+2010" class="w-full py-3 bg-primary hover:bg-primary-fixed text-black hover:text-black text-center font-label-bold uppercase text-xs tracking-widest rounded transition-all duration-300 block decoration-none">
+                                Browse Memorabilia
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Moment Card 6: Ronaldo -->
+            <div class="glass-card flex flex-col group relative border border-white/10 bg-black/40 rounded-xl overflow-hidden shadow-2xl hover:border-primary/30 transition-all duration-500 hover:-translate-y-2">
+                <!-- Image Container -->
+                <div class="relative aspect-[4/3] overflow-hidden">
+                    <img class="w-full h-full object-cover transition-transform duration-[1000ms] group-hover:scale-110" 
+                         src="https://miro.medium.com/v2/resize:fit:640/1*pt2ILIueMfxPC-TIRzuXvQ.jpeg" 
+                         alt="Ronaldo Nazario Brazil 2002 World Cup Champion">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent"></div>
+                    <div class="absolute top-4 left-4 z-20">
+                        <span class="bg-primary/90 text-black font-label-bold px-3 py-1 text-[10px] uppercase tracking-wider rounded">KOREA/JAPAN 2002</span>
+                    </div>
+                </div>
+
+                <!-- Content Area -->
+                <div class="p-6 flex-grow flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-display-lg text-2xl uppercase text-white mb-2 tracking-wide">Ronaldo's Redemption</h3>
+                        <p class="font-body-md text-on-surface-variant text-sm leading-relaxed mb-6">
+                            Ronaldo Nazário scored both goals in the final against Germany, completing a legendary comeback from career-threatening knee injuries to secure Brazil's fifth World Cup.
+                        </p>
+                    </div>
+
+                    <div>
+                        <!-- Accordion Button -->
+                        <button onclick="toggleStats(this, 'stats-ronaldo')" class="w-full py-2.5 px-4 text-xs text-primary hover:text-white uppercase tracking-wider font-label-bold border border-primary/20 hover:border-primary bg-primary/5 rounded transition-all duration-300 flex items-center justify-center gap-2 mb-3">
+                            <span>Show Match Details & Stats</span>
+                            <span class="material-symbols-outlined text-sm">keyboard_arrow_down</span>
+                        </button>
+
+                        <!-- Hidden Stats Panel -->
+                        <div id="stats-ronaldo" class="hidden overflow-hidden transition-all duration-500 max-h-0 opacity-0 mb-4">
+                            <div class="p-4 bg-black/40 rounded border border-white/5 space-y-3">
+                                <div class="grid grid-cols-2 gap-2 text-[11px] font-label-bold text-on-surface-variant/70 border-b border-white/5 pb-2">
+                                    <div>MATCH</div><div class="text-right text-white font-body-md">Brazil 2 - 0 Germany</div>
+                                    <div>DATE</div><div class="text-right text-white font-body-md">June 30, 2002</div>
+                                    <div>VENUE</div><div class="text-right text-white font-body-md">International Stadium, Yokohama</div>
+                                </div>
+                                <div class="text-xs text-on-surface-variant/80 leading-relaxed font-body-md">
+                                    <strong>Stat of the Match:</strong> Ronaldo finished the tournament with 8 goals, winning the Golden Shoe. His two goals in the final shattered Germany's resolute defense.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Browse Shop Link -->
+                        @if (ViewBag.Ronaldo2002ProductId != null)
+                        {
+                            <a href="/Products/Details/@ViewBag.Ronaldo2002ProductId" class="w-full py-3 bg-primary hover:bg-primary-fixed text-black hover:text-black text-center font-label-bold uppercase text-xs tracking-widest rounded transition-all duration-300 block decoration-none">
+                                Browse Memorabilia
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="/Products?search=Brazil+2002" class="w-full py-3 bg-primary hover:bg-primary-fixed text-black hover:text-black text-center font-label-bold uppercase text-xs tracking-widest rounded transition-all duration-300 block decoration-none">
+                                Browse Memorabilia
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Moment Card 7: Götze -->
+            <div class="glass-card flex flex-col group relative border border-white/10 bg-black/40 rounded-xl overflow-hidden shadow-2xl hover:border-primary/30 transition-all duration-500 hover:-translate-y-2">
+                <!-- Image Container -->
+                <div class="relative aspect-[4/3] overflow-hidden">
+                    <img class="w-full h-full object-cover transition-transform duration-[1000ms] group-hover:scale-110" 
+                         src="https://reshape.sport1.de/c/t/eafeab4f-7b00-11e9-b08e-b8ca3a67761c/1200x1200" 
+                         alt="Germany National Team Brazil 2014 World Cup Champion">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent"></div>
+                    <div class="absolute top-4 left-4 z-20">
+                        <span class="bg-primary/90 text-black font-label-bold px-3 py-1 text-[10px] uppercase tracking-wider rounded">BRAZIL 2014</span>
+                    </div>
+                </div>
+
+                <!-- Content Area -->
+                <div class="p-6 flex-grow flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-display-lg text-2xl uppercase text-white mb-2 tracking-wide">Volley of Destiny</h3>
+                        <p class="font-body-md text-on-surface-variant text-sm leading-relaxed mb-6">
+                            Coming off the bench in extra time, Mario Götze controlled Andre Schürrle's cross on his chest and hit a sensational volley to win Germany their fourth World Cup.
+                        </p>
+                    </div>
+
+                    <div>
+                        <!-- Accordion Button -->
+                        <button onclick="toggleStats(this, 'stats-gotze')" class="w-full py-2.5 px-4 text-xs text-primary hover:text-white uppercase tracking-wider font-label-bold border border-primary/20 hover:border-primary bg-primary/5 rounded transition-all duration-300 flex items-center justify-center gap-2 mb-3">
+                            <span>Show Match Details & Stats</span>
+                            <span class="material-symbols-outlined text-sm">keyboard_arrow_down</span>
+                        </button>
+
+                        <!-- Hidden Stats Panel -->
+                        <div id="stats-gotze" class="hidden overflow-hidden transition-all duration-500 max-h-0 opacity-0 mb-4">
+                            <div class="p-4 bg-black/40 rounded border border-white/5 space-y-3">
+                                <div class="grid grid-cols-2 gap-2 text-[11px] font-label-bold text-on-surface-variant/70 border-b border-white/5 pb-2">
+                                    <div>MATCH</div><div class="text-right text-white font-body-md">Germany 1 - 0 Argentina</div>
+                                    <div>DATE</div><div class="text-right text-white font-body-md">July 13, 2014</div>
+                                    <div>VENUE</div><div class="text-right text-white font-body-md">Maracanã Stadium, Rio de Janeiro</div>
+                                </div>
+                                <div class="text-xs text-on-surface-variant/80 leading-relaxed font-body-md">
+                                    <strong>Stat of the Match:</strong> Götze became the first substitute to score a World Cup winning goal in extra time. Germany became the first European nation to win a World Cup in the Americas.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Browse Shop Link -->
+                        @if (ViewBag.Gotze2014ProductId != null)
+                        {
+                            <a href="/Products/Details/@ViewBag.Gotze2014ProductId" class="w-full py-3 bg-primary hover:bg-primary-fixed text-black hover:text-black text-center font-label-bold uppercase text-xs tracking-widest rounded transition-all duration-300 block decoration-none">
+                                Browse Memorabilia
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="/Products?search=Germany+2014" class="w-full py-3 bg-primary hover:bg-primary-fixed text-black hover:text-black text-center font-label-bold uppercase text-xs tracking-widest rounded transition-all duration-300 block decoration-none">
+                                Browse Memorabilia
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

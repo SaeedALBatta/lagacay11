@@ -9,12 +9,12 @@
         <p class="text-on-surface-variant mt-1 font-body-md text-sm">Track your platform's performance and recent activities.</p>
     </div>
     <div class="flex gap-2">
-        <select class="bg-surface-container border border-outline-variant rounded px-3 py-1.5 text-sm text-on-surface focus:ring-primary focus:border-primary appearance-none outline-none">
-            <option>Last 7 Days</option>
-            <option>Last 30 Days</option>
-            <option>This Year</option>
+        <select id="dashboardPeriodFilter" class="bg-surface-container border border-outline-variant rounded px-3 py-1.5 text-sm text-on-surface focus:ring-primary focus:border-primary appearance-none outline-none cursor-pointer">
+            <option value="7">Last 7 Days</option>
+            <option value="30">Last 30 Days</option>
+            <option value="365">This Year</option>
         </select>
-        <button class="bg-surface-container border border-outline-variant rounded px-3 py-1.5 text-sm hover:bg-surface-container-high transition-colors text-on-surface flex items-center gap-1">
+        <button id="exportCsvBtn" class="bg-surface-container border border-outline-variant rounded px-3 py-1.5 text-sm hover:bg-surface-container-high transition-colors text-on-surface flex items-center gap-1">
             <span class="material-symbols-outlined text-[18px]">download</span> Export
         </button>
     </div>
@@ -105,7 +105,7 @@
         <a asp-controller="AdminOrders" asp-action="Index" class="text-sm text-primary hover:underline uppercase decoration-none">View All</a>
     </div>
     <div class="overflow-x-auto">
-        <table class="w-full text-left border-collapse">
+        <table id="recentOrdersTable" class="w-full text-left border-collapse">
             <thead>
                 <tr class="bg-surface-container-low/50 text-on-surface-variant text-xs uppercase tracking-wider font-label-bold">
                     <th class="px-6 py-4 font-medium">Order ID</th>
@@ -127,7 +127,7 @@
                 {
                     foreach (var order in Model.RecentOrders)
                     {
-                        <tr class="hover:bg-surface-container-low/30 transition-colors">
+                        <tr class="hover:bg-surface-container-low/30 transition-colors" data-order="@order.Id">
                             <td class="px-6 py-4 font-mono text-xs">#L11-@order.Id</td>
                             <td class="px-6 py-4 flex items-center gap-3">
                                 <div class="w-8 h-8 rounded-full bg-surface-bright flex items-center justify-center text-xs font-bold text-primary">
@@ -164,6 +164,48 @@
 
 @section Scripts {
     <script>
+        // ─── Period Filter ───────────────────────────────────────────────
+        (function () {
+            const params = new URLSearchParams(window.location.search);
+            const period = params.get('period') || '7';
+            const sel = document.getElementById('dashboardPeriodFilter');
+            if (sel) sel.value = period;
+        })();
+
+        document.getElementById('dashboardPeriodFilter').addEventListener('change', function () {
+            const days = this.value;
+            window.location.href = window.location.pathname + '?period=' + days;
+        });
+
+        // ─── Export CSV ──────────────────────────────────────────────────
+        document.getElementById('exportCsvBtn').addEventListener('click', function () {
+            const rows = [
+                ['Order ID', 'Customer', 'Date', 'Total', 'Status']
+            ];
+
+            document.querySelectorAll('#recentOrdersTable tbody tr[data-order]').forEach(function (tr) {
+                const cells = tr.querySelectorAll('td');
+                if (cells.length >= 5) {
+                    rows.push([
+                        cells[0].innerText.trim(),
+                        cells[1].innerText.trim(),
+                        cells[2].innerText.trim(),
+                        cells[3].innerText.trim(),
+                        cells[4].innerText.trim()
+                    ]);
+                }
+            });
+
+            const csvContent = rows.map(r => r.map(c => '"' + c.replace(/"/g, '""') + '"').join(',')).join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'dashboard_orders_' + new Date().toISOString().slice(0, 10) + '.csv';
+            link.click();
+            URL.revokeObjectURL(url);
+        });
+
         // Chart.js Default Config for Theme
         Chart.defaults.color = '#d0c5af';
         Chart.defaults.font.family = 'Inter';
